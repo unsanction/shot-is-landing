@@ -121,7 +121,6 @@ function App() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.alert('Request Encrypted. Awaiting Clearance.');
     setEmail('');
   };
 
