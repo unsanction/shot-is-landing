@@ -265,7 +265,7 @@ function App() {
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 items-center gap-16">
               <div data-reveal className="reveal-text max-w-full">
-                <h2 className="mb-12 text-5xl font-black uppercase leading-none tracking-tight sm:text-6xl md:text-8xl">
+                <h2 className="mb-12 text-[2.8rem] font-black uppercase leading-[0.9] tracking-tight sm:text-6xl sm:leading-none md:text-8xl">
                   THE SHOT IS <br />
                   <span
                     className="slot-machine text-accent"
