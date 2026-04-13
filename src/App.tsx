@@ -65,7 +65,6 @@ function App() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-accent">
       <div className="grain" aria-hidden="true" />
-      <div className="hero-gradient" aria-hidden="true" />
 
       <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-8 md:py-8">
         <a href="#" className="group flex items-center gap-4 md:gap-6">
@@ -101,10 +100,22 @@ function App() {
 
       <main>
         <section className="relative flex min-h-screen scroll-mt-16 flex-col items-center justify-center px-5 pb-28 pt-32 text-center md:px-8">
-          <div className="mx-auto max-w-6xl">
-            <p className="glitch mb-8 font-mono text-[10px] font-bold uppercase tracking-[0.6em] text-accent">
-              // Beyond Human Representation
-            </p>
+          <div className="hero-stage" aria-hidden="true">
+            <video
+              className="hero-stage__video"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/media/hero/shot-hero-poster.webp"
+            >
+              <source src="/media/hero/shot-hero-loop.mp4" type="video/mp4" />
+            </video>
+            <div className="hero-stage__veil" />
+            <div className="hero-stage__grid" />
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-6xl">
             <h1 className="mb-12 text-5xl font-extrabold uppercase leading-[0.82] tracking-tight sm:text-6xl md:text-[140px]">
               THE SHOT IS <br />
               <span className="text-outline italic">YOUR POWER.</span>
@@ -121,7 +132,7 @@ function App() {
             </a>
           </div>
 
-          <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 flex-col items-center gap-4 opacity-30">
+          <div className="absolute bottom-12 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-4 opacity-30">
             <span className="font-mono text-[9px] uppercase tracking-widest">Scroll to descend</span>
             <div className="h-16 w-px bg-white" />
           </div>
