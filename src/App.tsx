@@ -90,12 +90,6 @@ function App() {
           </a>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4">
-          <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-          <span className="font-mono text-[9px] font-bold uppercase tracking-widest opacity-50">
-            Session_Live
-          </span>
-        </div>
       </nav>
 
       <main>
@@ -212,29 +206,6 @@ function App() {
                   THE SHOT IS <br />
                   <span className="text-accent">INevitable.</span>
                 </h2>
-                <div className="space-y-12">
-                  <div className="border-l-4 border-accent pl-6 md:pl-8">
-                    <h3 className="mb-4 text-2xl font-black uppercase">Total Control</h3>
-                    <p className="font-medium text-white/40">
-                      From personality traits to the exact angle of a light—we define every bit. Your digital fleet
-                      acts as one, evolving every second.
-                    </p>
-                  </div>
-                  <div className="border-l-4 border-white/10 pl-6 md:pl-8">
-                    <h3 className="mb-4 text-2xl font-black uppercase">Trend Hijacking</h3>
-                    <p className="font-medium text-white/40">
-                      We don&apos;t follow trends. Our systems detect them before they break, injecting your creators
-                      into the core of the cultural conversation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="floating relative flex justify-center">
-                <div className="relative flex aspect-square w-full max-w-[28rem] items-center justify-center rounded-full border-2 border-white/5">
-                  <div className="absolute h-3/4 w-3/4 animate-pulse rounded-full border border-accent/20" />
-                  <div className="text-7xl font-black opacity-10 sm:text-8xl">SHOT</div>
-                </div>
               </div>
             </div>
           </div>
