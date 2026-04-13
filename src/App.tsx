@@ -318,12 +318,17 @@ function App() {
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-white/5 bg-black px-5 py-16 text-center md:px-8 md:py-20">
+      <footer className="py-40 border-t border-white/5 text-center bg-[#050505] relative">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-20" />
+        <div className="font-syne font-extrabold text-[15vw] tracking-tighter uppercase italic opacity-[0.05] select-none mb-16 pointer-events-none">
+          SHOT.IS
+        </div>
+      </footer>
+      {/* <footer className="border-t border-white/5 bg-black px-5 py-16 text-center md:px-8 md:py-20">
         <div className="mb-12 flex items-center justify-center gap-4 mix-blend-difference">
           <span className="text-4xl font-black uppercase italic tracking-tight md:text-5xl">SHOT.IS</span>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
