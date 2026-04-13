@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { type CSSProperties, FormEvent, useEffect, useMemo, useState } from 'react';
 
 type Creator = {
   name: string;
@@ -32,9 +32,15 @@ const creators: Creator[] = [
 ];
 
 const samples = Array.from({ length: 10 }, (_, index) => `Video_Sample_${String(index + 1).padStart(2, '0')}`);
+const slotResults = ['READY', 'PERFECT', '67'];
+
+type SlotPhase = 'idle' | 'spinning' | 'settling';
 
 function App() {
   const [email, setEmail] = useState('');
+  const [slotWords, setSlotWords] = useState(['INEVITABLE.']);
+  const [slotOffset, setSlotOffset] = useState(0);
+  const [slotPhase, setSlotPhase] = useState<SlotPhase>('idle');
 
   useEffect(() => {
     const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]');
@@ -52,6 +58,63 @@ function App() {
     nodes.forEach((node) => observer.observe(node));
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    let outcomeIndex = 0;
+    let currentWord = 'INEVITABLE.';
+    const timeouts: number[] = [];
+
+    const queue = (callback: () => void, delay: number) => {
+      const timeoutId = window.setTimeout(callback, delay);
+      timeouts.push(timeoutId);
+    };
+
+    const runSlotCycle = () => {
+      if (!active) {
+        return;
+      }
+
+      const targetWord = slotResults[outcomeIndex];
+      const reelWords = [
+        currentWord,
+        ...Array.from({ length: 24 }, (_, index) => slotResults[index % slotResults.length]),
+        targetWord,
+        targetWord,
+      ];
+      const targetIndex = reelWords.length - 2;
+
+      setSlotWords(reelWords);
+      setSlotOffset(0);
+      setSlotPhase('idle');
+
+      queue(() => {
+        setSlotPhase('spinning');
+        setSlotOffset(targetIndex + 0.22);
+      }, 20);
+
+      queue(() => {
+        setSlotPhase('settling');
+        setSlotOffset(targetIndex);
+      }, 2180);
+
+      queue(() => {
+        setSlotPhase('idle');
+        setSlotWords([targetWord]);
+        setSlotOffset(0);
+        currentWord = targetWord;
+        outcomeIndex = (outcomeIndex + 1) % slotResults.length;
+        queue(runSlotCycle, 1800);
+      }, 2400);
+    };
+
+    queue(runSlotCycle, 1200);
+
+    return () => {
+      active = false;
+      timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    };
   }, []);
 
   const marqueeItems = useMemo(() => [...samples, ...samples], []);
@@ -200,11 +263,23 @@ function App() {
 
         <section id="vision" className="px-5 py-24 md:px-8 md:py-32">
           <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-24">
-              <div data-reveal className="reveal-text">
+            <div className="grid grid-cols-1 items-center gap-16">
+              <div data-reveal className="reveal-text max-w-full">
                 <h2 className="mb-12 text-5xl font-black uppercase leading-none tracking-tight sm:text-6xl md:text-8xl">
                   THE SHOT IS <br />
-                  <span className="text-accent">INevitable.</span>
+                  <span
+                    className="slot-machine text-accent"
+                    aria-live="polite"
+                    style={{ '--slot-offset': slotOffset } as CSSProperties}
+                  >
+                    <span className={`slot-machine__reel slot-machine__reel--${slotPhase}`}>
+                      {slotWords.map((word, index) => (
+                        <span key={`${word}-${index}`} className="slot-machine__item">
+                          {word}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
                 </h2>
               </div>
             </div>
@@ -249,14 +324,6 @@ function App() {
         <div className="mb-12 flex items-center justify-center gap-4 mix-blend-difference">
           <span className="text-4xl font-black uppercase italic tracking-tight md:text-5xl">SHOT.IS</span>
         </div>
-        <div className="mx-auto mb-16 grid max-w-4xl grid-cols-2 gap-6 font-mono text-[10px] uppercase tracking-widest opacity-40 md:mb-20 md:grid-cols-4 md:gap-8">
-          <span>No Tools // Just Power</span>
-          <span>Local Presence Only</span>
-          <span>Forged in Chaos</span>
-          <span>© 2026 SHOT_PROTO</span>
-        </div>
-        <div className="mb-8 h-px w-full bg-white/5" />
-        <p className="font-mono text-[8px] uppercase tracking-[0.8em] opacity-20">This is the end of the broadcast.</p>
       </footer>
     </div>
   );

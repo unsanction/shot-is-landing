@@ -122,6 +122,63 @@ a {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
 }
 
+.slot-machine {
+  --slot-step: 0.9em;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--slot-step);
+  overflow: hidden;
+  text-align: left;
+  white-space: nowrap;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+.slot-machine__reel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transform: translateY(calc(var(--slot-offset, 0) * -1 * var(--slot-step)));
+  will-change: transform, filter;
+}
+
+.slot-machine__reel--idle {
+  transition: none;
+  filter: none;
+}
+
+.slot-machine__reel--spinning {
+  transition:
+    transform 2160ms cubic-bezier(0.03, 0.86, 0.12, 1),
+    filter 2160ms linear,
+    opacity 2160ms linear;
+  filter: blur(16px);
+  opacity: 0.34;
+  color: rgba(255, 17, 0, 0.18);
+  text-shadow:
+    0 0 28px rgba(255, 17, 0, 0.98),
+    0 0 72px rgba(255, 17, 0, 0.88);
+  transform: translateY(calc(var(--slot-offset, 0) * -1 * var(--slot-step))) scaleY(1.18);
+}
+
+.slot-machine__reel--settling {
+  transition:
+    transform 180ms cubic-bezier(0.18, 0.9, 0.24, 1.08),
+    filter 180ms ease-out,
+    opacity 180ms ease-out;
+  filter: none;
+  opacity: 1;
+}
+
+.slot-machine__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: var(--slot-step);
+  line-height: 0.86;
+}
+
 .input-underlined {
   width: 100%;
   border: none;
@@ -227,5 +284,11 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .hero-stage__video {
     transform: none;
+  }
+
+  .slot-machine__reel--spinning,
+  .slot-machine__reel--settling {
+    transition: none;
+    filter: none;
   }
 }
