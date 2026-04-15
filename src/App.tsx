@@ -1,10 +1,9 @@
-import { type CSSProperties, FormEvent, useEffect, useMemo, useState } from 'react';
+import { type CSSProperties, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type Creator = {
   name: string;
   description: string;
   image: string;
-  accent?: boolean;
   lifted?: boolean;
 };
 
@@ -14,7 +13,6 @@ const creators: Creator[] = [
     description: 'Cyber-High-End Influencer // 12.4M reach',
     image:
       'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000',
-    accent: true,
   },
   {
     name: 'KAI_OS',
@@ -31,7 +29,18 @@ const creators: Creator[] = [
   },
 ];
 
-const samples = Array.from({ length: 10 }, (_, index) => `Video_Sample_${String(index + 1).padStart(2, '0')}`);
+const reelVideos = [
+  { src: '/media/reel/visual-overload.mp4', poster: '/media/reel/visual-overload-poster.jpg' },
+];
+
+const stats = [
+  { value: '847M+', label: 'Total Reach', sub: 'Across all platforms' },
+  { value: '12.4M', label: 'Avg. Engagement', sub: 'Per campaign cycle' },
+  { value: '340%', label: 'ROI Increase', sub: 'vs. traditional creators' },
+  { value: '96%', label: 'Client Retention', sub: 'Year over year' },
+  { value: '∞', label: 'Potential', sub: 'No ceiling. No limit.' },
+];
+
 const slotResults = ['READY', 'PERFECT', '67'];
 
 type SlotPhase = 'idle' | 'spinning' | 'settling';
@@ -117,7 +126,25 @@ function App() {
     };
   }, []);
 
-  const marqueeItems = useMemo(() => [...samples, ...samples], []);
+  const reelItems = useMemo(() => {
+    const expanded = [];
+    for (let i = 0; i < 14; i++) {
+      expanded.push(reelVideos[i % reelVideos.length]);
+    }
+    return [...expanded, ...expanded];
+  }, []);
+
+  const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+
+  const handleVideoHover = useCallback((index: number, isHovering: boolean) => {
+    const video = videoRefs.current.get(index);
+    if (!video) return;
+    if (isHovering) {
+      video.pause();
+    } else {
+      video.play().catch(() => {});
+    }
+  }, []);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -216,9 +243,7 @@ function App() {
                 >
                   <div className={`image-card mb-8 ${creator.lifted ? 'md:translate-y-12' : ''}`}>
                     <img src={creator.image} alt={creator.name} />
-                    {creator.accent ? (
-                      <div className="absolute inset-0 bg-accent opacity-0 mix-blend-multiply transition-opacity group-hover:opacity-40" />
-                    ) : null}
+                    <div className="image-card__accent" />
                   </div>
                   <h3 className={`${creator.lifted ? 'md:mt-12' : ''} text-4xl font-black uppercase tracking-tight`}>
                     {creator.name}
@@ -230,7 +255,7 @@ function App() {
           </div>
         </section>
 
-        <section className="relative bg-black px-5 py-28 md:px-8 md:py-40">
+        <section className="relative bg-black px-5 py-28 md:px-8 md:py-40" style={{ marginTop: '-1px' }}>
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-16 md:mb-24">
               <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-8xl">
@@ -242,20 +267,90 @@ function App() {
             </div>
           </div>
 
-          <div className="-mx-5 overflow-hidden py-12 md:-mx-8">
-            <div className="flex rotate-[-2deg] gap-4 whitespace-nowrap">
-              <div className="flex min-w-max animate-marquee gap-4">
-                {marqueeItems.map((sample, index) => (
+          <div className="film-strip">
+            <div className="film-strip__perfs film-strip__perfs--top" aria-hidden="true" />
+            <div className="film-strip__gate">
+              <div className="film-strip__reel">
+                {reelItems.map((item, index) => (
                   <div
-                    key={`${sample}-${index}`}
-                    className="flex h-[320px] w-[240px] items-center justify-center border border-white/10 bg-zinc-900 p-2 grayscale transition-all hover:grayscale-0 sm:h-[360px] sm:w-[270px] md:h-[400px] md:w-[300px]"
+                    key={index}
+                    className="film-cell"
+                    onMouseEnter={() => handleVideoHover(index, true)}
+                    onMouseLeave={() => handleVideoHover(index, false)}
                   >
-                    <div className="flex h-full w-full items-center justify-center bg-zinc-800 px-4 text-center font-mono text-[10px] uppercase opacity-20">
-                      {sample}
+                    <div className="film-cell__window">
+                      <video
+                        ref={(el) => {
+                          if (el) videoRefs.current.set(index, el);
+                          else videoRefs.current.delete(index);
+                        }}
+                        src={item.src}
+                        poster={item.poster}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="film-cell__video"
+                      />
+                      <div className="film-cell__grain" />
+                      <div className="film-cell__vignette" />
+                      <div className="film-cell__pause-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                          <rect x="6" y="4" width="4" height="16" rx="1" />
+                          <rect x="14" y="4" width="4" height="16" rx="1" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="film-cell__meta">
+                      <span className="film-cell__frame-num">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="film-cell__timecode">●</span>
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="film-strip__perfs film-strip__perfs--bottom" aria-hidden="true" />
+          </div>
+        </section>
+
+        {/* --- SUCCESS CASES --- */}
+        <section className="relative overflow-hidden bg-black px-5 py-32 md:px-8 md:py-44">
+          <div className="success-bg" aria-hidden="true" />
+          <div className="mx-auto max-w-[1400px] relative z-10">
+            <div className="mb-16 md:mb-24 text-center">
+              <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.5em] text-accent">
+                // Performance_Metrics
+              </p>
+              <h2 className="text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-9xl">
+                Numbers<br />
+                <span className="text-outline italic">Don&apos;t Lie.</span>
+              </h2>
+            </div>
+
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                data-reveal
+                className="reveal-text stat-row"
+                style={{ transitionDelay: `${i * 0.07}s` }}
+              >
+                <div className="stat-row__line" />
+                <div className="stat-row__content">
+                  <span className="stat-row__number">{stat.value}</span>
+                  <div className="stat-row__info">
+                    <span className="stat-row__label">{stat.label}</span>
+                    <span className="stat-row__sub">{stat.sub}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className="mt-20 flex items-center gap-6 md:mt-28">
+              <div className="h-px flex-1 bg-gradient-to-r from-accent/40 to-transparent" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/20">
+                Verified Q1 2026
+              </span>
+              <div className="h-px flex-1 bg-gradient-to-l from-accent/40 to-transparent" />
             </div>
           </div>
         </section>
