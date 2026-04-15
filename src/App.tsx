@@ -126,7 +126,7 @@ function App() {
     };
   }, []);
 
-  const reelItems = useMemo(() => {
+    const reelItems = useMemo(() => {
     const expanded = [];
     for (let i = 0; i < 14; i++) {
       expanded.push(reelVideos[i % reelVideos.length]);
@@ -135,6 +135,26 @@ function App() {
   }, []);
 
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+
+  // Only play videos that are actually visible — pause the rest
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    videoRefs.current.forEach((video) => observer.observe(video));
+    return () => observer.disconnect();
+  }, [reelItems]);
 
   const handleVideoHover = useCallback((index: number, isHovering: boolean) => {
     const video = videoRefs.current.get(index);
@@ -290,10 +310,10 @@ function App() {
                         }}
                         src={item.src}
                         poster={item.poster}
-                        autoPlay
-                        loop
                         muted
+                        loop
                         playsInline
+                        preload="none"
                         className="film-cell__video"
                       />
                       <div className="film-cell__grain" />
