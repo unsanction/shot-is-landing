@@ -1,0 +1,150 @@
+{
+  "pageUrl": "http://127.0.0.1:5176/",
+  "artifactDir": "artifacts/browser-qa",
+  "readySelector": null,
+  "viewports": [
+    "desktop",
+    "tablet",
+    "mobile"
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "landing": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY"
+      },
+      "readyState": null,
+      "metrics": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY",
+        "viewport": {
+          "innerWidth": 1440,
+          "innerHeight": 1200,
+          "devicePixelRatio": 1
+        },
+        "document": {
+          "clientWidth": 1440,
+          "clientHeight": 1200,
+          "scrollWidth": 1440,
+          "scrollHeight": 8054
+        },
+        "horizontalOverflow": false,
+        "bodyTextPreview": "SHOT.IS THE ROSTER VISION JOIN CIRCLE THE SHOT IS YOUR POWER. We are a digital foundry forging the next era of creators. No rules. No limits. Just pure visual dominance. APPLY FOR WHITELIST SCROLL TO DESCEND MEET THE NEW GODS. WE DON'T JUST BUILD CHARACTERS. WE BUILD LEGENDS WITH LORE, SOUL, AND 100% DIGITAL DNA. VEXA-9 CYBER-HIGH-END INFLUENCER // 12.4M REACH KAI_OS DIGITAL REBEL // TREND SABOTEUR LUNA_CORE VIRTUAL ORACLE // HIGH-CONCEPT VIDEO VISUAL OVERLOAD. \"We Forge images that don't just l",
+        "fixedOrSticky": [
+          {
+            "tag": "div",
+            "text": "",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 1200,
+            "left": 0,
+            "right": 1440
+          },
+          {
+            "tag": "nav",
+            "text": "SHOT.ISThe RosterVisionJoin Circle",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 104,
+            "left": 0,
+            "right": 1440
+          }
+        ]
+      },
+      "screenshotName": "shot-landing-final-01-desktop.png"
+    },
+    {
+      "viewport": "tablet",
+      "landing": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY"
+      },
+      "readyState": null,
+      "metrics": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY",
+        "viewport": {
+          "innerWidth": 1024,
+          "innerHeight": 1366,
+          "devicePixelRatio": 1
+        },
+        "document": {
+          "clientWidth": 1024,
+          "clientHeight": 1366,
+          "scrollWidth": 1024,
+          "scrollHeight": 7938
+        },
+        "horizontalOverflow": false,
+        "bodyTextPreview": "SHOT.IS THE ROSTER VISION JOIN CIRCLE THE SHOT IS YOUR POWER. We are a digital foundry forging the next era of creators. No rules. No limits. Just pure visual dominance. APPLY FOR WHITELIST SCROLL TO DESCEND MEET THE NEW GODS. WE DON'T JUST BUILD CHARACTERS. WE BUILD LEGENDS WITH LORE, SOUL, AND 100% DIGITAL DNA. VEXA-9 CYBER-HIGH-END INFLUENCER // 12.4M REACH KAI_OS DIGITAL REBEL // TREND SABOTEUR LUNA_CORE VIRTUAL ORACLE // HIGH-CONCEPT VIDEO VISUAL OVERLOAD. \"We Forge images that don't just l",
+        "fixedOrSticky": [
+          {
+            "tag": "div",
+            "text": "",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 1366,
+            "left": 0,
+            "right": 1024
+          },
+          {
+            "tag": "nav",
+            "text": "SHOT.ISThe RosterVisionJoin Circle",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 104,
+            "left": 0,
+            "right": 1024
+          }
+        ]
+      },
+      "screenshotName": "shot-landing-final-02-tablet.png"
+    },
+    {
+      "viewport": "mobile",
+      "landing": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY"
+      },
+      "readyState": null,
+      "metrics": {
+        "url": "http://127.0.0.1:5176/",
+        "title": "SHOT.IS — FORGING THE NEW REALITY",
+        "viewport": {
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "devicePixelRatio": 3
+        },
+        "document": {
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 7176
+        },
+        "horizontalOverflow": false,
+        "bodyTextPreview": "SHOT.IS THE SHOT IS YOUR POWER. We are a digital foundry forging the next era of creators. No rules. No limits. Just pure visual dominance. APPLY FOR WHITELIST SCROLL TO DESCEND MEET THE NEW GODS. WE DON'T JUST BUILD CHARACTERS. WE BUILD LEGENDS WITH LORE, SOUL, AND 100% DIGITAL DNA. VEXA-9 CYBER-HIGH-END INFLUENCER // 12.4M REACH KAI_OS DIGITAL REBEL // TREND SABOTEUR LUNA_CORE VIRTUAL ORACLE // HIGH-CONCEPT VIDEO VISUAL OVERLOAD. \"We Forge images that don't just look real—they look better than",
+        "fixedOrSticky": [
+          {
+            "tag": "div",
+            "text": "",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 844,
+            "left": 0,
+            "right": 390
+          },
+          {
+            "tag": "nav",
+            "text": "SHOT.ISThe RosterVisionJoin Circle",
+            "position": "fixed",
+            "top": 0,
+            "bottom": 88,
+            "left": 0,
+            "right": 390
+          }
+        ]
+      },
+      "screenshotName": "shot-landing-final-03-mobile.png"
+    }
+  ]
+}

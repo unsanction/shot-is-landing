@@ -41,7 +41,7 @@ const stats = [
   { value: '∞', label: 'Potential', sub: 'No ceiling. No limit.' },
 ];
 
-const slotResults = ['READY', 'PERFECT', '67'];
+const slotResults = ['READY', 'PERFECT', '67', 'VIRAL'];
 
 type SlotPhase = 'idle' | 'spinning' | 'settling';
 
@@ -152,22 +152,22 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-white selection:text-accent">
+    <div className="min-h-screen bg-black text-white selection:text-accent">
       <div className="grain" aria-hidden="true" />
 
-      <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-8 md:py-8">
-        <a href="#" className="group flex items-center gap-4 md:gap-6">
+      <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
+        <a href="#" className="group flex items-center gap-4 md:gap-4 lg:gap-6">
           <div className="shutter" aria-hidden="true">
             <div className="shutter-blade rotate-0" />
             <div className="shutter-blade rotate-[60deg]" />
             <div className="shutter-blade rotate-[120deg]" />
           </div>
-          <div className="text-2xl font-extrabold uppercase italic leading-none tracking-tight md:text-3xl">
+          <div className="text-2xl font-extrabold uppercase italic leading-none tracking-tight md:text-[26px] lg:text-3xl">
             SHOT<span className="opacity-40">.IS</span>
           </div>
         </a>
 
-        <div className="hidden gap-12 text-[11px] font-bold uppercase tracking-[0.3em] md:flex">
+        <div className="hidden items-center gap-6 text-[10px] font-bold uppercase tracking-[0.22em] md:flex lg:gap-12 lg:text-[11px] lg:tracking-[0.3em]">
           <a href="#roster" className="transition-colors hover:text-accent">
             The Roster
           </a>
@@ -181,8 +181,8 @@ function App() {
 
       </nav>
 
-      <main>
-        <section className="relative flex min-h-screen scroll-mt-16 flex-col items-center justify-center px-5 pb-28 pt-32 text-center md:px-8">
+      <main className="bg-black">
+        <section className="relative flex min-h-[100dvh] scroll-mt-16 flex-col items-center justify-center px-5 pb-28 pt-32 text-center md:px-8">
           <div className="hero-stage" aria-hidden="true">
             <video
               className="hero-stage__video"
@@ -199,7 +199,7 @@ function App() {
           </div>
 
           <div className="relative z-10 mx-auto max-w-6xl">
-            <h1 className="mb-12 text-5xl font-extrabold uppercase leading-[0.82] tracking-tight sm:text-6xl md:text-[140px]">
+            <h1 className="mb-12 text-5xl font-extrabold uppercase leading-[0.82] tracking-tight sm:text-6xl md:text-[72px] lg:text-[110px] xl:text-[140px]">
               THE SHOT IS <br />
               <span className="text-outline italic">YOUR POWER.</span>
             </h1>
@@ -224,7 +224,7 @@ function App() {
         <section id="roster" className="bg-white px-5 py-24 text-black md:px-8 md:py-32">
           <div className="mx-auto max-w-7xl">
             <div className="mb-20 flex flex-col gap-8 md:mb-24 md:flex-row md:items-end md:justify-between">
-              <h2 className="text-5xl font-extrabold uppercase leading-none tracking-tight sm:text-6xl md:text-9xl">
+              <h2 className="text-5xl font-extrabold uppercase leading-none tracking-tight sm:text-6xl md:text-[88px] lg:text-9xl">
                 MEET THE <br />
                 <span className="italic text-accent">NEW GODS.</span>
               </h2>
@@ -245,7 +245,9 @@ function App() {
                     <img src={creator.image} alt={creator.name} />
                     <div className="image-card__accent" />
                   </div>
-                  <h3 className={`${creator.lifted ? 'md:mt-12' : ''} text-4xl font-black uppercase tracking-tight`}>
+                  <h3
+                    className={`${creator.lifted ? 'md:mt-12' : ''} text-4xl font-black uppercase tracking-tight leading-[0.95] break-words md:text-[30px] xl:text-4xl`}
+                  >
                     {creator.name}
                   </h3>
                   <p className="mt-2 font-mono text-[10px] uppercase tracking-widest opacity-40">{creator.description}</p>
@@ -255,10 +257,10 @@ function App() {
           </div>
         </section>
 
-        <section className="relative bg-black px-5 py-28 md:px-8 md:py-40" style={{ marginTop: '-1px' }}>
+        <section id="vision" className="relative bg-black px-5 py-28 md:px-8 md:py-40" style={{ marginTop: '-1px' }}>
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-16 md:mb-24">
-              <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-8xl">
+              <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-[72px] lg:text-[84px] xl:text-8xl">
                 Visual <span className="text-outline">Overload.</span>
               </h2>
               <p className="text-lg font-medium italic text-white/30 md:text-xl">
@@ -268,7 +270,6 @@ function App() {
           </div>
 
           <div className="film-strip">
-            <div className="film-strip__perfs film-strip__perfs--top" aria-hidden="true" />
             <div className="film-strip__gate">
               <div className="film-strip__reel">
                 {reelItems.map((item, index) => (
@@ -278,6 +279,9 @@ function App() {
                     onMouseEnter={() => handleVideoHover(index, true)}
                     onMouseLeave={() => handleVideoHover(index, false)}
                   >
+                    <div className="film-cell__perf" aria-hidden="true">
+                      <span /><span /><span />
+                    </div>
                     <div className="film-cell__window">
                       <video
                         ref={(el) => {
@@ -301,15 +305,13 @@ function App() {
                         </svg>
                       </div>
                     </div>
-                    <div className="film-cell__meta">
-                      <span className="film-cell__frame-num">{String(index + 1).padStart(2, '0')}</span>
-                      <span className="film-cell__timecode">●</span>
+                    <div className="film-cell__perf" aria-hidden="true">
+                      <span /><span /><span />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="film-strip__perfs film-strip__perfs--bottom" aria-hidden="true" />
           </div>
         </section>
 
@@ -318,13 +320,15 @@ function App() {
           <div className="success-bg" aria-hidden="true" />
           <div className="mx-auto max-w-[1400px] relative z-10">
             <div className="mb-16 md:mb-24 text-center">
-              <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.5em] text-accent">
-                // Performance_Metrics
-              </p>
-              <h2 className="text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-9xl">
+              {/* <h2 className="mx-auto max-w-[12ch] text-[clamp(3rem,6.5vw,5.5rem)] font-black uppercase leading-[0.85] tracking-tight">
                 Numbers<br />
-                <span className="text-outline italic">Don&apos;t Lie.</span>
-              </h2>
+                <span className="text-outline italic">Don&apos;t Lie</span>
+              </h2> */}
+              <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-[72px] lg:text-[84px] xl:text-8xl">
+                Numbers
+                <br />
+                <span className="text-outline">Don&apos;t Lie</span>
+                </h2>
             </div>
 
             {stats.map((stat, i) => (
@@ -344,22 +348,14 @@ function App() {
                 </div>
               </div>
             ))}
-
-            <div className="mt-20 flex items-center gap-6 md:mt-28">
-              <div className="h-px flex-1 bg-gradient-to-r from-accent/40 to-transparent" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/20">
-                Verified Q1 2026
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-l from-accent/40 to-transparent" />
-            </div>
           </div>
         </section>
 
-        <section id="vision" className="px-5 py-24 md:px-8 md:py-32">
+        <section className="px-5 py-24 md:px-8 md:py-32">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 items-center gap-16">
               <div data-reveal className="reveal-text max-w-full">
-                <h2 className="mb-12 text-[2.8rem] font-black uppercase leading-[0.9] tracking-tight sm:text-6xl sm:leading-none md:text-8xl">
+                <h2 className="mb-12 text-[2.8rem] font-black uppercase leading-[0.9] tracking-tight sm:text-6xl sm:leading-none md:text-[84px] lg:text-8xl">
                   THE SHOT IS <br />
                   <span
                     className="slot-machine text-accent"
@@ -385,7 +381,7 @@ function App() {
 
           <div className="relative z-10 mx-auto max-w-5xl">
             <div className="mb-20 text-center md:mb-24">
-              <h2 className="mb-8 text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-[120px]">
+              <h2 className="mb-8 text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-[88px] lg:text-[120px]">
                 JOIN THE <br />
                 <span className="mix-blend-difference">INNER CIRCLE.</span>
               </h2>
