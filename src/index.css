@@ -266,63 +266,22 @@ a {
 /* ---- FILM STRIP ---- */
 
 .film-strip {
-  --perf-h: 28px;
-  --film-bg: #111;
+  --film-bg: #0d0d0d;
   --film-motion-duration: 50s;
   --film-motion-state: running;
   position: relative;
   margin: 0 -20px;
   background: var(--film-bg);
-  border-top: 3px solid #222;
-  border-bottom: 3px solid #222;
-}
-
-/* Sprocket holes via repeating background */
-.film-strip__perfs {
-  height: var(--perf-h);
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 12px,
-      #000 12px,
-      #000 24px,
-      transparent 24px,
-      transparent 56px
-    );
-  background-position: 0 0;
-  position: relative;
-  animation: perforation-scroll var(--film-motion-duration) linear infinite;
-  animation-play-state: var(--film-motion-state);
-  will-change: background-position;
-}
-
-.film-strip__perfs::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.film-strip__perfs--top::after {
-  bottom: 0;
-}
-
-.film-strip__perfs--bottom::after {
-  top: 0;
 }
 
 .film-strip__gate {
   overflow: hidden;
-  padding: 3px 0;
   background: var(--film-bg);
 }
 
 .film-strip__reel {
   display: flex;
-  gap: 3px;
+  gap: 0;
   min-width: max-content;
   animation: marquee var(--film-motion-duration) linear infinite;
   animation-play-state: var(--film-motion-state);
@@ -333,11 +292,32 @@ a {
   --film-motion-state: paused;
 }
 
+/* Each cell = perf row + video + perf row (all scroll together) */
 .film-cell {
   flex-shrink: 0;
   width: 200px;
   cursor: pointer;
   position: relative;
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.film-cell__perf {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 22px;
+  background: var(--film-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.film-cell__perf span {
+  display: block;
+  width: 14px;
+  height: 9px;
+  border-radius: 2px;
+  background: #000;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.06);
 }
 
 .film-cell__window {
@@ -345,7 +325,7 @@ a {
   aspect-ratio: 9 / 16;
   overflow: hidden;
   background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  margin: 0 3px;
 }
 
 .film-cell__video {
@@ -398,45 +378,16 @@ a {
   opacity: 1;
 }
 
-.film-cell__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 6px;
-  background: var(--film-bg);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 7px;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.12);
-}
-
-.film-cell__timecode {
-  color: var(--accent);
-  opacity: 0;
-  font-size: 6px;
-  transition: opacity 0.3s ease;
-}
-
-.film-cell:hover .film-cell__timecode {
-  opacity: 0.8;
-  animation: blink-dot 1s step-end infinite;
-}
-
-.film-cell:hover .film-cell__meta {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-@keyframes blink-dot {
-  50% { opacity: 0; }
-}
-
 @media (min-width: 640px) {
   .film-cell { width: 240px; }
+  .film-cell__perf { height: 26px; }
+  .film-cell__perf span { width: 16px; height: 10px; }
 }
 
 @media (min-width: 768px) {
   .film-cell { width: 260px; }
-  .film-strip { --perf-h: 32px; }
+  .film-cell__perf { height: 30px; }
+  .film-cell__perf span { width: 18px; height: 11px; }
 }
 
 /* ---- SUCCESS / STATS ---- */
@@ -474,14 +425,13 @@ a {
 
 .stat-row__content {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 24px 0;
-  gap: 16px;
+  flex-direction: column;
+  padding: 20px 0;
+  gap: 8px;
 }
 
 .stat-row__number {
-  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-size: clamp(3rem, 12vw, 8rem);
   font-weight: 800;
   line-height: 0.85;
   letter-spacing: -0.03em;
@@ -500,13 +450,10 @@ a {
 .stat-row__info {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  flex-shrink: 0;
 }
 
 .stat-row__label {
-  font-size: clamp(0.75rem, 1.5vw, 1.1rem);
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.25em;
@@ -514,7 +461,7 @@ a {
 }
 
 .stat-row__sub {
-  margin-top: 4px;
+  margin-top: 2px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
@@ -524,7 +471,21 @@ a {
 
 @media (min-width: 768px) {
   .stat-row__content {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
     padding: 36px 0;
+    gap: 16px;
+  }
+
+  .stat-row__info {
+    align-items: flex-end;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .stat-row__label {
+    font-size: clamp(0.75rem, 1.5vw, 1.1rem);
   }
 }
 
@@ -559,15 +520,6 @@ a {
   }
 }
 
-@keyframes perforation-scroll {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: -56px 0;
-  }
-}
-
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -592,5 +544,11 @@ a {
 @media (min-width: 640px) {
   .slot-machine {
     font-size: 1em;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-stage__video {
+    transform: none;
   }
 }
