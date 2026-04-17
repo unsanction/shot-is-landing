@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser QA"
+  short_description: "Code-guided browser QA and responsive checks"
+  default_prompt: "Use $browser-qa to inspect the code, identify impacted UI flows, test them in the browser, and verify desktop and mobile behavior."
