@@ -1,0 +1,4 @@
+interface:
+  display_name: "Landing Responsive QA"
+  short_description: "Responsive QA for landing pages"
+  default_prompt: "Use $landing-responsive-qa to verify this landing page across desktop, tablet, mobile, and custom breakpoints."
