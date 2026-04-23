@@ -45,7 +45,93 @@ const slotResults = ['READY', 'PERFECT', '67', 'VIRAL'];
 
 type SlotPhase = 'idle' | 'spinning' | 'settling';
 
-function App() {
+const normalizePath = (pathname: string) => {
+  const trimmed = pathname.replace(/\/+$/, '');
+  return trimmed === '' ? '/' : trimmed;
+};
+
+function BrandAsterisk({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M8 32H56" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M20 11.216L44 52.784" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M20 52.784L44 11.216" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function NotFoundPage({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="not-found-shell min-h-screen bg-black text-white selection:text-accent">
+      <div className="grain" aria-hidden="true" />
+
+      <div className="hero-stage not-found-stage" aria-hidden="true">
+        <video
+          className="hero-stage__video not-found-stage__video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/media/hero/shot-hero-poster.webp"
+        >
+          <source src="/media/hero/shot-hero-loop.mp4" type="video/mp4" />
+        </video>
+        <div className="not-found-stage__veil" />
+        <div className="hero-stage__grid" />
+      </div>
+
+      <header className="fixed inset-x-0 top-0 z-[100] flex items-center px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
+        <a href="/" className="flex items-center gap-4 md:gap-4 lg:gap-6">
+          <BrandAsterisk className="h-11 w-11 text-[#d5f9ff]" />
+          <span className="brand-wordmark text-[34px] font-black uppercase italic leading-none tracking-tight">
+            SHOT.IS
+          </span>
+        </a>
+      </header>
+
+      <main className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-20 pt-28 text-center md:px-8 md:pb-24 md:pt-32">
+        <section className="not-found__content mx-auto w-full max-w-[980px]">
+          <div className="not-found__hero">
+            <div className="not-found__digits">404</div>
+            <h1 className="not-found__title">
+              <span>WRONG</span>
+              <span>SHOT</span>
+            </h1>
+          </div>
+
+          <p className="not-found__copy mx-auto mt-8 max-w-3xl text-lg font-medium leading-tight text-white/40 sm:text-xl md:text-3xl">
+            This page doesn&apos;t exist. Drop back into the main stream and get back to the part of the site that
+            actually hits.
+          </p>
+
+          <div className="relative z-10 mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+            <a
+              href="/"
+              className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
+            >
+              Return To Base
+            </a>
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex items-center justify-center border border-white/15 bg-white/[0.03] px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-white transition-all hover:border-white/40 hover:bg-white/10 active:scale-95 md:px-12 md:py-6 md:text-sm"
+            >
+              Trace Back
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function HomePage() {
   const [email, setEmail] = useState('');
   const [slotWords, setSlotWords] = useState(['INEVITABLE.']);
   const [slotOffset, setSlotOffset] = useState(0);
@@ -126,7 +212,7 @@ function App() {
     };
   }, []);
 
-    const reelItems = useMemo(() => {
+  const reelItems = useMemo(() => {
     const expanded = [];
     for (let i = 0; i < 14; i++) {
       expanded.push(reelVideos[i % reelVideos.length]);
@@ -136,7 +222,6 @@ function App() {
 
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
 
-  // Only play videos that are actually visible — pause the rest
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -198,7 +283,6 @@ function App() {
             Join Circle
           </a>
         </div>
-
       </nav>
 
       <main className="bg-black">
@@ -266,7 +350,7 @@ function App() {
                     <div className="image-card__accent" />
                   </div>
                   <h3
-                    className={`${creator.lifted ? 'md:mt-12' : ''} text-4xl font-black uppercase tracking-tight leading-[0.95] break-words md:text-[30px] xl:text-4xl`}
+                    className={`${creator.lifted ? 'md:mt-12' : ''} break-words text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-[30px] xl:text-4xl`}
                   >
                     {creator.name}
                   </h3>
@@ -300,7 +384,9 @@ function App() {
                     onMouseLeave={() => handleVideoHover(index, false)}
                   >
                     <div className="film-cell__perf" aria-hidden="true">
-                      <span /><span /><span />
+                      <span />
+                      <span />
+                      <span />
                     </div>
                     <div className="film-cell__window">
                       <video
@@ -326,7 +412,9 @@ function App() {
                       </div>
                     </div>
                     <div className="film-cell__perf" aria-hidden="true">
-                      <span /><span /><span />
+                      <span />
+                      <span />
+                      <span />
                     </div>
                   </div>
                 ))}
@@ -335,20 +423,15 @@ function App() {
           </div>
         </section>
 
-        {/* --- SUCCESS CASES --- */}
         <section className="relative overflow-hidden bg-black px-5 py-32 md:px-8 md:py-44">
           <div className="success-bg" aria-hidden="true" />
-          <div className="mx-auto max-w-[1400px] relative z-10">
-            <div className="mb-16 md:mb-24 text-center">
-              {/* <h2 className="mx-auto max-w-[12ch] text-[clamp(3rem,6.5vw,5.5rem)] font-black uppercase leading-[0.85] tracking-tight">
-                Numbers<br />
-                <span className="text-outline italic">Don&apos;t Lie</span>
-              </h2> */}
+          <div className="relative z-10 mx-auto max-w-[1400px]">
+            <div className="mb-16 text-center md:mb-24">
               <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-[72px] lg:text-[84px] xl:text-8xl">
                 Numbers
                 <br />
                 <span className="text-outline">Don&apos;t Lie</span>
-                </h2>
+              </h2>
             </div>
 
             {stats.map((stat, i) => (
@@ -429,19 +512,39 @@ function App() {
           </div>
         </section>
       </main>
-      <footer className="py-40 border-t border-white/5 text-center bg-[#050505] relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-20" />
-        <div className="font-syne font-extrabold text-[15vw] tracking-tighter uppercase italic opacity-[0.05] select-none mb-16 pointer-events-none">
+
+      <footer className="relative border-t border-white/5 bg-[#050505] py-40 text-center">
+        <div className="absolute left-1/2 top-0 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-20" />
+        <div className="pointer-events-none mb-16 select-none font-syne text-[15vw] font-extrabold uppercase italic tracking-tighter opacity-[0.05]">
           SHOT.IS
         </div>
       </footer>
-      {/* <footer className="border-t border-white/5 bg-black px-5 py-16 text-center md:px-8 md:py-20">
-        <div className="mb-12 flex items-center justify-center gap-4 mix-blend-difference">
-          <span className="text-4xl font-black uppercase italic tracking-tight md:text-5xl">SHOT.IS</span>
-        </div>
-      </footer> */}
     </div>
   );
+}
+
+function App() {
+  const pathname = normalizePath(window.location.pathname);
+  const isNotFound = pathname !== '/' && pathname !== '/index.html';
+
+  const handleGoBack = useCallback(() => {
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+
+    window.location.assign('/');
+  }, []);
+
+  useEffect(() => {
+    document.title = isNotFound ? '404 — SHOT.IS' : 'SHOT.IS — FORGING THE NEW REALITY';
+  }, [isNotFound]);
+
+  if (isNotFound) {
+    return <NotFoundPage onBack={handleGoBack} />;
+  }
+
+  return <HomePage />;
 }
 
 export default App;
