@@ -1,0 +1,97 @@
+[
+  {
+    "url": "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000",
+    "type": "Image",
+    "contexts": [
+      "img[src]"
+    ],
+    "notes": "VEXA-9",
+    "description": "VEXA-9",
+    "nearestHeading": "VEXA-9",
+    "sectionClasses": "reveal-text group cursor-pointer active",
+    "aboveFold": true
+  },
+  {
+    "url": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1000",
+    "type": "Image",
+    "contexts": [
+      "img[src]"
+    ],
+    "notes": "KAI_OS",
+    "description": "KAI_OS",
+    "nearestHeading": "KAI_OS",
+    "sectionClasses": "reveal-text group cursor-pointer active",
+    "aboveFold": true
+  },
+  {
+    "url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1000",
+    "type": "Image",
+    "contexts": [
+      "img[src]"
+    ],
+    "notes": "LUNA_CORE",
+    "description": "LUNA_CORE",
+    "nearestHeading": "LUNA_CORE",
+    "sectionClasses": "reveal-text group cursor-pointer active",
+    "aboveFold": true
+  },
+  {
+    "url": "https://grainy-gradients.vercel.app/noise.svg",
+    "type": "Background",
+    "contexts": [
+      "css url()"
+    ],
+    "notes": null,
+    "aboveFold": true,
+    "nearestHeading": "Visual Overload.",
+    "sectionClasses": "relative bg-black px-5 py-28 md:px-8 md:py-40"
+  },
+  {
+    "url": "https://shot.is/media/reel/visual-overload.mp4",
+    "type": "Video",
+    "contexts": [
+      "video[src]"
+    ],
+    "notes": null
+  },
+  {
+    "url": "https://shot.is/media/hero/shot-hero-loop.mp4",
+    "type": "Video",
+    "contexts": [
+      "video source[src]"
+    ],
+    "notes": null
+  },
+  {
+    "url": "https://shot.is/media/hero/shot-hero-poster.webp",
+    "type": "Image",
+    "contexts": [
+      "video[poster]"
+    ],
+    "notes": null
+  },
+  {
+    "url": "https://shot.is/media/reel/visual-overload-poster.jpg",
+    "type": "Image",
+    "contexts": [
+      "video[poster]"
+    ],
+    "notes": null
+  },
+  {
+    "url": "https://shot.is/favicon.svg",
+    "type": "Icon",
+    "contexts": [
+      "link[rel=\"icon\"]"
+    ],
+    "notes": null
+  },
+  {
+    "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap",
+    "type": "Other",
+    "contexts": [
+      "css url()"
+    ],
+    "notes": null
+  }
+]

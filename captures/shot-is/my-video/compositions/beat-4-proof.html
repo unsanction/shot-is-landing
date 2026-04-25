@@ -1,0 +1,332 @@
+<template id="beat-4-proof-template">
+  <div data-composition-id="beat-4" data-width="1080" data-height="1920" data-start="0" data-duration="6.5">
+    <style>
+      [data-composition-id="beat-4"] {
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        box-sizing: border-box;
+        font-family: 'Syne', sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Dot-grid canvas: absolute, covers full frame, sits behind content */
+      [data-composition-id="beat-4"] #b4-dot-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        display: block;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Main flex content — layout built for hero frame (all elements visible) */
+      [data-composition-id="beat-4"] .b4-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 80px 60px;
+        gap: 60px;
+        box-sizing: border-box;
+      }
+
+      /* ─── PRIMARY STAT BLOCK (~35% from top = ~672px) ─── */
+      [data-composition-id="beat-4"] .b4-primary-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        /* 35% of 1920 = 672px. With 80px top padding the block starts at 80px.
+           We push it down with margin-top to land its center at ~35%. */
+        margin-top: calc(35% - 80px);
+      }
+
+      [data-composition-id="beat-4"] .b4-stat-340 {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 240px;
+        color: #FFFFFF;
+        line-height: 0.88;
+        letter-spacing: -0.04em;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      /* SVG underline container */
+      [data-composition-id="beat-4"] .b4-underline-wrap {
+        width: 400px;
+        height: 6px;
+        margin-top: 20px;
+        margin-bottom: 28px;
+        overflow: visible;
+      }
+
+      [data-composition-id="beat-4"] #b4-redline {
+        stroke: #FF1100;
+        stroke-width: 6;
+        stroke-linecap: butt;
+        fill: none;
+      }
+
+      [data-composition-id="beat-4"] .b4-roi-label {
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 44px;
+        color: #E5E7EB;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        text-align: center;
+      }
+
+      [data-composition-id="beat-4"] .b4-roi-sub {
+        font-family: 'Syne', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1;
+        text-align: center;
+        margin-top: 16px;
+      }
+
+      /* ─── DIVIDER ─── */
+      [data-composition-id="beat-4"] .b4-divider-wrap {
+        width: 960px;
+        height: 1px;
+        overflow: visible;
+        /* margin provided by gap: 60px on .b4-content */
+      }
+
+      [data-composition-id="beat-4"] #b4-divline {
+        stroke: rgba(255, 255, 255, 0.35);
+        stroke-width: 1;
+        fill: none;
+      }
+
+      /* ─── SECONDARY STAT BLOCK (~65% from top) ─── */
+      [data-composition-id="beat-4"] .b4-secondary-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+
+      [data-composition-id="beat-4"] .b4-stat-96 {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 140px;
+        color: #FFFFFF;
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      [data-composition-id="beat-4"] .b4-retention-label {
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        color: #E5E7EB;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      [data-composition-id="beat-4"] .b4-retention-sub {
+        font-family: 'Syne', sans-serif;
+        font-weight: 400;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1;
+        text-align: center;
+        margin-top: 14px;
+      }
+    </style>
+
+    <!-- Dot-grid canvas -->
+    <canvas id="b4-dot-canvas" width="1080" height="1920"></canvas>
+
+    <!-- Main content -->
+    <div class="b4-content">
+
+      <!-- Primary stat block -->
+      <div class="b4-primary-block">
+        <div class="b4-stat-340" id="b4-num-340">340%</div>
+
+        <!-- SVG red underline -->
+        <div class="b4-underline-wrap">
+          <svg width="400" height="6" viewBox="0 0 400 6" xmlns="http://www.w3.org/2000/svg">
+            <line id="b4-redline" x1="0" y1="3" x2="400" y2="3" />
+          </svg>
+        </div>
+
+        <div class="b4-roi-label" id="b4-roi-label">ROI INCREASE</div>
+        <div class="b4-roi-sub" id="b4-roi-sub">vs. traditional creators</div>
+      </div>
+
+      <!-- Horizontal divider -->
+      <div class="b4-divider-wrap">
+        <svg width="960" height="1" viewBox="0 0 960 1" xmlns="http://www.w3.org/2000/svg">
+          <line id="b4-divline" x1="0" y1="0.5" x2="960" y2="0.5" />
+        </svg>
+      </div>
+
+      <!-- Secondary stat block -->
+      <div class="b4-secondary-block">
+        <div class="b4-stat-96" id="b4-num-96">96%</div>
+        <div class="b4-retention-label" id="b4-retention-label">CLIENT RETENTION</div>
+        <div class="b4-retention-sub" id="b4-retention-sub">Year over year</div>
+      </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      // ─── Seeded PRNG — mulberry32 ───────────────────────────────────────────
+      function mulberry32(seed) {
+        return function() {
+          seed |= 0;
+          seed = seed + 0x6D2B79F5 | 0;
+          var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+      var rand = mulberry32(99);
+
+      // ─── Dot-grid setup ─────────────────────────────────────────────────────
+      // 24 cols × 40 rows = 960 dots, deterministic from row/col math
+      var canvas = document.getElementById('b4-dot-canvas');
+      var ctx = canvas.getContext('2d');
+
+      var COLS = 24;
+      var ROWS = 40;
+      var DOT_R = 1; // 2px diameter
+      var W = 1080;
+      var H = 1920;
+
+      // Pre-compute dot centres (evenly spaced)
+      var colSpacing = W / COLS;   // 45px per column
+      var rowSpacing = H / ROWS;   // 48px per row
+      var dots = [];
+      for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+          dots.push({
+            x: colSpacing * c + colSpacing * 0.5,
+            y: rowSpacing * r + rowSpacing * 0.5
+          });
+        }
+      }
+
+      // ─── Draw function called from GSAP onUpdate ─────────────────────────
+      function drawDots(sweepX) {
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < dots.length; i++) {
+          var d = dots[i];
+          var opacity = 0.12;
+          if (d.x <= sweepX) {
+            // Dot has been passed — fade back toward 0.12 over 200px
+            var decay = 1 - (sweepX - d.x) / 200;
+            if (decay < 0) decay = 0;
+            opacity = 0.8 * decay + 0.12;
+            if (opacity > 0.8) opacity = 0.8;
+            if (opacity < 0.12) opacity = 0.12;
+          }
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,255,' + opacity + ')';
+          ctx.fill();
+        }
+      }
+
+      // Draw initial static state (all dots at base opacity)
+      drawDots(-9999);
+
+      // ─── SVG stroke-dasharray helpers ──────────────────────────────────────
+      // Red underline: draws left→right via stroke-dashoffset
+      var redLine = document.getElementById('b4-redline');
+      redLine.setAttribute('stroke-dasharray', '400');
+      redLine.setAttribute('stroke-dashoffset', '400');
+
+      // Divider: draws left→right via stroke-dashoffset
+      var divLine = document.getElementById('b4-divline');
+      divLine.setAttribute('stroke-dasharray', '960');
+      divLine.setAttribute('stroke-dashoffset', '960');
+
+      // ─── Timeline ──────────────────────────────────────────────────────────
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // t=0.15 — "340%" CRASHES IN: scale 0.5 + blur(40px) → scale 1 + blur(0)
+      tl.fromTo('#b4-num-340',
+        { scale: 0.5, filter: 'blur(40px)', opacity: 1 },
+        { scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'power4.out' },
+        0.15
+      );
+
+      // t=0.5 — SVG red underline draws left→right over 0.4s
+      tl.to(redLine, { strokeDashoffset: 0, duration: 0.4, ease: 'power2.inOut' }, 0.5);
+
+      // t=0.5 — "ROI INCREASE" slides in: y 30→0, opacity 0→1
+      tl.from('#b4-roi-label',
+        { y: 30, opacity: 0, duration: 0.3, ease: 'power2.out' },
+        0.5
+      );
+
+      // t=0.8 — "vs. traditional creators" fades in
+      tl.from('#b4-roi-sub',
+        { opacity: 0, duration: 0.25, ease: 'power1.out' },
+        0.8
+      );
+
+      // t=1.0 — Dot-grid sweep: proxy { sweep: 0→1080 } over 1.5s
+      var sweepProxy = { sweep: 0 };
+      tl.to(sweepProxy, {
+        sweep: 1080,
+        duration: 1.5,
+        ease: 'power1.inOut',
+        onUpdate: function() {
+          drawDots(sweepProxy.sweep);
+        }
+      }, 1.0);
+
+      // t=1.5 — Horizontal divider draws left→right over 0.4s
+      tl.to(divLine, { strokeDashoffset: 0, duration: 0.4, ease: 'power2.inOut' }, 1.5);
+
+      // t=1.8 — "96%" slides in from right: x 80→0, opacity 0→1
+      tl.from('#b4-num-96',
+        { x: 80, opacity: 0, duration: 0.4, ease: 'expo.out' },
+        1.8
+      );
+
+      // t=2.0 — "CLIENT RETENTION" fades in
+      tl.from('#b4-retention-label',
+        { opacity: 0, duration: 0.25, ease: 'power1.out' },
+        2.0
+      );
+
+      // t=2.2 — "Year over year" fades in
+      tl.from('#b4-retention-sub',
+        { opacity: 0, duration: 0.2, ease: 'power1.out' },
+        2.2
+      );
+
+      // No exit animations — this is not the final beat.
+
+      window.__timelines['beat-4'] = tl;
+    </script>
+  </div>
+</template>

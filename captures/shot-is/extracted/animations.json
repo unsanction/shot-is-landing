@@ -1,0 +1,54 @@
+{
+  "summary": {
+    "webAnimations": 1,
+    "cssDeclarations": 99,
+    "scrollTargets": 37,
+    "cdpAnimations": 40,
+    "canvases": 0
+  },
+  "namedAnimations": [
+    "marquee"
+  ],
+  "scrollTriggeredElements": 37,
+  "representativeAnimations": [
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "marquee",
+      "targetSelector": "div.film-strip__reel",
+      "targetRect": {
+        "x": -1269.8970947265625,
+        "y": 3021.578125,
+        "width": 7280,
+        "height": 509.765625,
+        "top": 3021.578125,
+        "right": 6010.1029052734375,
+        "bottom": 3531.34375,
+        "left": -1269.8970947265625
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "translate(-50%)",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 50000,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    }
+  ]
+}

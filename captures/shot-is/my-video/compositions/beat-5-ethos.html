@@ -1,0 +1,184 @@
+<template id="beat-5-ethos-template">
+  <div data-composition-id="beat-5" data-width="1080" data-height="1920" data-start="0" data-duration="3.8">
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@800;900&display=swap');
+
+      [data-composition-id="beat-5"] {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+        font-family: 'Syne', sans-serif;
+      }
+
+      [data-composition-id="beat-5"] .bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        z-index: 0;
+      }
+
+      /* Gradient overlay — two radial gradients, NO linear-gradient (avoids H.264 banding) */
+      [data-composition-id="beat-5"] .gradient-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-image:
+          radial-gradient(ellipse 1200px 1200px at 50% 0%, rgba(0,0,0,0.6) 0%, transparent 100%),
+          radial-gradient(ellipse 1400px 1400px at 50% 100%, rgba(0,0,0,0.75) 0%, transparent 100%);
+        pointer-events: none;
+      }
+
+      /* Text block — bottom half, flexbox layout, padding-based positioning */
+      [data-composition-id="beat-5"] .text-block {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 60px 80px 60px;
+        box-sizing: border-box;
+        z-index: 2;
+      }
+
+      [data-composition-id="beat-5"] .line-no-rules {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 110px;
+        color: #ffffff;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        will-change: transform;
+      }
+
+      [data-composition-id="beat-5"] .divider-line {
+        width: 100%;
+        height: 2px;
+        display: block;
+        margin: 16px 0;
+        opacity: 1;
+      }
+
+      [data-composition-id="beat-5"] .divider-line rect {
+        fill: #ffffff;
+      }
+
+      [data-composition-id="beat-5"] .line-no-limits {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 110px;
+        color: #ffffff;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        will-change: transform;
+      }
+
+      [data-composition-id="beat-5"] .line-just-pure {
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 76px;
+        color: #ffffff;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        margin-top: 24px;
+        will-change: transform, opacity;
+      }
+
+      [data-composition-id="beat-5"] .line-visual-dominance {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 76px;
+        color: #FF1100;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        will-change: transform, opacity;
+      }
+    </style>
+
+    <!-- Full-bleed background image -->
+    <img
+      class="bg-image"
+      src="../assets/visual-overload-poster.jpg"
+      alt=""
+      crossorigin="anonymous"
+    />
+
+    <!-- Dual radial gradient overlay (NO full-screen linear-gradient) -->
+    <div class="gradient-overlay"></div>
+
+    <!-- Bottom text block -->
+    <div class="text-block">
+      <div class="line-no-rules">NO RULES.</div>
+
+      <!-- SVG divider line 1 — drawn left to right via GSAP strokeDashoffset -->
+      <svg class="divider-line" id="divider-1" viewBox="0 0 960 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="960" height="2" fill="#ffffff"/>
+      </svg>
+
+      <div class="line-no-limits">NO LIMITS.</div>
+
+      <!-- SVG divider line 2 -->
+      <svg class="divider-line" id="divider-2" viewBox="0 0 960 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="960" height="2" fill="#ffffff"/>
+      </svg>
+
+      <div class="line-just-pure">JUST PURE</div>
+      <div class="line-visual-dominance">VISUAL DOMINANCE.</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      const root = document.querySelector('[data-composition-id="beat-5"]');
+      const img = root.querySelector('.bg-image');
+
+      // Ken Burns: GSAP animates scale on the img element (NOT CSS transform directly)
+      gsap.set(img, { transformOrigin: 'top center', scale: 1 });
+
+      const tl = gsap.timeline({ paused: true });
+
+      // --- Ken Burns (entire duration) ---
+      tl.to(img, { scale: 1.07, duration: 3.8, ease: 'none' }, 0);
+
+      // --- "NO RULES." slams in: y:80→0, t=0.2 ---
+      tl.from('.line-no-rules', { y: 80, duration: 0.3, ease: 'power3.out' }, 0.2);
+
+      // --- Divider 1 draws left→right: scaleX:0→1, t=0.5 ---
+      tl.from('#divider-1', { scaleX: 0, transformOrigin: 'left center', duration: 0.25, ease: 'power2.out' }, 0.5);
+
+      // --- "NO LIMITS." slams in: y:80→0, t=0.7 ---
+      tl.from('.line-no-limits', { y: 80, duration: 0.3, ease: 'power3.out' }, 0.7);
+
+      // --- Divider 2 draws left→right: scaleX:0→1, t=1.0 ---
+      tl.from('#divider-2', { scaleX: 0, transformOrigin: 'left center', duration: 0.25, ease: 'power2.out' }, 1.0);
+
+      // --- "JUST PURE" fades + y:40→0, t=1.3 ---
+      tl.from('.line-just-pure', { y: 40, opacity: 0, duration: 0.3, ease: 'power2.out' }, 1.3);
+
+      // --- "VISUAL DOMINANCE." punches in: scale:0.95→1, opacity:0→1, t=1.55 ---
+      tl.from('.line-visual-dominance', { scale: 0.95, opacity: 0, duration: 0.3, ease: 'power2.out' }, 1.55);
+
+      // No exit animations — this is not the final beat
+
+      window.__timelines['beat-5'] = tl;
+    </script>
+
+  </div>
+</template>

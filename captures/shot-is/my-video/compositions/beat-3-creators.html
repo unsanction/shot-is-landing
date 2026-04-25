@@ -1,0 +1,173 @@
+<template id="beat-3-creators-template">
+  <div data-composition-id="beat-3" data-width="1080" data-height="1920" data-start="0" data-duration="4.1">
+    <style>
+      [data-composition-id="beat-3"] {
+        width: 100%;
+        height: 100%;
+        background: #0D0D0D;
+        background-image: radial-gradient(ellipse 80% 60% at 50% 50%, #111111 0%, #0D0D0D 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 40px;
+        box-sizing: border-box;
+        font-family: 'Syne', sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
+
+      [data-composition-id="beat-3"] .cards-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+        max-width: 1000px;
+      }
+
+      [data-composition-id="beat-3"] .card {
+        width: 1000px;
+        height: 530px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      [data-composition-id="beat-3"] .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform-origin: center center;
+      }
+
+      [data-composition-id="beat-3"] .card-vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 30%, rgba(0,0,0,0.65) 100%);
+        pointer-events: none;
+      }
+
+      [data-composition-id="beat-3"] .card-bottom {
+        position: absolute;
+        bottom: 28px;
+        left: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      [data-composition-id="beat-3"] .card-name {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 52px;
+        color: #FFFFFF;
+        line-height: 1;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      [data-composition-id="beat-3"] .card-descriptor {
+        font-family: 'Syne', sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        color: #E5E7EB;
+        line-height: 1;
+        margin: 0;
+      }
+
+      [data-composition-id="beat-3"] .card-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: #FFFFFF;
+        border: 1px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        padding: 6px 14px;
+        line-height: 1;
+        letter-spacing: 0.04em;
+      }
+    </style>
+
+    <div class="cards-container">
+      <!-- Card 1: VEXA-9 -->
+      <div class="card" id="b3-card-1">
+        <img id="b3-img-1" src="../assets/photo-1614850523296-d8c1af93d400.jpg" alt="VEXA-9" crossorigin="anonymous" />
+        <div class="card-vignette"></div>
+        <div class="card-bottom">
+          <div class="card-name" id="b3-name-1">VEXA-9</div>
+          <div class="card-descriptor" id="b3-desc-1">Cyber-High-End Influencer</div>
+        </div>
+        <div class="card-badge" id="b3-badge-1">AI CREATOR</div>
+      </div>
+
+      <!-- Card 2: KAI_OS -->
+      <div class="card" id="b3-card-2">
+        <img id="b3-img-2" src="../assets/photo-1550684848-fac1c5b4e853.jpg" alt="KAI_OS" crossorigin="anonymous" />
+        <div class="card-vignette"></div>
+        <div class="card-bottom">
+          <div class="card-name" id="b3-name-2">KAI_OS</div>
+          <div class="card-descriptor" id="b3-desc-2">Neural Lifestyle Architect</div>
+        </div>
+        <div class="card-badge" id="b3-badge-2">AI CREATOR</div>
+      </div>
+
+      <!-- Card 3: LUNA_CORE -->
+      <div class="card" id="b3-card-3">
+        <img id="b3-img-3" src="../assets/photo-1618005182384-a83a8bd57fbe.jpg" alt="LUNA_CORE" crossorigin="anonymous" />
+        <div class="card-vignette"></div>
+        <div class="card-bottom">
+          <div class="card-name" id="b3-name-3">LUNA_CORE</div>
+          <div class="card-descriptor" id="b3-desc-3">Dark Luxury Content Entity</div>
+        </div>
+        <div class="card-badge" id="b3-badge-3">AI CREATOR</div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Ken Burns: scale each image 1 → 1.04 over the full 4.1s (slow continuous drift)
+      tl.to("#b3-img-1", { scale: 1.04, duration: 4.1, ease: "none" }, 0);
+      tl.to("#b3-img-2", { scale: 1.04, duration: 4.1, ease: "none" }, 0);
+      tl.to("#b3-img-3", { scale: 1.04, duration: 4.1, ease: "none" }, 0);
+
+      // Card 1 ASCENDS at t=0.1
+      tl.from("#b3-card-1", { y: 120, opacity: 0, duration: 0.55, ease: "power3.out" }, 0.1);
+      // Card 2 ASCENDS at t=0.35
+      tl.from("#b3-card-2", { y: 120, opacity: 0, duration: 0.55, ease: "power3.out" }, 0.35);
+      // Card 3 ASCENDS at t=0.6
+      tl.from("#b3-card-3", { y: 120, opacity: 0, duration: 0.55, ease: "power3.out" }, 0.6);
+
+      // Name 1 PUNCHES IN: 0.25s after card-1 starts = t=0.35
+      tl.from("#b3-name-1", { scale: 0.8, opacity: 0, duration: 0.2, ease: "power2.out" }, 0.35);
+      // Descriptor 1: 0.15s after name-1 = t=0.5
+      tl.from("#b3-desc-1", { opacity: 0, duration: 0.25, ease: "power1.out" }, 0.5);
+      // Badge 1: 0.1s after descriptor-1 = t=0.65
+      tl.from("#b3-badge-1", { opacity: 0, duration: 0.2, ease: "power1.out" }, 0.65);
+
+      // Name 2 PUNCHES IN: 0.25s after card-2 starts = t=0.6
+      tl.from("#b3-name-2", { scale: 0.8, opacity: 0, duration: 0.2, ease: "power2.out" }, 0.6);
+      // Descriptor 2: 0.15s after name-2 = t=0.75
+      tl.from("#b3-desc-2", { opacity: 0, duration: 0.25, ease: "power1.out" }, 0.75);
+      // Badge 2: 0.1s after descriptor-2 = t=0.9
+      tl.from("#b3-badge-2", { opacity: 0, duration: 0.2, ease: "power1.out" }, 0.9);
+
+      // Name 3 PUNCHES IN: 0.25s after card-3 starts = t=0.85
+      tl.from("#b3-name-3", { scale: 0.8, opacity: 0, duration: 0.2, ease: "power2.out" }, 0.85);
+      // Descriptor 3: 0.15s after name-3 = t=1.0
+      tl.from("#b3-desc-3", { opacity: 0, duration: 0.25, ease: "power1.out" }, 1.0);
+      // Badge 3: 0.1s after descriptor-3 = t=1.1
+      tl.from("#b3-badge-3", { opacity: 0, duration: 0.2, ease: "power1.out" }, 1.1);
+
+      window.__timelines["beat-3"] = tl;
+    </script>
+  </div>
+</template>

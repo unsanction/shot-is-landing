@@ -1,0 +1,197 @@
+<template id="beat-6-viral-template">
+  <div data-composition-id="beat-6" data-start="0" data-duration="2.0" data-width="1080" data-height="1920">
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&display=swap');
+
+      [data-composition-id="beat-6"] {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        background: #000000;
+        overflow: hidden;
+        font-family: 'Syne', sans-serif;
+      }
+
+      [data-composition-id="beat-6"] .b6-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      [data-composition-id="beat-6"] .b6-center {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        z-index: 5;
+      }
+
+      [data-composition-id="beat-6"] .b6-the {
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 72px;
+        color: #E5E7EB;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      [data-composition-id="beat-6"] .b6-shot-is {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 160px;
+        color: #FFFFFF;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+
+      [data-composition-id="beat-6"] .b6-viral {
+        font-family: 'Syne', sans-serif;
+        font-weight: 900;
+        font-size: 200px;
+        color: #FF1100;
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+      }
+
+      [data-composition-id="beat-6"] .b6-logo {
+        position: absolute;
+        bottom: 80px;
+        left: 0;
+        width: 1080px;
+        text-align: center;
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        z-index: 5;
+      }
+    </style>
+
+    <!-- Flash canvas — drawn by GSAP proxy -->
+    <canvas class="b6-canvas" width="1080" height="1920"></canvas>
+
+    <!-- Main text stack -->
+    <div class="b6-center">
+      <div class="b6-the">The</div>
+      <div class="b6-shot-is">Shot Is</div>
+      <div class="b6-viral">Viral</div>
+    </div>
+
+    <!-- Bottom logo -->
+    <div class="b6-logo">Shot.is</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      const tl = gsap.timeline({ paused: true });
+
+      // Scope all selectors to this composition
+      const scope = '[data-composition-id="beat-6"]';
+      const the     = scope + ' .b6-the';
+      const shotIs  = scope + ' .b6-shot-is';
+      const viral   = scope + ' .b6-viral';
+      const logo    = scope + ' .b6-logo';
+      const canvas  = document.querySelector(scope + ' .b6-canvas');
+      const ctx     = canvas ? canvas.getContext('2d') : null;
+
+      // Set initial opacity:0 on logo (starts invisible, fades in later)
+      tl.set(logo, { opacity: 0 });
+
+      // ── "THE" ─ fade in opacity 0→1 over 0.2s at t=0.1
+      tl.from(the, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power1.out'
+      }, 0.1);
+
+      // ── "SHOT IS" ─ stamp: scale 0.8→1, blur 20px→0 over 0.3s at t=0.35
+      tl.from(shotIs, {
+        scale: 0.8,
+        filter: 'blur(20px)',
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power4.out'
+      }, 0.35);
+
+      // ── Canvas flash at t=0.75 (fires same frame as VIRAL slam)
+      if (ctx) {
+        const proxy = { alpha: 0 };
+
+        // Flash: spike to 0.75 in 0.016s
+        tl.to(proxy, {
+          alpha: 0.75,
+          duration: 0.016,
+          ease: 'none',
+          onUpdate: function() {
+            ctx.clearRect(0, 0, 1080, 1920);
+            ctx.fillStyle = 'rgba(255,17,0,' + proxy.alpha + ')';
+            ctx.fillRect(0, 0, 1080, 1920);
+          }
+        }, 0.75);
+
+        // Decay: fade alpha 0.75→0 in 0.05s
+        tl.to(proxy, {
+          alpha: 0,
+          duration: 0.05,
+          ease: 'power1.out',
+          onUpdate: function() {
+            ctx.clearRect(0, 0, 1080, 1920);
+            ctx.fillStyle = 'rgba(255,17,0,' + proxy.alpha + ')';
+            ctx.fillRect(0, 0, 1080, 1920);
+          },
+          onComplete: function() {
+            ctx.clearRect(0, 0, 1080, 1920);
+          }
+        }, '+=0');
+      }
+
+      // ── "VIRAL" ─ slam: y 80→0, scale 0.75→1 over 0.3s at t=0.75 (power4.out)
+      tl.from(viral, {
+        y: 80,
+        scale: 0.75,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power4.out'
+      }, 0.75);
+
+      // ── "VIRAL" scale pulse after land: 1→1.025→1 over 0.35s at t=1.05 (sine.inOut)
+      tl.to(viral, {
+        scale: 1.025,
+        duration: 0.175,
+        ease: 'sine.inOut'
+      }, 1.05);
+      tl.to(viral, {
+        scale: 1,
+        duration: 0.175,
+        ease: 'sine.inOut'
+      }, 1.225);
+
+      // ── Logo fade in at t=1.4
+      tl.to(logo, {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power1.out'
+      }, 1.4);
+
+      window.__timelines["beat-6"] = tl;
+    </script>
+
+  </div>
+</template>

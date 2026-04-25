@@ -67,6 +67,12 @@ function BrandAsterisk({ className = '' }: { className?: string }) {
 }
 
 function NotFoundPage({ onBack }: { onBack: () => void }) {
+  const diagnostics = [
+    { label: 'Route Signal', value: 'NO HIT' },
+    { label: 'Reality Code', value: '404' },
+    { label: 'Next Move', value: 'RESET' },
+  ];
+
   return (
     <div className="not-found-shell min-h-screen bg-black text-white selection:text-accent">
       <div className="grain" aria-hidden="true" />
@@ -84,47 +90,78 @@ function NotFoundPage({ onBack }: { onBack: () => void }) {
         </video>
         <div className="not-found-stage__veil" />
         <div className="hero-stage__grid" />
+        <div className="not-found-stage__flare" />
       </div>
 
       <header className="fixed inset-x-0 top-0 z-[100] flex items-center px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
-        <a href="/" className="flex items-center gap-4 md:gap-4 lg:gap-6">
-          <BrandAsterisk className="h-11 w-11 text-[#d5f9ff]" />
-          <span className="brand-wordmark text-[34px] font-black uppercase italic leading-none tracking-tight">
-            SHOT.IS
+        <a href="/" className="group flex items-center gap-4 md:gap-4 lg:gap-6">
+          <div className="shutter" aria-hidden="true">
+            <div className="shutter-blade rotate-0" />
+            <div className="shutter-blade rotate-[60deg]" />
+            <div className="shutter-blade rotate-[120deg]" />
+          </div>
+          <span className="text-2xl font-extrabold uppercase italic leading-none tracking-tight md:text-[26px] lg:text-3xl">
+            SHOT<span className="opacity-40">.IS</span>
           </span>
         </a>
       </header>
 
-      <main className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-20 pt-28 text-center md:px-8 md:pb-24 md:pt-32">
-        <section className="not-found__content mx-auto w-full max-w-[980px]">
-          <div className="not-found__hero">
-            <div className="not-found__digits">404</div>
-            <h1 className="not-found__title">
-              <span>WRONG</span>
+      <main className="relative z-10 min-h-screen px-5 pb-10 pt-28 md:px-8 md:pb-14 md:pt-32">
+        <section className="not-found__layout mx-auto grid min-h-[calc(100vh-10.5rem)] w-full max-w-[1360px] items-center gap-10 xl:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.72fr)] xl:gap-16">
+          <div className="not-found__copy-panel">
+            <div className="not-found__eyebrow">
+              <BrandAsterisk className="h-5 w-5 text-accent" />
+              <span>Lost Frame / Error 404</span>
+            </div>
+
+            <h1 className="not-found__headline">
               <span>SHOT</span>
+              <span className="text-outline">NOT</span>
+              <span>FOUND.</span>
             </h1>
+
+            <p className="not-found__copy mt-8 max-w-2xl text-lg font-medium leading-tight text-white/48 sm:text-xl md:text-3xl">
+              The link slipped out of the cut. No feed, no frame, no signal. Jump back to the main drop before the loop
+              eats another second.
+            </p>
+
+            <div className="relative z-10 mt-10 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="/"
+                className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
+              >
+                Return To Feed
+              </a>
+              <button
+                type="button"
+                onClick={onBack}
+                className="inline-flex items-center justify-center border border-white/15 bg-white/[0.03] px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-white transition-all hover:border-white/40 hover:bg-white/10 active:scale-95 md:px-12 md:py-6 md:text-sm"
+              >
+                Rewind Back
+              </button>
+            </div>
           </div>
 
-          <p className="not-found__copy mx-auto mt-8 max-w-3xl text-lg font-medium leading-tight text-white/40 sm:text-xl md:text-3xl">
-            This page doesn&apos;t exist. Drop back into the main stream and get back to the part of the site that
-            actually hits.
-          </p>
+          <aside className="not-found__artifact" aria-label="404 diagnostics">
+            <div className="not-found__artifact-top">
+              <span>Offline Capture</span>
+            </div>
 
-          <div className="relative z-10 mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <a
-              href="/"
-              className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
-            >
-              Return To Base
-            </a>
-            <button
-              type="button"
-              onClick={onBack}
-              className="inline-flex items-center justify-center border border-white/15 bg-white/[0.03] px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-white transition-all hover:border-white/40 hover:bg-white/10 active:scale-95 md:px-12 md:py-6 md:text-sm"
-            >
-              Trace Back
-            </button>
-          </div>
+            <div className="not-found__frame">
+              <div className="not-found__frame-noise" />
+              <div className="not-found__frame-number">404</div>
+              <div className="not-found__frame-status">Frame Missing</div>
+            </div>
+
+            <div className="not-found__diagnostics">
+              {diagnostics.map((item) => (
+                <div key={item.label} className="not-found__diagnostic">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+            </div>
+          </aside>
         </section>
       </main>
     </div>

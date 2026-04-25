@@ -1,0 +1,24 @@
+[
+  {
+    "index": 0,
+    "url": "https://shot.is/media/hero/shot-hero-loop.mp4",
+    "filename": "shot-hero-loop.mp4",
+    "width": 2016,
+    "height": 1134,
+    "heading": "THE SHOT IS YOUR POWER.",
+    "caption": "We are a digital foundry forging the next era of creators. No rules. No limits. Just pure visual dominance.",
+    "ariaLabel": "",
+    "preview": "assets/videos/previews/video-0-preview.png"
+  },
+  {
+    "index": 1,
+    "url": "https://shot.is/media/reel/visual-overload.mp4",
+    "filename": "visual-overload.mp4",
+    "width": 253,
+    "height": 450,
+    "heading": "Visual Overload.",
+    "caption": "",
+    "ariaLabel": "",
+    "preview": "assets/videos/previews/video-1-preview.png"
+  }
+]

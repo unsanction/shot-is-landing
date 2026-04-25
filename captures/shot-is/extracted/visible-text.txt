@@ -1,0 +1,59 @@
+[a] The Roster
+[a] Join Circle
+[h1] THE SHOT IS
+[span] YOUR POWER.
+[p] We are a digital foundry forging the next era of creators. No rules. No limits. Just pure visual dominance.
+[a] Apply for Whitelist
+[span] Scroll to descend
+[h2] MEET THE
+[span] NEW GODS.
+[p] We don't just build characters. We build legends with lore, soul, and 100% digital DNA.
+[h3] VEXA-9
+[p] Cyber-High-End Influencer // 12.4M reach
+[h3] KAI_OS
+[p] Digital Rebel // Trend Saboteur
+[h3] LUNA_CORE
+[p] Virtual Oracle // High-Concept Video
+[h2] Visual
+[span] Overload.
+[p] "We Forge images that don't just look real—they look better than reality."
+[h2] Numbers
+[span] Don't Lie
+[span] 847M+
+[span] Total Reach
+[span] Across all platforms
+[span] 12.4M
+[span] Avg. Engagement
+[span] Per campaign cycle
+[span] 340%
+[span] ROI Increase
+[span] vs. traditional creators
+[span] 96%
+[span] Client Retention
+[span] Year over year
+[span] Potential
+[span] No ceiling. No limit.
+[h2] THE SHOT IS
+[span] PERFECT
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[span] READY
+[span] PERFECT
+[span] VIRAL
+[h2] JOIN THE
+[span] INNER CIRCLE.
+[p] Access is a privilege, not a right.
+[button] Request Access

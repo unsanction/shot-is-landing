@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>SHOT.IS Ad 03 - Proof Loop</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        margin: 0;
+        overflow: hidden;
+        background: #000000;
+        color: #ffffff;
+        font-family: Syne, Impact, "Arial Black", sans-serif;
+      }
+
+      [data-composition-id="shot-proof-loop"] {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000000;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        background: #000000;
+      }
+
+      #s1 {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .scene-content {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 86px 72px 88px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 34px;
+        font-weight: 900;
+        line-height: 0.9;
+      }
+
+      .mark {
+        position: relative;
+        width: 50px;
+        height: 50px;
+      }
+
+      .mark::before,
+      .mark::after,
+      .mark span {
+        position: absolute;
+        top: 23px;
+        left: 2px;
+        display: block;
+        width: 46px;
+        height: 5px;
+        background: currentColor;
+        content: "";
+      }
+
+      .mark::before {
+        transform: rotate(60deg);
+      }
+
+      .mark::after {
+        transform: rotate(-60deg);
+      }
+
+      .eyebrow {
+        margin: 0 0 26px;
+        color: #ff1100;
+        font-family: "Arial Narrow", Impact, sans-serif;
+        font-size: 30px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .hook-layout {
+        justify-content: center;
+      }
+
+      .hook-layout .brand {
+        position: absolute;
+        top: 84px;
+        left: 72px;
+      }
+
+      .hook-title {
+        margin: 0;
+        font-size: 148px;
+        font-weight: 900;
+        line-height: 0.82;
+      }
+
+      .hook-title span {
+        display: block;
+      }
+
+      .red-line {
+        width: 100%;
+        height: 8px;
+        margin-top: 38px;
+        background: #ff1100;
+        transform-origin: left center;
+      }
+
+      .support {
+        max-width: 790px;
+        margin: 38px 0 0;
+        color: #e5e7eb;
+        font-size: 40px;
+        font-weight: 900;
+        line-height: 1.06;
+      }
+
+      .grid {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        opacity: 0.12;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.24) 1px, rgba(0, 0, 0, 0) 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, rgba(0, 0, 0, 0) 1px);
+        background-size: 86px 86px;
+      }
+
+      .faces-layout {
+        justify-content: center;
+        gap: 42px;
+      }
+
+      .faces-title {
+        margin: 0;
+        color: #ffffff;
+        font-size: 116px;
+        font-weight: 900;
+        line-height: 0.84;
+      }
+
+      .faces-title span {
+        display: block;
+      }
+
+      .portrait-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        min-height: 660px;
+      }
+
+      .portrait {
+        position: relative;
+        overflow: hidden;
+        background: #111111;
+      }
+
+      .portrait img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.92) contrast(1.08);
+      }
+
+      .portrait::after {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.9));
+        content: "";
+      }
+
+      .portrait strong {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        left: 18px;
+        z-index: 2;
+        background: #000000;
+        padding: 8px 10px;
+        font-size: 30px;
+        font-weight: 900;
+        line-height: 0.95;
+      }
+
+      .stats-layout {
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .stat {
+        border-top: 7px solid #ff1100;
+        background: #000000;
+        padding: 36px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 118px;
+        font-weight: 900;
+        line-height: 0.82;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 22px;
+        color: #ffffff;
+        font-family: "Courier New", monospace;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .cta-layout {
+        justify-content: center;
+        background: #ff1100;
+        color: #000000;
+      }
+
+      .cta-layout .brand {
+        position: absolute;
+        top: 86px;
+        left: 72px;
+      }
+
+      .cta-title {
+        margin: 0;
+        color: #000000;
+        font-size: 150px;
+        font-weight: 900;
+        line-height: 0.8;
+      }
+
+      .cta-copy {
+        max-width: 790px;
+        margin: 44px 0 0;
+        color: rgba(0, 0, 0, 0.92);
+        font-size: 42px;
+        font-weight: 900;
+        line-height: 1.04;
+      }
+
+      .cta-url {
+        margin-top: 76px;
+        border: 5px solid #000000;
+        background: #000000;
+        padding: 28px 36px;
+        color: #ffffff;
+        font-size: 54px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .wipe {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        opacity: 0;
+        background: #ff1100;
+        transform: translateX(-110%);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="shot-proof-loop"
+      data-start="0"
+      data-duration="10"
+      data-width="1080"
+      data-height="1920"
+    >
+      <audio
+        id="final-mix"
+        src="assets/audio/mix-master.wav"
+        data-start="0"
+        data-duration="10"
+        data-track-index="0"
+        data-volume="1"
+      ></audio>
+
+      <section id="s1" class="scene">
+        <div class="grid"></div>
+        <div class="scene-content hook-layout">
+          <div class="brand"><span class="mark"><span></span></span>SHOT.IS</div>
+          <p class="eyebrow">FAST HOOK // 10S</p>
+          <h1 class="hook-title">
+            <span>STOP</span>
+            <span>RENTING</span>
+            <span>FACES.</span>
+          </h1>
+          <div class="red-line"></div>
+          <p class="support">Own the creator. Own the output.</p>
+        </div>
+      </section>
+
+      <section id="s2" class="scene">
+        <div class="scene-content faces-layout">
+          <p class="eyebrow">AI CHARACTER SYSTEM</p>
+          <h2 class="faces-title">
+            <span>CAMPAIGNS</span>
+            <span>BUILT TO SPREAD.</span>
+          </h2>
+          <div class="portrait-strip">
+            <div class="portrait"><img src="assets/images/vexa.jpg" alt="" /><strong>VEXA-9</strong></div>
+            <div class="portrait"><img src="assets/images/kai.jpg" alt="" /><strong>KAI_OS</strong></div>
+            <div class="portrait"><img src="assets/images/luna.jpg" alt="" /><strong>LUNA_CORE</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s3" class="scene">
+        <div class="grid"></div>
+        <div class="scene-content stats-layout">
+          <p class="eyebrow">PROOF IN THE FEED</p>
+          <div class="stat">
+            <strong>847M+</strong>
+            <span>TOTAL REACH</span>
+          </div>
+          <div class="stat">
+            <strong>340%</strong>
+            <span>ROI INCREASE VS. TRADITIONAL CREATORS</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="s4" class="scene">
+        <div class="scene-content cta-layout">
+          <div class="brand"><span class="mark"><span></span></span>SHOT.IS</div>
+          <h2 class="cta-title">THE SHOT IS VIRAL.</h2>
+          <p class="cta-copy">Apply for whitelist access before the next feed cycle moves.</p>
+          <div class="cta-url">SHOT.IS</div>
+        </div>
+      </section>
+
+      <div id="wipe" class="wipe"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.set(["#s2", "#s3", "#s4"], { opacity: 0, visibility: "hidden" }, 0);
+      tl.set("#s1", { opacity: 1, visibility: "visible" }, 0);
+
+      function switchScene(time, previous, next, color) {
+        tl.set(next, { opacity: 1, visibility: "visible" }, time - 0.01);
+        tl.fromTo(
+          "#wipe",
+          { xPercent: -110, opacity: 1, backgroundColor: color },
+          { xPercent: 0, duration: 0.14, ease: "power4.in", overwrite: "auto" },
+          time
+        );
+        tl.set(previous, { opacity: 0, visibility: "hidden" }, time + 0.15);
+        tl.to("#wipe", { xPercent: 110, duration: 0.2, ease: "expo.out" }, time + 0.16);
+        tl.set("#wipe", { opacity: 0 }, time + 0.38);
+      }
+
+      tl.from("#s1 .brand", { y: -34, opacity: 0, duration: 0.36, ease: "power2.out" }, 0.12);
+      tl.from("#s1 .eyebrow", { x: -42, opacity: 0, duration: 0.28, ease: "expo.out" }, 0.28);
+      tl.from("#s1 .hook-title span", { y: 66, opacity: 0, stagger: 0.08, duration: 0.34, ease: "power4.out" }, 0.42);
+      tl.from("#s1 .red-line", { scaleX: 0, duration: 0.26, ease: "back.out(1.8)" }, 0.86);
+      tl.from("#s1 .support", { y: 28, opacity: 0, duration: 0.32, ease: "sine.out" }, 1.02);
+
+      switchScene(2.2, "#s1", "#s2", "#ff1100");
+      tl.from("#s2 .eyebrow", { x: -40, opacity: 0, duration: 0.28, ease: "power3.out" }, 2.44);
+      tl.from("#s2 .faces-title span", { y: 58, opacity: 0, stagger: 0.09, duration: 0.36, ease: "expo.out" }, 2.58);
+      tl.from("#s2 .portrait", { y: 120, opacity: 0, stagger: 0.1, duration: 0.42, ease: "power2.out" }, 3.04);
+      tl.from("#s2 .portrait strong", { y: 22, opacity: 0, stagger: 0.08, duration: 0.24, ease: "sine.out" }, 3.42);
+
+      switchScene(5.0, "#s2", "#s3", "#ffffff");
+      tl.from("#s3 .eyebrow", { x: -42, opacity: 0, duration: 0.28, ease: "power3.out" }, 5.24);
+      tl.from("#s3 .stat", { y: 76, opacity: 0, stagger: 0.16, duration: 0.36, ease: "power2.out" }, 5.42);
+      tl.from("#s3 .stat strong", { scale: 0.78, opacity: 0, stagger: 0.12, duration: 0.24, ease: "back.out(1.7)" }, 5.66);
+
+      switchScene(7.5, "#s3", "#s4", "#ff1100");
+      tl.from("#s4 .brand", { y: -30, opacity: 0, duration: 0.3, ease: "power2.out" }, 7.72);
+      tl.from("#s4 .cta-title", { y: 70, scale: 0.94, opacity: 0, duration: 0.42, ease: "expo.out" }, 7.9);
+      tl.from("#s4 .cta-copy", { y: 30, opacity: 0, duration: 0.32, ease: "sine.out" }, 8.28);
+      tl.from("#s4 .cta-url", { y: 36, opacity: 0, duration: 0.34, ease: "back.out(1.5)" }, 8.62);
+      tl.to("#s4 .scene-content", { opacity: 0, duration: 0.34, ease: "power2.in" }, 9.58);
+
+      window.__timelines["shot-proof-loop"] = tl;
+    </script>
+  </body>
+</html>
