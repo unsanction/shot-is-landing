@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+
+      /* ── Shared scene shell ── */
+      .scene {
+        position: absolute;
+        top: 0; left: 0;
+        width: 1080px; height: 1920px;
+        overflow: hidden;
+      }
+      #s2, #s3, #s4, #s5, #s6 { opacity: 0; }
+
+      /* ── Scene 1: Hook ── */
+      #s1 { background: #000; }
+      #s1 .bg-img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.45;
+        transform-origin: center;
+      }
+      #s1 .glow {
+        position: absolute;
+        top: 55%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 900px; height: 900px;
+        background: radial-gradient(circle, rgba(255,17,0,0.22) 0%, rgba(100,0,50,0.1) 40%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      #s1 .fi {
+        position: absolute;
+        opacity: 0;
+      }
+      #s1 .fi:nth-child(1) { top: 220px; left: 70px;  width: 52px; height: 52px; }
+      #s1 .fi:nth-child(2) { top: 960px; right: 80px; width: 38px; height: 38px; transform: rotate(-18deg); }
+      #s1 .fi:nth-child(3) { bottom: 380px; left: 110px; width: 60px; height: 60px; transform: rotate(8deg); }
+      #s1 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%; height: 100%;
+        padding: 160px 80px;
+        gap: 4px;
+      }
+      #s1 .line {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 108px;
+        line-height: 0.9;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        display: block;
+        will-change: transform, opacity;
+      }
+      #s1 .line-red { color: #FF1100; }
+      #s1 .subline {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 20px;
+        color: rgba(255,255,255,0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-top: 36px;
+      }
+
+      /* ── Scene 2: Roster ── */
+      #s2 { background: #fff; }
+      #s2 .roster-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%; height: 100%;
+      }
+      #s2 .roster-card {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #000;
+      }
+      #s2 .roster-card:last-child { border-bottom: none; }
+      #s2 .roster-card img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(1.1);
+      }
+      #s2 .card-label {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(255,255,255,0.95);
+        padding: 18px 28px 22px;
+      }
+      #s2 .card-name {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 48px;
+        color: #000;
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+      #s2 .card-desc {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 16px;
+        color: #111;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 4px;
+      }
+
+      /* ── Scene 3: Stats ── */
+      #s3 { background: #000; }
+      #s3 .s3-bg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.12;
+        filter: blur(18px) grayscale(100%);
+      }
+      #s3 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%; height: 100%;
+        padding: 120px 80px;
+        gap: 0;
+      }
+      #s3 .stat-block {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        padding: 60px 0;
+        text-align: center;
+        will-change: transform, opacity;
+      }
+      #s3 .stat-block:first-child { border-top: 1px solid rgba(255,255,255,0.12); }
+      #s3 .stat-num {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 130px;
+        line-height: 1;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+        display: block;
+      }
+      #s3 .stat-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 18px;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-top: 8px;
+        display: block;
+      }
+      #s3 .stat-label-red { color: #FF1100; }
+      #s3 .particle-canvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 1080px; height: 1920px;
+        pointer-events: none;
+        opacity: 0.25;
+      }
+
+      /* ── Scene 4: Brand ── */
+      #s4 { background: #000; }
+      #s4 .s4-ghost {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 280px;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+      }
+      #s4 .s4-logo {
+        position: absolute;
+        top: 80px; left: 80px;
+        display: flex; align-items: center; gap: 16px;
+        opacity: 0;
+      }
+      #s4 .s4-logo-text {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      #s4 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%; height: 100%;
+        gap: 0;
+      }
+      #s4 .brand-word {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 160px;
+        line-height: 1;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        will-change: transform, opacity;
+        perspective: 800px;
+      }
+      #s4 .underline-svg {
+        width: 880px;
+        height: 8px;
+        margin-top: 12px;
+        opacity: 0;
+      }
+      #s4 .brand-url {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 22px;
+        color: rgba(255,255,255,0.85);
+        text-transform: lowercase;
+        letter-spacing: 0.2em;
+        margin-top: 40px;
+        opacity: 0;
+      }
+
+      /* ── Scene 5: Ticker ── */
+      #s5 { background: #000; }
+      #s5 .scanlines {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,0.025) 3px,
+          rgba(255,255,255,0.025) 4px
+        );
+        pointer-events: none;
+      }
+      #s5 .accent-line {
+        position: absolute;
+        top: 0;
+        width: 3px; height: 100%;
+        background: #FF1100;
+        opacity: 0;
+      }
+      #s5 .accent-line.left  { left: 48px; }
+      #s5 .accent-line.right { right: 48px; }
+      #s5 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%; height: 100%;
+        gap: 0;
+      }
+      #s5 .ghost-text {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 64px;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        line-height: 1;
+        text-align: center;
+      }
+      #s5 .slot-word {
+        position: relative;
+        height: 175px;
+        width: 100%;
+        overflow: hidden;
+      }
+      #s5 .word-inner {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 150px;
+        line-height: 1;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        text-align: center;
+        will-change: transform, opacity;
+        display: block;
+        width: 100%;
+        position: absolute;
+        top: 0; left: 0;
+      }
+
+      /* ── Scene 6: CTA ── */
+      #s6 { background: #FF1100; }
+      #s6 .cta-ghost {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 260px;
+        color: #0D0D0D;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+        opacity: 0.55;
+        pointer-events: none;
+      }
+      #s6 .s6-logo {
+        position: absolute;
+        top: 80px; left: 80px;
+        display: flex; align-items: center; gap: 14px;
+        opacity: 0;
+      }
+      #s6 .s6-logo-text {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      #s6 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%; height: 100%;
+        gap: 0;
+        padding: 120px 80px;
+      }
+      #s6 .cta-line1 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 88px;
+        line-height: 1;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        will-change: transform, opacity;
+        opacity: 0;
+      }
+      #s6 .cta-line2 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 130px;
+        line-height: 0.9;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        will-change: transform, opacity;
+        opacity: 0;
+      }
+      #s6 .cta-btn {
+        margin-top: 80px;
+        border: 2px solid rgba(255,255,255,0.85);
+        padding: 28px 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+      #s6 .cta-btn-text {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 22px;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="17"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- Audio narration -->
+      <audio
+        id="nar"
+        data-start="0.92"
+        data-duration="15.18"
+        data-track-index="0"
+        src="narration.wav"
+       style="z-index: 7"></audio>
+
+      <!-- ══ SCENE 1: HOOK ══ -->
+      <div id="s1" class="scene" style="z-index: 1">
+        <img class="bg-img" src="assets/shot-hero-poster.webp" alt="" crossorigin="anonymous" />
+        <div class="glow"></div>
+        <!-- Film pause icons -->
+        <svg class="fi" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        <svg class="fi" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        <svg class="fi" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        <div class="content">
+          <span id="l1" class="line">THE NEXT ERA</span>
+          <span id="l2" class="line">OF CREATORS</span>
+          <span id="l3" class="line line-red">ISN'T HUMAN.</span>
+          <span id="l4" class="subline">shot.is</span>
+        </div>
+      </div>
+
+      <!-- ══ SCENE 2: ROSTER ══ -->
+      <div id="s2" class="scene" style="z-index: 1">
+        <div class="roster-grid">
+          <div id="rc1" class="roster-card">
+            <img src="assets/photo-1614850523296-d8c1af93d400.jpg" alt="VEXA-9" crossorigin="anonymous" />
+            <div class="card-label">
+              <div class="card-name">VEXA-9</div>
+              <div class="card-desc">Cyber-High-End Influencer // 12.4M reach</div>
+            </div>
+          </div>
+          <div id="rc2" class="roster-card">
+            <img src="assets/photo-1550684848-fac1c5b4e853.jpg" alt="KAI_OS" crossorigin="anonymous" />
+            <div class="card-label">
+              <div class="card-name">KAI_OS</div>
+              <div class="card-desc">Digital Rebel // Trend Saboteur</div>
+            </div>
+          </div>
+          <div id="rc3" class="roster-card">
+            <img src="assets/photo-1618005182384-a83a8bd57fbe.jpg" alt="LUNA_CORE" crossorigin="anonymous" />
+            <div class="card-label">
+              <div class="card-name">LUNA_CORE</div>
+              <div class="card-desc">Virtual Oracle // High-Concept Video</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SCENE 3: STATS ══ -->
+      <div id="s3" class="scene" style="z-index: 1">
+        <img class="s3-bg" src="assets/visual-overload-poster.jpg" alt="" crossorigin="anonymous" />
+        <canvas id="pc" class="particle-canvas" width="1080" height="1920"></canvas>
+        <div class="content">
+          <div id="sb1" class="stat-block">
+            <span class="stat-num" id="sn1">847M+</span>
+            <span class="stat-label">Total Reach</span>
+          </div>
+          <div id="sb2" class="stat-block">
+            <span class="stat-num" id="sn2">340%</span>
+            <span class="stat-label">ROI Increase</span>
+          </div>
+          <div id="sb3" class="stat-block">
+            <span class="stat-num" id="sn3">ZERO</span>
+            <span class="stat-label stat-label-red">Human Limitations</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SCENE 4: BRAND ══ -->
+      <div id="s4" class="scene" style="z-index: 1">
+        <div class="s4-ghost">SHOT.IS</div>
+        <div class="s4-logo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="3"/><path d="M12 2L14.5 8H20L15.5 12L17.5 18L12 14L6.5 18L8.5 12L4 8H9.5Z" stroke="white" stroke-width="1.5" fill="none"/></svg>
+          <span class="s4-logo-text">SHOT.IS</span>
+        </div>
+        <div class="content">
+          <div id="bw" class="brand-word">SHOT.IS</div>
+          <svg class="underline-svg" id="ul" viewBox="0 0 880 8" fill="none">
+            <path id="ulp" d="M0 4 L880 4" stroke="#FF1100" stroke-width="4" stroke-linecap="round"
+              stroke-dasharray="880" stroke-dashoffset="880"/>
+          </svg>
+          <div id="burl" class="brand-url">shot.is</div>
+        </div>
+      </div>
+
+      <!-- ══ SCENE 5: TICKER ══ -->
+      <div id="s5" class="scene" style="z-index: 1">
+        <div class="scanlines"></div>
+        <div class="accent-line left"></div>
+        <div class="accent-line right"></div>
+        <div class="content">
+          <div class="ghost-text">THE SHOT IS</div>
+          <div class="slot-word">
+            <span id="sw-viral"  class="word-inner">VIRAL</span>
+            <span id="sw-perfect" class="word-inner" style="opacity:0;">PERFECT</span>
+            <span id="sw-yours"  class="word-inner" style="opacity:0;">YOURS</span>
+          </div>
+          <div class="ghost-text">THE SHOT IS</div>
+        </div>
+      </div>
+
+      <!-- ══ SCENE 6: CTA ══ -->
+      <div id="s6" class="scene" style="z-index: 1">
+        <div class="cta-ghost">SHOT.IS</div>
+        <div class="s6-logo">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="3"/><path d="M12 2L14.5 8H20L15.5 12L17.5 18L12 14L6.5 18L8.5 12L4 8H9.5Z" stroke="white" stroke-width="1.5" fill="none"/></svg>
+          <span class="s6-logo-text">SHOT.IS</span>
+        </div>
+        <div class="content">
+          <div id="cl1" class="cta-line1">APPLY FOR</div>
+          <div id="cl2" class="cta-line2">WHITELIST</div>
+          <div id="cbtn" class="cta-btn">
+            <span class="cta-btn-text">REQUEST ACCESS</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end #root -->
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* ─────────── SCENE 1: HOOK (0 → 2.2s) ─────────── */
+      // BG slow scale
+      tl.to("#s1 .bg-img", { scale: 1.06, duration: 2.2, ease: "none" }, 0);
+      // Glow breathes in
+      tl.from("#s1 .glow", { scale: 0.4, opacity: 0, duration: 0.9, ease: "power3.out" }, 0);
+      // Film icons float in staggered
+      tl.from("#s1 .fi", { y: 28, opacity: 0, duration: 0.5, stagger: 0.12, ease: "power2.out" }, 0.15);
+      // Headline lines slam in
+      tl.from("#l1", { y: -80, opacity: 0, duration: 0.22, ease: "power3.out" }, 0.25);
+      tl.from("#l2", { y: -80, opacity: 0, duration: 0.22, ease: "power3.out" }, 0.46);
+      tl.from("#l3", { y: 80, scale: 1.12, opacity: 0, duration: 0.2, ease: "power3.out" }, 0.68);
+      // Subline fades
+      tl.from("#l4", { opacity: 0, duration: 0.3, ease: "power2.out" }, 1.0);
+
+      /* ─────────── CUT 1→2 at 2.2s ─────────── */
+      tl.set("#s2", { opacity: 1 }, 2.2);
+
+      /* ─────────── SCENE 2: ROSTER (2.2 → 3.4s) ─────────── */
+      // Cards slide in from right
+      tl.from("#rc1", { x: 1080, duration: 0.2, ease: "power3.out" }, 2.2);
+      tl.from("#rc2", { x: 1080, duration: 0.2, ease: "power3.out" }, 2.3);
+      tl.from("#rc3", { x: 1080, duration: 0.2, ease: "power3.out" }, 2.4);
+      // Card labels slide up
+      tl.from("#rc1 .card-label", { y: 60, opacity: 0, duration: 0.25, ease: "power2.out" }, 2.35);
+      tl.from("#rc2 .card-label", { y: 60, opacity: 0, duration: 0.25, ease: "power2.out" }, 2.45);
+      tl.from("#rc3 .card-label", { y: 60, opacity: 0, duration: 0.25, ease: "power2.out" }, 2.55);
+
+      /* ─────────── CUT 2→3 at 3.4s ─────────── */
+      tl.set("#s3", { opacity: 1 }, 3.4);
+      tl.set("#s2", { opacity: 0 }, 3.4);
+
+      /* ─────────── SCENE 3: STATS (3.4 → 9.2s) ─────────── */
+      // Particle canvas (deterministic dot field using seeded hash)
+      (function() {
+        function hash(a, b) {
+          var n = a * 374761393 + b * 668265263;
+          n = (n ^ (n >> 13)) * 1274126177;
+          return ((n ^ (n >> 16)) & 0x7fffffff) / 0x7fffffff;
+        }
+        var canvas = document.getElementById("pc");
+        var ctx = canvas.getContext("2d");
+        var proxy = { t: 0 };
+        // Pre-compute 60 dot positions
+        var dots = [];
+        for (var i = 0; i < 60; i++) {
+          dots.push({ x: hash(i, 0) * 1080, y: hash(i, 1) * 1920, s: hash(i, 2) * 2.5 + 0.5 });
+        }
+        tl.to(proxy, {
+          t: 5.8,
+          duration: 5.8,
+          ease: "none",
+          onUpdate: function() {
+            ctx.clearRect(0, 0, 1080, 1920);
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              var drift = Math.sin(proxy.t * 0.6 + j * 0.8) * 18;
+              ctx.beginPath();
+              ctx.arc(d.x, d.y + drift, d.s, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(255,255,255,0.7)";
+              ctx.fill();
+            }
+          }
+        }, 3.4);
+      }());
+
+      // Stat 1: appears immediately at beat start
+      tl.from("#sb1", { y: 60, opacity: 0, duration: 0.3, ease: "power3.out" }, 3.5);
+      // Stat 2: appears at ~1.96s into beat (340% spoken at root 5.36)
+      tl.from("#sb2", { y: 80, opacity: 0, duration: 0.28, ease: "power3.out" }, 5.36);
+      // Stat 2 slam pulse
+      tl.from("#sb2 .stat-num", { scale: 1.2, duration: 0.2, ease: "power2.out" }, 5.36);
+      // Stat 3: appears at ~3.47s into beat (zero spoken at root 6.87)
+      tl.from("#sb3", { y: 80, opacity: 0, duration: 0.28, ease: "power3.out" }, 6.87);
+      // Red label pulse
+      tl.from("#sb3 .stat-label-red", { opacity: 0, scale: 1.05, duration: 0.3, ease: "power2.out" }, 7.1);
+
+      /* ─────────── CUT 3→4 at 9.2s ─────────── */
+      tl.set("#s4", { opacity: 1 }, 9.2);
+      tl.set("#s3", { opacity: 0 }, 9.2);
+
+      /* ─────────── SCENE 4: BRAND (9.2 → 10.6s) ─────────── */
+      // Ghost watermark breathes in
+      tl.from("#s4 .s4-ghost", { opacity: 0, duration: 0.4, ease: "power2.out" }, 9.2);
+      // Logo drops in
+      tl.to("#s4 .s4-logo", { opacity: 1, duration: 0.25, ease: "power2.out" }, 9.25);
+      // SHOT.IS 3D reveal
+      tl.from("#bw", { rotationX: 90, opacity: 0, transformOrigin: "50% 0%", duration: 0.4, ease: "power2.out" }, 9.35);
+      // Red underline draws
+      tl.to("#ulp", { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, 9.55);
+      tl.to("#ul", { opacity: 1, duration: 0.1 }, 9.55);
+      // URL fades
+      tl.to("#burl", { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 9.9);
+      tl.from("#burl", { y: 16 }, 9.9);
+
+      /* ─────────── CUT 4→5 at 10.6s ─────────── */
+      tl.set("#s5", { opacity: 1 }, 10.6);
+      tl.set("#s4", { opacity: 0 }, 10.6);
+
+      /* ─────────── SCENE 5: TICKER (10.6 → 14.2s) ─────────── */
+      // Accent lines draw in from top
+      tl.from("#s5 .accent-line", { scaleY: 0, transformOrigin: "50% 0%", duration: 0.35, stagger: 0.05, ease: "power2.out" }, 10.6);
+      tl.to("#s5 .accent-line", { opacity: 1, duration: 0.2 }, 10.6);
+      // Ghost texts fade
+      tl.from("#s5 .ghost-text", { opacity: 0, duration: 0.3, stagger: 0.1, ease: "power2.out" }, 10.65);
+
+      // VIRAL slams in
+      tl.from("#sw-viral", { y: -120, opacity: 0, duration: 0.22, ease: "power3.out" }, 10.7);
+      // VIRAL exits, PERFECT enters at 11.9s
+      tl.to("#sw-viral", { y: 130, opacity: 0, duration: 0.2, ease: "power2.in" }, 11.9);
+      tl.from("#sw-perfect", { y: -120, opacity: 0, duration: 0.22, ease: "power3.out" }, 11.9);
+      // PERFECT exits, YOURS enters at 13.0s
+      tl.to("#sw-perfect", { y: 130, opacity: 0, duration: 0.2, ease: "power2.in" }, 13.0);
+      tl.from("#sw-yours", { y: -120, opacity: 0, duration: 0.22, ease: "power3.out" }, 13.0);
+      // YOURS pulse
+      tl.to("#sw-yours", { scale: 1.08, duration: 0.25, ease: "power2.out" }, 13.6);
+      tl.to("#sw-yours", { scale: 1.0, duration: 0.4, ease: "elastic.out(1,0.4)" }, 13.85);
+
+      /* ─────────── CUT 5→6 at 14.2s ─────────── */
+      tl.set("#s6", { opacity: 1 }, 14.2);
+      tl.set("#s5", { opacity: 0 }, 14.2);
+
+      /* ─────────── SCENE 6: CTA (14.2 → 17.0s) ─────────── */
+      // Logo appear
+      tl.to("#s6 .s6-logo", { opacity: 1, duration: 0.22, ease: "power2.out" }, 14.2);
+      // Ghost watermark
+      tl.from("#s6 .cta-ghost", { opacity: 0, duration: 0.4, ease: "power2.out" }, 14.2);
+      // APPLY FOR slams from top
+      tl.to("#cl1", { opacity: 1, duration: 0.01 }, 14.3);
+      tl.from("#cl1", { y: -70, duration: 0.22, ease: "power3.out" }, 14.3);
+      // WHITELIST slams from bottom
+      tl.to("#cl2", { opacity: 1, duration: 0.01 }, 14.5);
+      tl.from("#cl2", { y: 80, scale: 1.1, duration: 0.2, ease: "power3.out" }, 14.5);
+      // Button fades in
+      tl.to("#cbtn", { opacity: 1, duration: 0.3, ease: "power2.out" }, 15.0);
+      tl.from("#cbtn", { scale: 0.92 }, 15.0);
+      // Final breathe
+      tl.to("#s6", { scale: 1.018, duration: 1.8, ease: "sine.inOut" }, 15.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
