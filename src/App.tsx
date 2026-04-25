@@ -50,120 +50,351 @@ const normalizePath = (pathname: string) => {
   return trimmed === '' ? '/' : trimmed;
 };
 
-function BrandAsterisk({ className = '' }: { className?: string }) {
+type TweakState = {
+  surface: string;
+  glitch: string;
+  scan: string;
+  crt: string;
+  grain: string;
+  word: string;
+};
+
+const tweakDefaults: TweakState = {
+  surface: 'dark',
+  glitch: 'on',
+  scan: 'off',
+  crt: 'on',
+  grain: 'on',
+  word: 'GONE.',
+};
+
+const tweakGroups: Array<{
+  key: keyof TweakState;
+  label: string;
+  options: Array<{ label: string; value: string }>;
+}> = [
+  {
+    key: 'surface',
+    label: 'Surface',
+    options: [
+      { label: 'Dark', value: 'dark' },
+      { label: 'Inverted', value: 'light' },
+    ],
+  },
+  {
+    key: 'glitch',
+    label: 'Glitch',
+    options: [
+      { label: 'On', value: 'on' },
+      { label: 'Off', value: 'off' },
+    ],
+  },
+  {
+    key: 'scan',
+    label: 'Scanline',
+    options: [
+      { label: 'On', value: 'on' },
+      { label: 'Off', value: 'off' },
+    ],
+  },
+  {
+    key: 'crt',
+    label: 'CRT lines',
+    options: [
+      { label: 'On', value: 'on' },
+      { label: 'Off', value: 'off' },
+    ],
+  },
+  {
+    key: 'grain',
+    label: 'Grain',
+    options: [
+      { label: 'On', value: 'on' },
+      { label: 'Off', value: 'off' },
+    ],
+  },
+  {
+    key: 'word',
+    label: 'Slot Word',
+    options: [
+      { label: 'Missing', value: 'MISSING.' },
+      { label: 'Gone', value: 'GONE.' },
+      { label: 'Burned', value: 'BURNED.' },
+      { label: 'Off-frame', value: 'OFF-FRAME.' },
+    ],
+  },
+];
+
+const rerouteTasks = [
+  'RECONNECTING...',
+  'SCANNING ARCHIVE...',
+  'PROBING ROSTER...',
+  'NO MATCH / RETRY',
+  'RE-EXPOSING FRAME...',
+  'STILL LOOKING...',
+];
+
+function NotFoundPage() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [timestamp, setTimestamp] = useState('--:--:--');
+  const [frameNum, setFrameNum] = useState(404);
+  const [taskIndex, setTaskIndex] = useState(0);
+  const [tweakState, setTweakState] = useState<TweakState>(tweakDefaults);
+  const [editMode, setEditMode] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  useEffect(() => {
+    const tick = () => {
+      const date = new Date();
+      const pad = (value: number) => value.toString().padStart(2, '0');
+      setTimestamp(`${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}Z`);
+    };
+
+    tick();
+    const intervalId = window.setInterval(tick, 1000);
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setFrameNum((current) => (current + 1) % 999999);
+    }, 280);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setTaskIndex((current) => (current + 1) % rerouteTasks.length);
+    }, 2400);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return undefined;
+
+    const handleMove = (event: MouseEvent) => {
+      const x = event.clientX / window.innerWidth - 0.5;
+      const y = event.clientY / window.innerHeight - 0.5;
+      stage.style.setProperty('--n404-halo-x', `${x * 40}px`);
+      stage.style.setProperty('--n404-halo-y', `${y * 40}px`);
+      stage.style.setProperty('--n404-num-x', `${x * -12}px`);
+      stage.style.setProperty('--n404-num-y', `${y * -8}px`);
+    };
+
+    const handleLeave = () => {
+      stage.style.setProperty('--n404-halo-x', '0px');
+      stage.style.setProperty('--n404-halo-y', '0px');
+      stage.style.setProperty('--n404-num-x', '0px');
+      stage.style.setProperty('--n404-num-y', '0px');
+    };
+
+    stage.addEventListener('mousemove', handleMove);
+    stage.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+      stage.removeEventListener('mousemove', handleMove);
+      stage.removeEventListener('mouseleave', handleLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() !== 'g') return;
+      document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+      timeoutId = window.setTimeout(() => {
+        document.body.style.filter = '';
+      }, 90);
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      document.body.style.filter = '';
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const data = event.data || {};
+      if (data.type === '__activate_edit_mode') {
+        setEditMode(true);
+        setPanelOpen(true);
+      } else if (data.type === '__deactivate_edit_mode') {
+        setEditMode(false);
+        setPanelOpen(false);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    try {
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    } catch {
+      // The page can run outside an editable frame.
+    }
+
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  const updateTweak = (key: keyof TweakState, value: string) => {
+    setTweakState((current) => ({ ...current, [key]: value }));
+
+    try {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: value } }, '*');
+    } catch {
+      // The edit-mode host is optional.
+    }
+  };
+
+  const closeTweaks = () => {
+    setPanelOpen(false);
+
+    try {
+      window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+    } catch {
+      // The edit-mode host is optional.
+    }
+  };
+
+  const className = [
+    'n404',
+    tweakState.surface === 'light' ? 'n404--invert' : '',
+    tweakState.glitch === 'off' ? 'n404--no-glitch' : '',
+    tweakState.scan === 'off' ? 'n404--no-scan' : '',
+    tweakState.crt === 'off' ? 'n404--no-crt' : '',
+    tweakState.grain === 'off' ? 'n404--no-grain' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const reelWords = [tweakState.word, 'OFF-FRAME.', 'UNFOUND.', 'BURNED.', 'GONE.', tweakState.word];
+
   return (
-    <svg
-      viewBox="0 0 64 64"
-      fill="none"
-      aria-hidden="true"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M8 32H56" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
-      <path d="M20 11.216L44 52.784" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
-      <path d="M20 52.784L44 11.216" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
-    </svg>
-  );
-}
+    <div className={className}>
+      <div className="n404__stage" ref={stageRef}>
+        <div className="n404__grid" aria-hidden="true" />
+        <div className="n404__halo" aria-hidden="true" />
+        <div className="n404__veil" aria-hidden="true" />
+        <div className="n404__scan" aria-hidden="true" />
+        <div className="n404__crt" aria-hidden="true" />
+        <div className="n404__grain" aria-hidden="true" />
 
-function NotFoundPage({ onBack }: { onBack: () => void }) {
-  const diagnostics = [
-    { label: 'Route Signal', value: 'NO HIT' },
-    { label: 'Reality Code', value: '404' },
-    { label: 'Next Move', value: 'RESET' },
-  ];
+        <span className="n404__reg n404__reg--tl" aria-hidden="true" />
+        <span className="n404__reg n404__reg--tr" aria-hidden="true" />
+        <span className="n404__reg n404__reg--bl" aria-hidden="true" />
+        <span className="n404__reg n404__reg--br" aria-hidden="true" />
 
-  return (
-    <div className="not-found-shell min-h-screen bg-black text-white selection:text-accent">
-      <div className="grain" aria-hidden="true" />
+        <nav className="n404__nav" aria-label="404 navigation">
+          <a className="n404__brand" href="/">
+            <div className="n404__shutter" aria-hidden="true">
+              <div className="n404__blade" />
+              <div className="n404__blade" />
+              <div className="n404__blade" />
+            </div>
+          <div className="text-2xl font-extrabold uppercase italic leading-none tracking-tight md:text-[26px] lg:text-3xl">
+            SHOT<span className="opacity-40">.IS</span>
+          </div>
+          </a>
 
-      <div className="hero-stage not-found-stage" aria-hidden="true">
-        <video
-          className="hero-stage__video not-found-stage__video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/media/hero/shot-hero-poster.webp"
-        >
-          <source src="/media/hero/shot-hero-loop.mp4" type="video/mp4" />
-        </video>
-        <div className="not-found-stage__veil" />
-        <div className="hero-stage__grid" />
-        <div className="not-found-stage__flare" />
+          <div className="n404__nav-right">
+            <a href="/#roster">The Roster</a>
+            <a href="/#vision">Vision</a>
+            <a href="/#join">Join Circle</a>
+          </div>
+        </nav>
+
+        <main className="n404__main" aria-labelledby="not-found-title">
+          <h1 id="not-found-title" className="sr-only">
+            404 signal lost
+          </h1>
+          <div className="n404__num-wrap" aria-hidden="true">
+            <span className="n404__num" data-text="404">
+              404
+            </span>
+            <div className="n404__slice n404__slice--s1">
+              <span className="n404__slice-inner">404</span>
+            </div>
+            <div className="n404__slice n404__slice--s2">
+              <span className="n404__slice-inner">404</span>
+            </div>
+            <div className="n404__slice n404__slice--s3">
+              <span className="n404__slice-inner">404</span>
+            </div>
+          </div>
+
+          <div className="n404__signal" aria-hidden="true">
+            <span className="n404__signal-static">THE SHOT IS</span>
+            <span className="n404__slot">
+              <span className="n404__reel">
+                {reelWords.map((word, index) => (
+                  <span key={`${word}-${index}`}>{word}</span>
+                ))}
+              </span>
+            </span>
+          </div>
+
+          <p className="n404__lede">
+            The page you’re looking for has wandered off
+          </p>
+
+          <div className="n404__cta-row">
+            <a className="n404__btn n404__btn--primary" href="/">
+              <span>Return to Base</span>
+              <svg className="n404__arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+                <path d="M0 5h12M8 1l4 4-4 4" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </a>
+          </div>
+
+        </main>
       </div>
 
-      <header className="fixed inset-x-0 top-0 z-[100] flex items-center px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
-        <a href="/" className="group flex items-center gap-4 md:gap-4 lg:gap-6">
-          <div className="shutter" aria-hidden="true">
-            <div className="shutter-blade rotate-0" />
-            <div className="shutter-blade rotate-[60deg]" />
-            <div className="shutter-blade rotate-[120deg]" />
-          </div>
-          <span className="text-2xl font-extrabold uppercase italic leading-none tracking-tight md:text-[26px] lg:text-3xl">
-            SHOT<span className="opacity-40">.IS</span>
-          </span>
-        </a>
-      </header>
+      {editMode ? (
+        <>
+          <button
+            className="n404__tw-fab n404__tw-fab--show"
+            id="twFab"
+            type="button"
+            onClick={() => setPanelOpen((current) => !current)}
+          >
+            Tweaks
+          </button>
 
-      <main className="relative z-10 min-h-screen px-5 pb-10 pt-28 md:px-8 md:pb-14 md:pt-32">
-        <section className="not-found__layout mx-auto grid min-h-[calc(100vh-10.5rem)] w-full max-w-[1360px] items-center gap-10 xl:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.72fr)] xl:gap-16">
-          <div className="not-found__copy-panel">
-            <div className="not-found__eyebrow">
-              <BrandAsterisk className="h-5 w-5 text-accent" />
-              <span>Lost Frame / Error 404</span>
-            </div>
-
-            <h1 className="not-found__headline">
-              <span>SHOT</span>
-              <span className="text-outline">NOT</span>
-              <span>FOUND.</span>
-            </h1>
-
-            <p className="not-found__copy mt-8 max-w-2xl text-lg font-medium leading-tight text-white/48 sm:text-xl md:text-3xl">
-              The link slipped out of the cut. No feed, no frame, no signal. Jump back to the main drop before the loop
-              eats another second.
-            </p>
-
-            <div className="relative z-10 mt-10 flex flex-col gap-4 sm:flex-row">
-              <a
-                href="/"
-                className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
-              >
-                Return To Feed
-              </a>
-              <button
-                type="button"
-                onClick={onBack}
-                className="inline-flex items-center justify-center border border-white/15 bg-white/[0.03] px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-white transition-all hover:border-white/40 hover:bg-white/10 active:scale-95 md:px-12 md:py-6 md:text-sm"
-              >
-                Rewind Back
+          <div className={`n404__tw-panel ${panelOpen ? 'n404__tw-panel--open' : ''}`} id="twPanel">
+            <h2>
+              Tweaks{' '}
+              <button id="twClose" type="button" onClick={closeTweaks} aria-label="Close tweaks">
+                x
               </button>
-            </div>
-          </div>
+            </h2>
 
-          <aside className="not-found__artifact" aria-label="404 diagnostics">
-            <div className="not-found__artifact-top">
-              <span>Offline Capture</span>
-            </div>
-
-            <div className="not-found__frame">
-              <div className="not-found__frame-noise" />
-              <div className="not-found__frame-number">404</div>
-              <div className="not-found__frame-status">Frame Missing</div>
-            </div>
-
-            <div className="not-found__diagnostics">
-              {diagnostics.map((item) => (
-                <div key={item.label} className="not-found__diagnostic">
-                  <span>{item.label}</span>
-                  <strong>{item.value}</strong>
+            {tweakGroups.map((group) => (
+              <div className="n404__tw-row" key={group.key}>
+                <span className="n404__tw-label">{group.label}</span>
+                <div className="n404__tw-options">
+                  {group.options.map((option) => (
+                    <button
+                      key={option.value}
+                      className={tweakState[group.key] === option.value ? 'n404__tw-option--on' : ''}
+                      type="button"
+                      onClick={() => updateTweak(group.key, option.value)}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </aside>
-        </section>
-      </main>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -564,21 +795,12 @@ function App() {
   const pathname = normalizePath(window.location.pathname);
   const isNotFound = pathname !== '/' && pathname !== '/index.html';
 
-  const handleGoBack = useCallback(() => {
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    window.location.assign('/');
-  }, []);
-
   useEffect(() => {
-    document.title = isNotFound ? '404 — SHOT.IS' : 'SHOT.IS — FORGING THE NEW REALITY';
+    document.title = isNotFound ? '404 · SHOT.IS' : 'SHOT.IS';
   }, [isNotFound]);
 
   if (isNotFound) {
-    return <NotFoundPage onBack={handleGoBack} />;
+    return <NotFoundPage />;
   }
 
   return <HomePage />;
