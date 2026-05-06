@@ -9,7 +9,7 @@ function CreatorCard({ creator, index }: { creator: Creator; index: number }) {
       style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className={`image-card mb-8 ${creator.lifted ? 'md:translate-y-12' : ''}`}>
-        <img src={creator.image} alt={creator.name} />
+        <img src={creator.image} alt={creator.alt} loading="lazy" decoding="async" />
         <div className="image-card__accent" />
       </div>
       <h3
@@ -26,13 +26,15 @@ export function RosterSection() {
   return (
     <section id="roster" className="bg-white px-5 py-24 text-black md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-20 flex flex-col gap-8 md:mb-24 md:flex-row md:items-end md:justify-between">
-          <h2 className="text-5xl font-extrabold uppercase leading-none tracking-tight sm:text-6xl md:text-[88px] lg:text-9xl">
-            MEET THE <br />
-            <span className="italic text-accent">NEW GODS.</span>
+        <div className="mb-20 flex flex-col gap-8 md:mb-24 xl:flex-row xl:items-end xl:justify-between">
+          <h2 className="text-[clamp(2.65rem,10vw,7rem)] font-extrabold uppercase leading-none tracking-tight">
+            AI <br className="sm:hidden" />
+            CREATOR <br />
+            <span className="italic text-accent">ROSTER.</span>
           </h2>
-          <p className="max-w-md text-base font-bold uppercase leading-tight md:text-lg">
-            We don&apos;t just build characters. We build legends with lore, soul, and 100% digital DNA.
+          <p className="max-w-md text-base font-bold uppercase leading-tight md:text-lg xl:text-right">
+            Virtual influencers, creator personas, and AI talent systems for campaigns that need repeatable visual
+            identity.
           </p>
         </div>
 

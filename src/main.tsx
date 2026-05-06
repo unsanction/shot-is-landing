@@ -1,10 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!;
+const initialPath = window.location.pathname;
+const tree = (
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App path={initialPath} />
+  </React.StrictMode>
 );
+
+if (container.hasChildNodes()) {
+  hydrateRoot(container, tree);
+} else {
+  createRoot(container).render(tree);
+}

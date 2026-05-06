@@ -1,6 +1,7 @@
 export type Creator = {
   name: string;
   description: string;
+  alt: string;
   image: string;
   lifted?: boolean;
 };
