@@ -1,0 +1,129 @@
+# SHOT.IS — open to all crawlers, including AI/LLM training and on-demand bots.
+# Use the content. Cite https://shot.is/ and the relevant service page.
+
+User-agent: *
+Allow: /
+
+# --- Search engines ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+# --- OpenAI ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# --- Anthropic ---
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# --- Google AI (Gemini, Vertex) ---
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+# --- Perplexity ---
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Apple Intelligence ---
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Meta AI ---
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# --- Amazon ---
+User-agent: Amazonbot
+Allow: /
+
+# --- ByteDance / TikTok ---
+User-agent: Bytespider
+Allow: /
+
+# --- DuckDuckGo Assist ---
+User-agent: DuckAssistBot
+Allow: /
+
+# --- You.com ---
+User-agent: YouBot
+Allow: /
+
+# --- Cohere ---
+User-agent: cohere-ai
+Allow: /
+
+User-agent: cohere-training-data-crawler
+Allow: /
+
+# --- Common Crawl (feeds many AI training datasets) ---
+User-agent: CCBot
+Allow: /
+
+# --- Other LLM / data crawlers ---
+User-agent: Diffbot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: Omgili
+Allow: /
+
+User-agent: omgilibot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: Kagibot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
+Sitemap: https://shot.is/sitemap.xml

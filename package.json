@@ -8,7 +8,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:client": "tsc -b && vite build",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
+    "build:prerender": "node scripts/prerender.mjs",
+    "build": "npm run build:client && npm run build:server && npm run build:prerender",
     "preview": "vite preview",
     "generate:hero": "node scripts/generate-hero-media.mjs",
     "deploy:hosting": "npm run build && firebase deploy --only hosting",

@@ -3,6 +3,7 @@ import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import { JoinSection } from '../components/home/JoinSection';
 import { RosterSection } from '../components/home/RosterSection';
+import { SeoGrowthSection } from '../components/home/SeoGrowthSection';
 import { SlotStatementSection } from '../components/home/SlotStatementSection';
 import { StatsSection } from '../components/home/StatsSection';
 import { VisionSection } from '../components/home/VisionSection';
@@ -21,6 +22,7 @@ function HomePage() {
         <HeroSection />
         <RosterSection />
         <VisionSection />
+        <SeoGrowthSection />
         <StatsSection />
         <SlotStatementSection />
         <JoinSection />

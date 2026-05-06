@@ -8,7 +8,7 @@ export function NotFoundNav() {
 
       <div className="n404__nav-right">
         {navLinks.map((link) => (
-          <a key={link.href} href={`/${link.href}`}>
+          <a key={link.href} href={link.href}>
             {link.label}
           </a>
         ))}
