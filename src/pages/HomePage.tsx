@@ -6,6 +6,7 @@ import { RosterSection } from '../components/home/RosterSection';
 import { SeoGrowthSection } from '../components/home/SeoGrowthSection';
 import { SlotStatementSection } from '../components/home/SlotStatementSection';
 import { StatsSection } from '../components/home/StatsSection';
+import { UseCasesSection } from '../components/home/UseCasesSection';
 import { VisionSection } from '../components/home/VisionSection';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 
@@ -21,6 +22,7 @@ function HomePage() {
       <main className="bg-black">
         <HeroSection />
         <RosterSection />
+        <UseCasesSection />
         <VisionSection />
         <SeoGrowthSection />
         <StatsSection />

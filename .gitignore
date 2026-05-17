@@ -5,3 +5,5 @@ node_modules
 firebase-debug.log
 *.tsbuildinfo
 artifacts
+
+.DS_Store

@@ -1040,9 +1040,15 @@ a {
   transform: rotate(45deg);
 }
 
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+.text-exclusion-fill {
+  color: rgba(255, 255, 255, 0.32);
+  mix-blend-mode: exclusion;
+}
+
+@supports not (mix-blend-mode: exclusion) {
+  .text-exclusion-fill {
+    color: rgba(255, 255, 255, 0.34);
+  }
 }
 
 .slot-machine {

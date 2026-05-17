@@ -67,16 +67,19 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-accent md:text-xs">
+          AI Video Generation Platform for Businesses
+        </p>
         <h1 className="mb-12 text-[clamp(2.05rem,9vw,8.75rem)] font-extrabold uppercase leading-[0.88] tracking-tight md:leading-[0.82]">
           AI UGC ADS <br />
-          <span className="text-outline italic">
+          <span className="text-exclusion-fill italic">
             VIRTUAL <br className="sm:hidden" />
             CREATORS.
           </span>
         </h1>
         <p className="mx-auto mb-16 max-w-3xl text-lg font-medium leading-tight text-white/40 sm:text-xl md:text-3xl">
-          SHOT.IS is an AI content studio for brands that need UGC-style videos, paid social ads, virtual
-          influencers, product demos, and campaign variants without traditional production delays.
+          SHOT.IS is an AI video generation platform for businesses. Generate AI UGC videos, paid social ads,
+          virtual influencers, product demos, and branded campaigns end-to-end — without traditional production delays.
         </p>
         <a
           href="#join"
