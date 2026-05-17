@@ -1,5 +1,3 @@
-import { buildDate } from '../../data/seo';
-
 const footerLinks = [
   { label: 'AI UGC Ads', href: '/ai-ugc-ads' },
   { label: 'AI Video Ads', href: '/ai-video-ads' },
@@ -33,8 +31,12 @@ export function HomeFooter() {
         SHOT.IS
       </div>
 
+      <p className="mx-auto max-w-3xl px-5 pb-10 text-sm font-medium leading-relaxed text-white/40 md:px-8">
+        SHOT.IS is an AI-powered video generation and content automation platform for businesses and brands.
+      </p>
+
       <div className="px-5 pb-12 font-mono text-[10px] uppercase tracking-[0.28em] text-white/30 md:px-8">
-        © SHOT.IS · Updated {buildDate}
+        © SHOT.IS
       </div>
     </footer>
   );

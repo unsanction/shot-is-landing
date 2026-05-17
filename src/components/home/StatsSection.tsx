@@ -9,7 +9,7 @@ export function StatsSection() {
           <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-[72px] lg:text-[84px] xl:text-8xl">
             Content
             <br />
-            <span className="text-outline">Engine</span>
+            <span className="text-exclusion-fill">Engine</span>
           </h2>
         </div>
 
