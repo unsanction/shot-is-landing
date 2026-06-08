@@ -32,6 +32,34 @@ a {
   text-decoration: none;
 }
 
+.gift-page {
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+
+.gift-display {
+  font-family: 'Unbounded', 'Manrope', system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.gift-title {
+  font-family: 'Unbounded', 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.gift-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0;
+}
+
+.gift-copy {
+  font-family: 'Manrope', system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
 .grain {
   position: fixed;
   inset: 0;

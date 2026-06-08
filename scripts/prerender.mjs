@@ -21,7 +21,7 @@ const renderHead = (seo) => {
     `<title>${escapeHtml(seo.title)}</title>`,
     `<meta name="description" content="${escapeHtml(seo.description)}" />`,
     `<meta name="robots" content="${escapeHtml(seo.robots)}" />`,
-    `<meta property="og:type" content="website" />`,
+    `<meta property="og:type" content="${escapeHtml(seo.ogType ?? 'website')}" />`,
     `<meta property="og:site_name" content="SHOT.IS" />`,
     `<meta property="og:title" content="${escapeHtml(seo.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(seo.description)}" />`,
@@ -32,9 +32,36 @@ const renderHead = (seo) => {
     `<meta name="twitter:description" content="${escapeHtml(seo.description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(seo.ogImage)}" />`,
     `<link rel="canonical" href="${escapeHtml(seo.canonical)}" />`,
+    ...(seo.alternates ?? []).map(
+      (a) => `<link rel="alternate" hreflang="${escapeHtml(a.hreflang)}" href="${escapeHtml(a.href)}" />`,
+    ),
     `<script id="shot-schema" type="application/ld+json">${JSON.stringify(seo.structuredData)}</script>`,
   ];
   return tags.join('\n    ');
+};
+
+const renderSitemap = (entries) => {
+  const urls = entries
+    .map((entry) => {
+      const alternates = (entry.alternates ?? [])
+        .map(
+          (a) =>
+            `    <xhtml:link rel="alternate" hreflang="${escapeHtml(a.hreflang)}" href="${escapeHtml(a.href)}" />`,
+        )
+        .join('\n');
+      return [
+        '  <url>',
+        `    <loc>${escapeHtml(entry.loc)}</loc>`,
+        `    <lastmod>${escapeHtml(entry.lastmod)}</lastmod>`,
+        `    <changefreq>${escapeHtml(entry.changefreq)}</changefreq>`,
+        `    <priority>${escapeHtml(entry.priority)}</priority>`,
+        ...(alternates ? [alternates] : []),
+        '  </url>',
+      ].join('\n');
+    })
+    .join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;
 };
 
 const HEAD_REPLACE_PATTERNS = [
@@ -52,6 +79,7 @@ const HEAD_REPLACE_PATTERNS = [
   { pattern: /<meta\s+name="twitter:description"[\s\S]*?\/>\s*/i, replace: '' },
   { pattern: /<meta\s+name="twitter:image"[\s\S]*?\/>\s*/i, replace: '' },
   { pattern: /<link\s+rel="canonical"[\s\S]*?\/>\s*/i, replace: '' },
+  { pattern: /<link\s+rel="alternate"\s+hreflang=[\s\S]*?\/>\s*/gi, replace: '' },
   { pattern: /<script\s+id="shot-schema"[\s\S]*?<\/script>\s*/i, replace: '' },
 ];
 
@@ -67,7 +95,7 @@ const main = async () => {
   const template = await fs.readFile(join(distDir, 'index.html'), 'utf8');
 
   const ssrEntry = await import(join(ssrDir, 'entry-server.js'));
-  const { render, routesToPrerender } = ssrEntry;
+  const { render, routesToPrerender, sitemapEntries } = ssrEntry;
 
   const routes = routesToPrerender();
   const cleanTemplate = stripStaleHead(template);
@@ -86,11 +114,11 @@ const main = async () => {
     console.log(`prerendered ${route} -> ${join(outDir, 'index.html').replace(projectRoot + '/', '')}`);
   }
 
-  // Replace placeholder build dates in static text files.
+  // Generate sitemap.xml from the indexable route list (incl. hreflang alternates).
   const sitemapPath = join(distDir, 'sitemap.xml');
-  const sitemap = await fs.readFile(sitemapPath, 'utf8');
-  await fs.writeFile(sitemapPath, sitemap.replaceAll('__BUILD_DATE__', buildDate), 'utf8');
-  console.log(`stamped sitemap.xml with build date ${buildDate}`);
+  const entries = sitemapEntries();
+  await fs.writeFile(sitemapPath, renderSitemap(entries), 'utf8');
+  console.log(`generated sitemap.xml with ${entries.length} urls (build date ${buildDate})`);
 
   // Clean up SSR output directory.
   await fs.rm(ssrDir, { recursive: true, force: true });
