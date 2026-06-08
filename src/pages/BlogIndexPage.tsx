@@ -61,10 +61,10 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
                   <span aria-hidden="true">·</span>
                   <span>{t.readTime(readingTime(post))}</span>
                 </div>
-                <h2 className="text-2xl font-black uppercase leading-tight tracking-tight text-white transition-colors group-hover:text-accent md:text-3xl">
+                <h2 className="font-body text-[1.4rem] font-extrabold leading-snug tracking-tight text-white transition-colors group-hover:text-accent md:text-[1.6rem]">
                   {post.title}
                 </h2>
-                <p className="mt-4 flex-1 text-base font-medium leading-relaxed text-white/55">{post.excerpt}</p>
+                <p className="mt-4 flex-1 font-serif text-[1.05rem] leading-[1.7] text-white/60">{post.excerpt}</p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {post.tags.slice(0, 3).map((tag) => (
                     <span

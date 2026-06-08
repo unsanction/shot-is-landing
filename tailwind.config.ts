@@ -10,6 +10,8 @@ export default {
       fontFamily: {
         sans: ['Syne', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        serif: ['Lora', 'Georgia', 'serif'],
+        body: ['Manrope', 'system-ui', 'sans-serif'],
       },
     },
   },

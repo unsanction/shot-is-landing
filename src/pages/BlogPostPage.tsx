@@ -31,8 +31,8 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
 
       <main>
         <article>
-          <header className="relative w-full overflow-hidden px-5 pb-12 pt-36 md:px-8 md:pb-16 md:pt-44">
-            <div className="relative z-10 mx-auto max-w-3xl">
+          <header className="relative w-full overflow-hidden px-5 pb-10 pt-32 md:px-8 md:pb-12 md:pt-40">
+            <div className="relative z-10 mx-auto max-w-[44rem]">
               <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
                 <a
                   href={blogIndexPath(post.lang)}
@@ -50,7 +50,7 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
                 ) : null}
               </div>
 
-              <h1 className="text-[clamp(1.85rem,5.5vw,3.75rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
+              <h1 className="text-[clamp(1.85rem,5vw,3.25rem)] font-extrabold uppercase leading-[0.98] tracking-tight">
                 {post.title}
               </h1>
 
@@ -66,14 +66,14 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
             </div>
           </header>
 
-          <div className="mx-auto max-w-3xl px-5 pb-10 md:px-8">
+          <div className="mx-auto max-w-[44rem] px-5 pb-10 md:px-8">
             {/* TL;DR — high-citability key takeaways */}
-            <section aria-label={t.keyTakeaways} className="rounded-[4px] border border-white/12 bg-white/[0.03] p-6 md:p-8">
+            <section aria-label={t.keyTakeaways} className="rounded-[6px] border border-white/12 bg-white/[0.03] p-6 md:p-8">
               <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-accent">{t.keyTakeaways}</p>
               <ul className="space-y-3">
                 {post.tldr.map((item, i) => (
-                  <li key={i} className="flex gap-3 text-base font-medium leading-relaxed text-white/75">
-                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none bg-accent" />
+                  <li key={i} className="flex gap-3 font-body text-[1.02rem] font-medium leading-relaxed text-white/80">
+                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-accent" />
                     <span>{renderInline(item)}</span>
                   </li>
                 ))}
@@ -100,21 +100,29 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
             ) : null}
           </div>
 
-          <div className="mx-auto flex max-w-3xl flex-col gap-6 px-5 pb-16 md:px-8 md:pb-20">
+          <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 md:px-8 md:pb-20">
             {post.blocks.map((block, index) => renderBlock(block, index))}
           </div>
 
           {/* FAQ */}
           {post.faq?.length ? (
-            <section className="border-t border-white/8 bg-[#050505] px-5 py-16 md:px-8 md:py-20">
-              <div className="mx-auto max-w-3xl">
-                <h2 className="mb-8 text-3xl font-black uppercase leading-tight tracking-tight md:text-4xl">{t.faqTitle}</h2>
-                <div className="space-y-4">
+            <section className="px-5 pb-16 md:px-8 md:pb-20">
+              <div className="mx-auto max-w-[44rem] border-t border-white/10 pt-12">
+                <h2 className="font-body mb-6 text-2xl font-extrabold tracking-tight text-white md:text-3xl">{t.faqTitle}</h2>
+                <div className="divide-y divide-white/10 border-y border-white/10">
                   {post.faq.map((item) => (
-                    <article key={item.question} className="rounded-[4px] border border-white/10 p-6 md:p-7">
-                      <h3 className="text-lg font-black uppercase leading-tight tracking-tight md:text-xl">{item.question}</h3>
-                      <p className="mt-4 text-base font-medium leading-relaxed text-white/60">{item.answer}</p>
-                    </article>
+                    <details key={item.question} className="group">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-body text-base font-bold text-white/90 transition-colors hover:text-accent md:text-lg">
+                        {item.question}
+                        <span
+                          aria-hidden="true"
+                          className="flex-none text-2xl font-light leading-none text-accent transition-transform group-open:rotate-45"
+                        >
+                          +
+                        </span>
+                      </summary>
+                      <p className="pb-5 font-serif text-[1.08rem] leading-[1.75] text-white/70">{item.answer}</p>
+                    </details>
                   ))}
                 </div>
               </div>
@@ -124,7 +132,7 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
 
         {/* CTA */}
         <section className="bg-accent px-5 py-16 text-white md:px-8 md:py-20">
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-[44rem]">
             <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl">{t.ctaTitle}</h2>
             <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-white/85 md:text-lg">{t.ctaBody}</p>
             <a
@@ -139,8 +147,8 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
         {/* Related */}
         {related.length ? (
           <section className="px-5 py-16 md:px-8 md:py-20">
-            <div className="mx-auto max-w-3xl">
-              <h2 className="mb-8 text-2xl font-black uppercase leading-tight tracking-tight md:text-3xl">{t.relatedTitle}</h2>
+            <div className="mx-auto max-w-[44rem]">
+              <h2 className="font-body mb-8 text-2xl font-extrabold tracking-tight md:text-3xl">{t.relatedTitle}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {related.map((rel) => (
                   <a
