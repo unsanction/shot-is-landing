@@ -269,20 +269,6 @@ export const buildBlogPostSchema = (post: BlogPost) => {
           { '@type': 'ListItem', position: 3, name: post.title, item: url },
         ],
       },
-      ...(post.faq?.length
-        ? [
-            {
-              '@type': 'FAQPage',
-              '@id': `${url}#faq`,
-              inLanguage: post.lang,
-              mainEntity: post.faq.map((f) => ({
-                '@type': 'Question',
-                name: f.question,
-                acceptedAnswer: { '@type': 'Answer', text: f.answer },
-              })),
-            },
-          ]
-        : []),
     ],
   };
 };
