@@ -103,31 +103,6 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
           <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 md:px-8 md:pb-20">
             {post.blocks.map((block, index) => renderBlock(block, index))}
           </div>
-
-          {/* FAQ */}
-          {post.faq?.length ? (
-            <section className="px-5 pb-16 md:px-8 md:pb-20">
-              <div className="mx-auto max-w-[44rem] border-t border-white/10 pt-12">
-                <h2 className="font-body mb-6 text-2xl font-extrabold tracking-tight text-white md:text-3xl">{t.faqTitle}</h2>
-                <div className="divide-y divide-white/10 border-y border-white/10">
-                  {post.faq.map((item) => (
-                    <details key={item.question} className="group">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-body text-base font-bold text-white/90 transition-colors hover:text-accent md:text-lg">
-                        {item.question}
-                        <span
-                          aria-hidden="true"
-                          className="flex-none text-2xl font-light leading-none text-accent transition-transform group-open:rotate-45"
-                        >
-                          +
-                        </span>
-                      </summary>
-                      <p className="pb-5 font-serif text-[1.08rem] leading-[1.75] text-white/70">{item.answer}</p>
-                    </details>
-                  ))}
-                </div>
-              </div>
-            </section>
-          ) : null}
         </article>
 
         {/* CTA */}
