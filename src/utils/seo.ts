@@ -8,6 +8,19 @@ import {
   siteBaseUrl,
   type ServicePageContent,
 } from '../data/seo';
+import {
+  blogAlternates,
+  blogIndexAlternates,
+  blogIndexPath,
+  blogPostByPath,
+  blogPostPath,
+  blogPostsByLang,
+  blogRoutes,
+  blogStrings,
+  type Alternate,
+  type BlogLang,
+  type BlogPost,
+} from '../data/blog';
 
 type PageSeo = {
   path: string;
@@ -15,6 +28,9 @@ type PageSeo = {
   description: string;
   robots?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  canonical?: string;
+  alternates?: Alternate[];
   structuredData?: Record<string, unknown>;
 };
 
@@ -202,6 +218,143 @@ const buildSimplePageSchema = (path: string, title: string, description: string)
   ],
 });
 
+// ── Blog SEO ─────────────────────────────────────────────────────────────────
+
+export const ogImageUrl = (key: string) => `${siteBaseUrl}/og/${key}.png`;
+
+const blogPostMetaTitle = (post: BlogPost) => post.metaTitle ?? `${post.title} | SHOT.IS`;
+
+export const buildBlogPostSchema = (post: BlogPost) => {
+  const path = blogPostPath(post);
+  const url = absoluteUrl(path);
+  const image = ogImageUrl(post.ogImageKey);
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema,
+      websiteSchema,
+      {
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        headline: post.title,
+        description: post.description,
+        image,
+        datePublished: post.datePublished,
+        dateModified: post.dateModified ?? post.datePublished,
+        inLanguage: post.lang,
+        author: { '@type': 'Organization', name: post.author.name, url: post.author.url ?? siteBaseUrl },
+        publisher: { '@id': `${siteBaseUrl}/#organization` },
+        mainEntityOfPage: { '@id': `${url}#webpage` },
+        keywords: post.tags.join(', '),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: blogPostMetaTitle(post),
+        description: post.description,
+        inLanguage: post.lang,
+        isPartOf: { '@id': `${siteBaseUrl}/#website` },
+        about: { '@id': `${siteBaseUrl}/#organization` },
+        breadcrumb: { '@id': `${url}#breadcrumb` },
+        dateModified: post.dateModified ?? post.datePublished,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'SHOT.IS', item: siteBaseUrl },
+          { '@type': 'ListItem', position: 2, name: blogStrings[post.lang].blogTitle, item: absoluteUrl(blogIndexPath(post.lang)) },
+          { '@type': 'ListItem', position: 3, name: post.title, item: url },
+        ],
+      },
+      ...(post.faq?.length
+        ? [
+            {
+              '@type': 'FAQPage',
+              '@id': `${url}#faq`,
+              inLanguage: post.lang,
+              mainEntity: post.faq.map((f) => ({
+                '@type': 'Question',
+                name: f.question,
+                acceptedAnswer: { '@type': 'Answer', text: f.answer },
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
+};
+
+export const buildBlogIndexSchema = (lang: BlogLang) => {
+  const path = blogIndexPath(lang);
+  const url = absoluteUrl(path);
+  const posts = blogPostsByLang[lang];
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema,
+      websiteSchema,
+      {
+        '@type': 'Blog',
+        '@id': `${url}#blog`,
+        url,
+        name: blogStrings[lang].blogTitle,
+        description: blogStrings[lang].blogLede,
+        inLanguage: lang,
+        publisher: { '@id': `${siteBaseUrl}/#organization` },
+        blogPost: posts.map((post) => ({
+          '@type': 'BlogPosting',
+          headline: post.title,
+          url: absoluteUrl(blogPostPath(post)),
+          datePublished: post.datePublished,
+          inLanguage: post.lang,
+        })),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: blogStrings[lang].blogTitle,
+        description: blogStrings[lang].blogLede,
+        inLanguage: lang,
+        isPartOf: { '@id': `${siteBaseUrl}/#website` },
+        about: { '@id': `${siteBaseUrl}/#organization` },
+      },
+    ],
+  };
+};
+
+export const buildBlogPostSeo = (post: BlogPost): PageSeo => {
+  const path = blogPostPath(post);
+  return {
+    path,
+    title: blogPostMetaTitle(post),
+    description: post.description,
+    ogImage: ogImageUrl(post.ogImageKey),
+    ogType: 'article',
+    canonical: absoluteUrl(path),
+    alternates: blogAlternates(post),
+    structuredData: buildBlogPostSchema(post),
+  };
+};
+
+export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
+  const path = blogIndexPath(lang);
+  return {
+    path,
+    title: `${blogStrings[lang].blogTitle} — AI UGC Ads, AI Video Ads & Virtual Influencers`,
+    description: blogStrings[lang].blogLede,
+    ogImage: ogImageUrl('blog-index'),
+    ogType: 'website',
+    canonical: absoluteUrl(path),
+    alternates: blogIndexAlternates(),
+    structuredData: buildBlogIndexSchema(lang),
+  };
+};
+
 export const aboutSeo: PageSeo = {
   path: '/about',
   title: 'About SHOT.IS — AI Content Studio',
@@ -237,18 +390,21 @@ export const applySeoMeta = ({
   description,
   robots = 'index,follow,max-image-preview:large',
   ogImage,
+  ogType = 'website',
+  canonical,
+  alternates = [],
   structuredData,
 }: PageSeo) => {
   if (typeof document === 'undefined') return;
 
-  const url = absoluteUrl(path);
+  const url = canonical ?? absoluteUrl(path);
   const image = ogImage ?? defaultImage;
 
   document.title = title;
 
   upsertMeta('meta[name="description"]', { name: 'description', content: description });
   upsertMeta('meta[name="robots"]', { name: 'robots', content: robots });
-  upsertMeta('meta[property="og:type"]', { property: 'og:type', content: 'website' });
+  upsertMeta('meta[property="og:type"]', { property: 'og:type', content: ogType });
   upsertMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: 'SHOT.IS' });
   upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title });
   upsertMeta('meta[property="og:description"]', { property: 'og:description', content: description });
@@ -260,6 +416,12 @@ export const applySeoMeta = ({
   upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image });
 
   upsertLink('link[rel="canonical"]', { rel: 'canonical', href: url });
+
+  // Reset hreflang alternates each call so they do not accumulate across SPA navigations.
+  document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+  alternates.forEach(({ hreflang, href }) =>
+    upsertLink(`link[rel="alternate"][hreflang="${hreflang}"]`, { rel: 'alternate', hreflang, href }),
+  );
 
   upsertJsonLd('shot-schema', structuredData ?? buildHomeSchema());
 };
@@ -275,9 +437,29 @@ export const homeStructuredData = buildHomeSchema();
 
 export type ResolvedPageSeo = Required<Pick<PageSeo, 'path' | 'title' | 'description' | 'robots'>> & {
   ogImage: string;
+  ogType: 'website' | 'article';
   canonical: string;
+  alternates: Alternate[];
   structuredData: Record<string, unknown>;
 };
+
+const robotsDefault = 'index,follow,max-image-preview:large';
+
+/** Fill PageSeo defaults into a fully-resolved object the client + prerenderer can rely on. */
+const resolve = (seo: PageSeo): ResolvedPageSeo => ({
+  path: seo.path,
+  title: seo.title,
+  description: seo.description,
+  robots: seo.robots ?? robotsDefault,
+  ogImage: seo.ogImage ?? defaultImage,
+  ogType: seo.ogType ?? 'website',
+  canonical: seo.canonical ?? absoluteUrl(seo.path),
+  alternates: seo.alternates ?? [],
+  structuredData: seo.structuredData ?? buildHomeSchema(),
+});
+
+/** OG key for a static page is its path without the leading slash (e.g. /about -> about). */
+const staticOgKey = (path: string) => path.replace(/^\//, '') || 'home';
 
 export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
   const path = (() => {
@@ -285,47 +467,52 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
     return trimmed === '' || trimmed === '/index.html' ? '/' : trimmed;
   })();
 
-  const robotsDefault = 'index,follow,max-image-preview:large';
-
   if (path === '/') {
-    return {
+    return resolve({
       path: '/',
       title: homeSeo.title,
       description: homeSeo.description,
-      robots: robotsDefault,
-      ogImage: defaultImage,
+      ogImage: ogImageUrl('home'),
       canonical: absoluteUrl('/'),
       structuredData: homeStructuredData,
-    };
+    });
   }
 
   const service = servicePagesByPath.get(path);
   if (service) {
-    return {
+    return resolve({
       path: service.path,
       title: service.title,
       description: service.description,
-      robots: robotsDefault,
-      ogImage: service.ogImage,
+      ogImage: ogImageUrl(service.slug),
       canonical: absoluteUrl(service.path),
       structuredData: buildServiceSchema(service),
-    };
+    });
+  }
+
+  const blogPost = blogPostByPath.get(path);
+  if (blogPost) {
+    return resolve(buildBlogPostSeo(blogPost));
+  }
+
+  if (path === blogIndexPath('en') || path === blogIndexPath('es')) {
+    return resolve(buildBlogIndexSeo(path === blogIndexPath('es') ? 'es' : 'en'));
   }
 
   const staticPage = STATIC_PAGES_BY_PATH.get(path);
   if (staticPage) {
-    return {
+    return resolve({
       path: staticPage.path,
       title: staticPage.title,
       description: staticPage.description,
-      robots: staticPage.robots ?? robotsDefault,
-      ogImage: staticPage.ogImage ?? defaultImage,
+      robots: staticPage.robots,
+      ogImage: staticPage.ogImage ?? ogImageUrl(staticOgKey(staticPage.path)),
       canonical: absoluteUrl(staticPage.path),
       structuredData: buildSimplePageSchema(staticPage.path, staticPage.title, staticPage.description),
-    };
+    });
   }
 
-  return {
+  return resolve({
     path: notFoundSeo.path,
     title: notFoundSeo.title,
     description: notFoundSeo.description,
@@ -333,7 +520,39 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
     ogImage: defaultImage,
     canonical: absoluteUrl(notFoundSeo.path),
     structuredData: buildSimplePageSchema(notFoundSeo.path, notFoundSeo.title, notFoundSeo.description),
-  };
+  });
 };
 
-export const getIndexableRoutes = (): string[] => ['/', ...servicePages.map((p) => p.path), ...STATIC_PAGES.map((p) => p.path)];
+export const getIndexableRoutes = (): string[] => [
+  '/',
+  ...servicePages.map((p) => p.path),
+  ...STATIC_PAGES.map((p) => p.path),
+  ...blogRoutes(),
+];
+
+export type SitemapEntry = {
+  loc: string;
+  lastmod: string;
+  changefreq: string;
+  priority: string;
+  alternates: Alternate[];
+};
+
+const sitemapMeta = (path: string): { changefreq: string; priority: string } => {
+  if (path === '/') return { changefreq: 'weekly', priority: '1.0' };
+  if (servicePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.9' };
+  if (path === blogIndexPath('en') || path === blogIndexPath('es')) return { changefreq: 'weekly', priority: '0.7' };
+  if (blogPostByPath.has(path)) return { changefreq: 'monthly', priority: '0.6' };
+  if (path === '/privacy' || path === '/terms') return { changefreq: 'yearly', priority: '0.3' };
+  return { changefreq: 'monthly', priority: '0.6' };
+};
+
+/** Sitemap rows for every indexable route, with hreflang alternates + per-post lastmod. */
+export const buildSitemapEntries = (): SitemapEntry[] =>
+  getIndexableRoutes().map((path) => {
+    const seo = getPageSeo(path);
+    const post = blogPostByPath.get(path);
+    const lastmod = post ? post.dateModified ?? post.datePublished : buildDate;
+    const { changefreq, priority } = sitemapMeta(path);
+    return { loc: seo.canonical, lastmod, changefreq, priority, alternates: seo.alternates };
+  });

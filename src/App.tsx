@@ -1,13 +1,26 @@
 import { useEffect } from 'react';
 import { homeSeo, servicePagesByPath } from './data/seo';
+import { giftPagesBySlug } from './data/gifts';
+import { blogIndexPath, blogPostByPath, blogPostsByLang } from './data/blog';
+import { bespokeGiftPages } from './gifts/registry';
+import { GiftPage } from './pages/GiftPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import { AboutPage } from './pages/AboutPage';
+import { BlogIndexPage } from './pages/BlogIndexPage';
+import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { ServicePage } from './pages/ServicePage';
 import { TermsPage } from './pages/TermsPage';
-import { applySeoMeta, buildServiceSchema, homeStructuredData, notFoundSeo } from './utils/seo';
+import {
+  applySeoMeta,
+  buildBlogIndexSeo,
+  buildBlogPostSeo,
+  buildServiceSchema,
+  homeStructuredData,
+  notFoundSeo,
+} from './utils/seo';
 
 const normalizePath = (pathname: string) => {
   const trimmed = pathname.replace(/\/+$/, '');
@@ -26,16 +39,73 @@ type AppProps = {
   path?: string;
 };
 
+const giftHostnames = new Set(['gift.shot.is', 'gift.localhost']);
+
+const getGiftSlug = (pathname: string, hostname?: string) => {
+  const cleanPath = normalizePath(pathname);
+  const segments = cleanPath.split('/').filter(Boolean);
+  const isGiftHost = hostname ? giftHostnames.has(hostname) : false;
+  const isLocalDevHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+
+  if (isGiftHost) {
+    return segments[0];
+  }
+
+  if (isLocalDevHost && segments[0] === 'gift') {
+    return segments[1];
+  }
+
+  return undefined;
+};
+
+const isGiftSurface = (pathname: string, hostname?: string) => {
+  const cleanPath = normalizePath(pathname);
+  const segments = cleanPath.split('/').filter(Boolean);
+  const isLocalDevHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+
+  return Boolean(hostname && giftHostnames.has(hostname)) || (isLocalDevHost && segments[0] === 'gift');
+};
+
 function App({ path }: AppProps = {}) {
   const incoming = path ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : undefined;
   const pathname = normalizePath(incoming);
-  const servicePage = servicePagesByPath.get(pathname);
-  const isHome = HOME_PATHS.has(pathname);
-  const staticPage = STATIC_PAGES[pathname];
-  const isNotFound = !isHome && !servicePage && !staticPage;
+  const onGiftSurface = isGiftSurface(pathname, hostname);
+  const giftSlug = getGiftSlug(pathname, hostname);
+  const giftPage = giftSlug ? giftPagesBySlug.get(giftSlug) : undefined;
+  const servicePage = onGiftSurface ? undefined : servicePagesByPath.get(pathname);
+  const blogPost = onGiftSurface ? undefined : blogPostByPath.get(pathname);
+  const blogIndexLang = onGiftSurface
+    ? undefined
+    : pathname === blogIndexPath('en')
+      ? 'en'
+      : pathname === blogIndexPath('es')
+        ? 'es'
+        : undefined;
+  const isHome = !onGiftSurface && HOME_PATHS.has(pathname);
+  const staticPage = onGiftSurface ? undefined : STATIC_PAGES[pathname];
+  const isNotFound = !giftPage && !isHome && !servicePage && !staticPage && !blogPost && !blogIndexLang;
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
+
+    if (giftPage) {
+      applySeoMeta({
+        path: `/${giftPage.slug}`,
+        title: `${giftPage.businessName} video gift | SHOT.IS`,
+        description: `A private SHOT.IS mini ad pack prepared for ${giftPage.businessName}.`,
+        robots: 'noindex,follow',
+        canonical: `https://gift.shot.is/${giftPage.slug}`,
+        structuredData: {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: `${giftPage.businessName} video gift | SHOT.IS`,
+          description: `A private SHOT.IS mini ad pack prepared for ${giftPage.businessName}.`,
+          url: `https://gift.shot.is/${giftPage.slug}`,
+        },
+      });
+      return;
+    }
 
     if (servicePage) {
       applySeoMeta({
@@ -47,16 +117,39 @@ function App({ path }: AppProps = {}) {
       return;
     }
 
+    if (blogPost) {
+      applySeoMeta(buildBlogPostSeo(blogPost));
+      return;
+    }
+
+    if (blogIndexLang) {
+      applySeoMeta(buildBlogIndexSeo(blogIndexLang));
+      return;
+    }
+
     if (isNotFound) {
       applySeoMeta(notFoundSeo);
       return;
     }
 
     applySeoMeta({ ...homeSeo, structuredData: homeStructuredData });
-  }, [isNotFound, servicePage]);
+  }, [blogIndexLang, blogPost, giftPage, isNotFound, servicePage]);
+
+  if (giftPage) {
+    const BespokeGiftPage = bespokeGiftPages[giftPage.slug];
+    return BespokeGiftPage ? <BespokeGiftPage page={giftPage} /> : <GiftPage page={giftPage} />;
+  }
 
   if (servicePage) {
     return <ServicePage page={servicePage} />;
+  }
+
+  if (blogPost) {
+    return <BlogPostPage post={blogPost} />;
+  }
+
+  if (blogIndexLang) {
+    return <BlogIndexPage lang={blogIndexLang} posts={blogPostsByLang[blogIndexLang]} />;
   }
 
   if (staticPage) {

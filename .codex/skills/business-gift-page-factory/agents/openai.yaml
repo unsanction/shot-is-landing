@@ -1,0 +1,6 @@
+interface:
+  display_name: "Business Gift Page Factory"
+  short_description: "Research and build private gift pages"
+  default_prompt: "Use $business-gift-page-factory to research this business and build a personalized SHOT.IS gift page."
+policy:
+  allow_implicit_invocation: true
