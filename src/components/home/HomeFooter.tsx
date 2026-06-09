@@ -2,6 +2,7 @@ const footerLinks = [
   { label: 'AI UGC Ads', href: '/ai-ugc-ads' },
   { label: 'AI Video Ads', href: '/ai-video-ads' },
   { label: 'Virtual Influencers', href: '/virtual-influencers' },
+  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },

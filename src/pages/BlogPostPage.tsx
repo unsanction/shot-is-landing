@@ -50,6 +50,25 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
                 ) : null}
               </div>
 
+              <nav
+                aria-label="Breadcrumb"
+                className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/40"
+              >
+                <a href="/" className="transition-colors hover:text-accent">
+                  SHOT.IS
+                </a>
+                <span aria-hidden="true" className="mx-2">
+                  /
+                </span>
+                <a href={blogIndexPath(post.lang)} className="transition-colors hover:text-accent">
+                  {t.blogTitle}
+                </a>
+                <span aria-hidden="true" className="mx-2">
+                  /
+                </span>
+                <span className="text-white/60">{post.title}</span>
+              </nav>
+
               <h1 className="text-[clamp(1.85rem,5vw,3.25rem)] font-extrabold uppercase leading-[0.98] tracking-tight">
                 {post.title}
               </h1>
@@ -103,6 +122,23 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
           <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 md:px-8 md:pb-20">
             {post.blocks.map((block, index) => renderBlock(block, index))}
           </div>
+
+          {/* FAQ — visible text mirrors the FAQPage JSON-LD emitted in buildBlogPostSchema */}
+          {post.faq?.length ? (
+            <section aria-label={t.faqTitle} className="mx-auto max-w-[44rem] px-5 pb-16 md:px-8 md:pb-20">
+              <h2 className="font-body mb-8 text-2xl font-extrabold tracking-tight md:text-3xl">{t.faqTitle}</h2>
+              <div className="space-y-4">
+                {post.faq.map((f) => (
+                  <div key={f.question} className="rounded-[4px] border border-white/10 bg-white/[0.02] p-6">
+                    <h3 className="text-lg font-black uppercase leading-tight tracking-tight">{f.question}</h3>
+                    <p className="mt-4 text-[1.02rem] font-medium leading-relaxed text-white/70">
+                      {renderInline(f.answer)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </article>
 
         {/* CTA */}
@@ -111,7 +147,7 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
             <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl">{t.ctaTitle}</h2>
             <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-white/85 md:text-lg">{t.ctaBody}</p>
             <a
-              href="/#join"
+              href="https://studio.shot.is/"
               className="mt-8 inline-flex items-center justify-center bg-white px-9 py-5 text-xs font-black uppercase tracking-[0.26em] text-black transition-all hover:-rotate-1 hover:bg-black hover:text-white"
             >
               {t.ctaButton}

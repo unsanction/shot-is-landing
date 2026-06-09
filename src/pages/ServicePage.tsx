@@ -47,7 +47,7 @@ export function ServicePage({ page }: ServicePageProps) {
             </p>
             <div className="mt-12 flex flex-col gap-4 sm:flex-row">
               <a
-                href="/#join"
+                href="https://studio.shot.is/"
                 className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.26em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white md:px-10"
               >
                 {page.primaryCta}
