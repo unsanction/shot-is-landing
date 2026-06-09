@@ -14,6 +14,7 @@
     "build:prerender": "node scripts/prerender.mjs",
     "build": "npm run build:client && npm run build:server && npm run build:og && npm run build:prerender",
     "preview": "vite preview",
+    "ping:indexnow": "node scripts/indexnow-ping.mjs",
     "generate:hero": "node scripts/generate-hero-media.mjs",
     "gen:icons": "node scripts/generate-icons.mjs",
     "deploy:hosting": "npm run build && firebase deploy --only hosting",

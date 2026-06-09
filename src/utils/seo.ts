@@ -32,6 +32,9 @@ type PageSeo = {
   canonical?: string;
   alternates?: Alternate[];
   structuredData?: Record<string, unknown>;
+  /** ISO yyyy-mm-dd — emitted as article:published_time when ogType is 'article'. */
+  publishedTime?: string;
+  modifiedTime?: string;
 };
 
 const absoluteUrl = (path: string) => new URL(path, siteBaseUrl).toString();
@@ -243,11 +246,28 @@ export const buildBlogPostSchema = (post: BlogPost) => {
         datePublished: post.datePublished,
         dateModified: post.dateModified ?? post.datePublished,
         inLanguage: post.lang,
-        author: { '@type': 'Organization', name: post.author.name, url: post.author.url ?? siteBaseUrl },
+        author: {
+          '@type': post.author.authorType ?? 'Organization',
+          name: post.author.name,
+          url: post.author.url ?? siteBaseUrl,
+        },
         publisher: { '@id': `${siteBaseUrl}/#organization` },
         mainEntityOfPage: { '@id': `${url}#webpage` },
         keywords: post.tags.join(', '),
       },
+      ...(post.faq?.length
+        ? [
+            {
+              '@type': 'FAQPage',
+              '@id': `${url}#faq`,
+              mainEntity: post.faq.map((f) => ({
+                '@type': 'Question',
+                name: f.question,
+                acceptedAnswer: { '@type': 'Answer', text: f.answer },
+              })),
+            },
+          ]
+        : []),
       {
         '@type': 'WebPage',
         '@id': `${url}#webpage`,
@@ -324,6 +344,8 @@ export const buildBlogPostSeo = (post: BlogPost): PageSeo => {
     canonical: absoluteUrl(path),
     alternates: blogAlternates(post),
     structuredData: buildBlogPostSchema(post),
+    publishedTime: post.datePublished,
+    modifiedTime: post.dateModified ?? post.datePublished,
   };
 };
 
@@ -427,6 +449,8 @@ export type ResolvedPageSeo = Required<Pick<PageSeo, 'path' | 'title' | 'descrip
   canonical: string;
   alternates: Alternate[];
   structuredData: Record<string, unknown>;
+  publishedTime?: string;
+  modifiedTime?: string;
 };
 
 const robotsDefault = 'index,follow,max-image-preview:large';
@@ -442,6 +466,8 @@ const resolve = (seo: PageSeo): ResolvedPageSeo => ({
   canonical: seo.canonical ?? absoluteUrl(seo.path),
   alternates: seo.alternates ?? [],
   structuredData: seo.structuredData ?? buildHomeSchema(),
+  publishedTime: seo.publishedTime,
+  modifiedTime: seo.modifiedTime,
 });
 
 /** OG key for a static page is its path without the leading slash (e.g. /about -> about). */

@@ -4,7 +4,8 @@ export const navLinks: NavLink[] = [
   { href: '/ai-ugc-ads', label: 'AI UGC Ads' },
   { href: '/#services', label: 'Services' },
   { href: '/#workflow', label: 'Workflow' },
-  { href: '/#join', label: 'Join Circle' },
+  { href: '/blog', label: 'Blog' },
+  { href: 'https://studio.shot.is/', label: 'Open Studio' },
 ];
 
 export const creators: Creator[] = [
