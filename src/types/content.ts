@@ -23,18 +23,3 @@ export type Stat = {
   label: string;
   sub: string;
 };
-
-export type TweakState = {
-  surface: string;
-  glitch: string;
-  scan: string;
-  crt: string;
-  grain: string;
-  word: string;
-};
-
-export type TweakGroup = {
-  key: keyof TweakState;
-  label: string;
-  options: Array<{ label: string; value: string }>;
-};
