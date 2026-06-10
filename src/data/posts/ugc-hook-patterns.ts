@@ -51,10 +51,10 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'Direct pain call-out — «If your [X] still does [annoying thing], watch this.» Works when the pain is common, concrete, and slightly embarrassing to admit.',
-        'The «stop doing this» opener — «Stop [common behavior] — it’s why your [X] isn’t working.» Works when the audience already tries to solve the problem the wrong way.',
-        'Cost-of-inaction — «Every week you keep [doing X], you’re losing [time/money/result].» Works for B2B-ish and utility products where the waste is quantifiable.',
-        'The mirror — actor restates the viewer’s exact inner monologue: «I knew I needed [X], I just kept putting it off.» Works for considered purchases with guilt or procrastination attached.',
+        'Direct pain call-out — “If your [X] still does [annoying thing], watch this.” Works when the pain is common, concrete, and slightly embarrassing to admit.',
+        'The “stop doing this” opener — “Stop [common behavior] — it’s why your [X] isn’t working.” Works when the audience already tries to solve the problem the wrong way.',
+        'Cost-of-inaction — “Every week you keep [doing X], you’re losing [time/money/result].” Works for B2B-ish and utility products where the waste is quantifiable.',
+        'The mirror — actor restates the viewer’s exact inner monologue: “I knew I needed [X], I just kept putting it off.” Works for considered purchases with guilt or procrastination attached.',
       ],
     },
     {
@@ -69,7 +69,7 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'Mid-action open — the clip starts in the middle of something already happening (pouring, dropping, unboxing half-done). Works because there’s no «intro» to skip; the brain wants to resolve the action.',
+        'Mid-action open — the clip starts in the middle of something already happening (pouring, dropping, unboxing half-done). Works because there’s no “intro” to skip; the brain wants to resolve the action.',
         'The wrong-place product — the product appears somewhere it shouldn’t be (a coffee cup on a gym bench, skincare in a car). Works for visually distinctive products with strong brand color.',
         'Whisper or silence open — the actor leans in and whispers, or there’s a beat of dead silence before the line. Works in sound-on placements where every other ad opens loud.',
         'Visual glitch or freeze — a deliberate freeze-frame, rewind, or jump cut in the first second. Works for younger, edit-literate audiences; reads as broken to older ones.',
@@ -87,10 +87,10 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'The reluctant convert — «I genuinely didn’t believe this would work.» Works for skeptical categories (supplements, productivity tools) where doubt is the default.',
-        'Crowd reference — «Everyone keeps asking me about [X], so here it is.» Works when the product is visible in public — bags, drinks, gadgets, anything strangers comment on.',
-        'The recommendation relay — «My [sister/trainer/dentist] told me to try this.» Works because borrowed authority feels less like an ad than a first-person pitch.',
-        'Honest-review framing — «Real talk: here’s what’s good and what’s not.» Works mid-funnel and for retargeting, where the viewer has seen the polished version already and wants the catch.',
+        'The reluctant convert — “I genuinely didn’t believe this would work.” Works for skeptical categories (supplements, productivity tools) where doubt is the default.',
+        'Crowd reference — “Everyone keeps asking me about [X], so here it is.” Works when the product is visible in public — bags, drinks, gadgets, anything strangers comment on.',
+        'The recommendation relay — “My [sister/trainer/dentist] told me to try this.” Works because borrowed authority feels less like an ad than a first-person pitch.',
+        'Honest-review framing — “Real talk: here’s what’s good and what’s not.” Works mid-funnel and for retargeting, where the viewer has seen the polished version already and wants the catch.',
       ],
     },
     {
@@ -105,9 +105,9 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'The withheld object — «I can’t believe nobody talks about this» while the product stays just out of frame. Works when the reveal itself is visually satisfying.',
-        'Before-the-after — open on the «after» state with «this took me 12 days» framing, then rewind. Works for transformation products: skin, fitness, home, organization.',
-        'The forbidden angle — «My [industry] friends will hate me for sharing this.» Works for products that undercut an expensive incumbent (salon, agency, gym).',
+        'The withheld object — “I can’t believe nobody talks about this” while the product stays just out of frame. Works when the reveal itself is visually satisfying.',
+        'Before-the-after — open on the “after” state with “this took me 12 days” framing, then rewind. Works for transformation products: skin, fitness, home, organization.',
+        'The forbidden angle — “My [industry] friends will hate me for sharing this.” Works for products that undercut an expensive incumbent (salon, agency, gym).',
         'The unfinished sentence — the spoken line cuts off at the most loaded word and the next shot answers it. Works as a pure editing trick; pairs with almost any body.',
       ],
     },
@@ -123,9 +123,9 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'Claim plus countdown — «This removes [problem] in under 30 seconds — watch.» Works when the demo is genuinely fast and visual; never use it when it isn’t.',
+        'Claim plus countdown — “This removes [problem] in under 30 seconds — watch.” Works when the demo is genuinely fast and visual; never use it when it isn’t.',
         'The side-by-side — split screen of with/without from frame one. Works for anything with a visible delta: cleaning, color, texture, speed.',
-        'Price anchor open — «This costs less than your [daily coffee/one gym visit].» Works for impulse price points where the objection is purely «is it worth it».',
+        'Price anchor open — “This costs less than your [daily coffee/one gym visit].” Works for impulse price points where the objection is purely “is it worth it”.',
         'The blunt demo — no spoken hook at all: hands, product, action, result, in the first two seconds. Works in sound-off placements and as the control variant every test should include.',
       ],
     },
@@ -174,12 +174,12 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'A vague brief («make it punchier») produces interchangeable variants. Each hook variant we generate is specified down to the frame. Per variant, write down:',
+      text: 'A vague brief (“make it punchier”) produces interchangeable variants. Each hook variant we generate is specified down to the frame. Per variant, write down:',
     },
     {
       type: 'ol',
       items: [
-        'Pattern and family — name the pattern from the library (e.g. «reluctant convert», social proof family) so the intent is explicit and results can be grouped by family later.',
+        'Pattern and family — name the pattern from the library (e.g. “reluctant convert”, social proof family) so the intent is explicit and results can be grouped by family later.',
         'Spoken line — the exact words for seconds 0–2, written for speech, not print. Read it aloud once; if it takes longer than two seconds, cut it.',
         'On-screen text — the burned-in overlay, max 5–7 words, and where it sits so it survives platform UI (avoid the bottom third).',
         'First visual — what is literally in frame at 0:00: actor, product, action already in progress, and the camera framing (close-up, medium, POV).',

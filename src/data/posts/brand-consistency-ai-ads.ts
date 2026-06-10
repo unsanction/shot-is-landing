@@ -38,7 +38,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'We learned to describe the failure mode with one phrase: «four drinks on four different tables». You ask for a six-shot ad about one beverage, and you get six technically competent shots in which the cup changes shape, the lid changes color, the table changes material, and the daylight changes season. No single shot is wrong. The set is.',
+      text: 'We learned to describe the failure mode with one phrase: “four drinks on four different tables”. You ask for a six-shot ad about one beverage, and you get six technically competent shots in which the cup changes shape, the lid changes color, the table changes material, and the daylight changes season. No single shot is wrong. The set is.',
     },
     {
       type: 'p',
@@ -60,7 +60,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Pick a single, specifically described setting and keep the whole ad in it: «small sunlit café counter, pale oak surfaces, white tile behind the espresso machine» — not «a café». Specificity is what makes regeneration converge: when shot 4 fails QA and you regenerate it, a vague location description produces a different room every time, while a specific one produces variations of the same room.',
+      text: 'Pick a single, specifically described setting and keep the whole ad in it: “small sunlit café counter, pale oak surfaces, white tile behind the espresso machine” — not “a café”. Specificity is what makes regeneration converge: when shot 4 fails QA and you regenerate it, a vague location description produces a different room every time, while a specific one produces variations of the same room.',
     },
     {
       type: 'h3',
@@ -80,9 +80,9 @@ export const post: BlogPost = {
       type: 'ul',
       items: [
         'Palette: 2–3 named colors that should dominate every frame, usually the brand colors plus one neutral.',
-        'Lens feel: one phrase like «35mm handheld, shallow depth of field» repeated in every prompt — mixing a phone-camera look with a cinema look across shots is one of the loudest continuity breaks.',
-        'Light: time of day and quality («soft morning window light») locked once. Light direction changing between shots is the single most common giveaway that an ad was generated piecemeal.',
-        'Energy: a one-line note on motion («slow push-ins, no whip pans») so the edit cuts together at one tempo.',
+        'Lens feel: one phrase like “35mm handheld, shallow depth of field” repeated in every prompt — mixing a phone-camera look with a cinema look across shots is one of the loudest continuity breaks.',
+        'Light: time of day and quality (“soft morning window light”) locked once. Light direction changing between shots is the single most common giveaway that an ad was generated piecemeal.',
+        'Energy: a one-line note on motion (“slow push-ins, no whip pans”) so the edit cuts together at one tempo.',
       ],
     },
     {
@@ -112,7 +112,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'The product is the one element where «close enough» is a defect. Three rules cover most of it.',
+      text: 'The product is the one element where “close enough” is a defect. Three rules cover most of it.',
     },
     {
       type: 'p',
@@ -120,7 +120,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Second: never let the model imagine the product. If a shot does not need the product visible, fine. But the moment the product is in frame, the reference images go into the generation. There is no shot where «roughly our bottle» is acceptable.',
+      text: 'Second: never let the model imagine the product. If a shot does not need the product visible, fine. But the moment the product is in frame, the reference images go into the generation. There is no shot where “roughly our bottle” is acceptable.',
     },
     {
       type: 'p',
@@ -129,11 +129,11 @@ export const post: BlogPost = {
     {
       type: 'h2',
       id: 'dont-invent-skus',
-      text: 'Why does «don’t invent SKUs» need to be a written rule?',
+      text: 'Why does “don’t invent SKUs” need to be a written rule?',
     },
     {
       type: 'p',
-      text: 'Because the model will do it, cheerfully and plausibly. Ask for «a customer enjoying a drink from the brand» without constraints and you may get a frappé with whipped cream, an iced matcha, a smoothie in a branded cup — none of which the brand sells. The model is pattern-matching to «beverage brand ad», not to your actual menu. The same applies to flavors, sizes, colorways, and bundle packs in any category.',
+      text: 'Because the model will do it, cheerfully and plausibly. Ask for “a customer enjoying a drink from the brand” without constraints and you may get a frappé with whipped cream, an iced matcha, a smoothie in a branded cup — none of which the brand sells. The model is pattern-matching to “beverage brand ad”, not to your actual menu. The same applies to flavors, sizes, colorways, and bundle packs in any category.',
     },
     {
       type: 'p',
@@ -142,7 +142,7 @@ export const post: BlogPost = {
     {
       type: 'callout',
       title: 'Field note: the invented-menu problem',
-      body: 'In our pipeline this rule exists because of a coffee to-go campaign. The brand sold coffee in one signature cup. Early unconstrained generations produced an entire phantom menu — layered iced drinks, cream-topped desserts in glassware the brand does not own. Every shot looked great. Every shot was a product lie. After we locked the bible to the one real cup, fed its reference photos into every generation, and added «no other drinks exist» to the constants, the invented-SKU rate in candidate keyframes dropped to near zero, and QA could focus on label fidelity instead of menu policing.',
+      body: 'In our pipeline this rule exists because of a coffee to-go campaign. The brand sold coffee in one signature cup. Early unconstrained generations produced an entire phantom menu — layered iced drinks, cream-topped desserts in glassware the brand does not own. Every shot looked great. Every shot was a product lie. After we locked the bible to the one real cup, fed its reference photos into every generation, and added “no other drinks exist” to the constants, the invented-SKU rate in candidate keyframes dropped to near zero, and QA could focus on label fidelity instead of menu policing.',
     },
     {
       type: 'h2',
@@ -179,7 +179,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'There is also a softer cost: trust. Viewers cannot articulate «the light direction flipped between shots», but they feel it, and what they feel is cheapness. For [AI UGC ads](/blog/ai-ugc-ads-guide), where the entire format trades on feeling real and native, incoherence is not a style problem — it is a credibility problem.',
+      text: 'There is also a softer cost: trust. Viewers cannot articulate “the light direction flipped between shots”, but they feel it, and what they feel is cheapness. For [AI UGC ads](/blog/ai-ugc-ads-guide), where the entire format trades on feeling real and native, incoherence is not a style problem — it is a credibility problem.',
     },
     {
       type: 'h2',

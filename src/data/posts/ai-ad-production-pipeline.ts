@@ -25,7 +25,7 @@ export const post: BlogPost = {
   blocks: [
     {
       type: 'p',
-      text: 'An AI ad production pipeline is the sequence of steps that turns a brand brief into a finished, publishable short-form ad: brief intake, a scene bible that locks the visual world, reference-aware keyframe generation, grading and QA, image-to-video animation, a beat-synced edit, overlays, and export into creative testing. Our studio runs this pipeline daily, and the honest version is less «type a prompt, get an ad» and more a production line with rejection gates at every stage. This article is the full map; the linked deep-dives go further into each part.',
+      text: 'An AI ad production pipeline is the sequence of steps that turns a brand brief into a finished, publishable short-form ad: brief intake, a scene bible that locks the visual world, reference-aware keyframe generation, grading and QA, image-to-video animation, a beat-synced edit, overlays, and export into creative testing. Our studio runs this pipeline daily, and the honest version is less “type a prompt, get an ad” and more a production line with rejection gates at every stage. This article is the full map; the linked deep-dives go further into each part.',
     },
     {
       type: 'h2',
@@ -74,7 +74,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Generative models have no memory between shots. Ask for «a woman holding the drink in a cafe» six times and you get six cafes, six tables, six lighting setups — six technically fine shots that don’t form one world. We call the failure mode «4 drinks on 4 different tables», and it’s the single most common reason a multi-shot AI ad reads as fake even when every individual frame looks good.',
+      text: 'Generative models have no memory between shots. Ask for “a woman holding the drink in a cafe” six times and you get six cafes, six tables, six lighting setups — six technically fine shots that don’t form one world. We call the failure mode “4 drinks on 4 different tables”, and it’s the single most common reason a multi-shot AI ad reads as fake even when every individual frame looks good.',
     },
     {
       type: 'p',

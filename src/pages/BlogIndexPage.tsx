@@ -23,7 +23,7 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
   const otherLang: BlogLang = lang === 'en' ? 'es' : 'en';
 
   return (
-    <div className="min-h-screen bg-black text-white selection:text-accent">
+    <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
       <HomeNav />
 

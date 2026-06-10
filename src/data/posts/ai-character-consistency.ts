@@ -34,7 +34,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Generative models don’t store your character anywhere. There is no «person record» the model looks up — there is a text prompt, and a prompt is a description, not an identity. «A woman in her mid-20s with auburn hair and freckles» matches thousands of plausible faces, and the model is free to pick a different one every time. That underspecification is the root cause of face drift in every virtual-influencer pipeline we’ve run.',
+      text: 'Generative models don’t store your character anywhere. There is no “person record” the model looks up — there is a text prompt, and a prompt is a description, not an identity. “A woman in her mid-20s with auburn hair and freckles” matches thousands of plausible faces, and the model is free to pick a different one every time. That underspecification is the root cause of face drift in every virtual-influencer pipeline we’ve run.',
     },
     {
       type: 'h3',
@@ -146,7 +146,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'In production we lock one outfit per campaign inside a Scene Bible — one location, one wardrobe, a short list of look constants like palette and lighting feel. It’s the same discipline that keeps [brand consistency in AI ads](/blog/brand-consistency-ai-ads) from collapsing into «four drinks on four different tables», applied to a person instead of a product. The outfit is also an extra reference signal: wardrobe details fed into generation give the model more to lock onto than the face alone.',
+      text: 'In production we lock one outfit per campaign inside a Scene Bible — one location, one wardrobe, a short list of look constants like palette and lighting feel. It’s the same discipline that keeps [brand consistency in AI ads](/blog/brand-consistency-ai-ads) from collapsing into “four drinks on four different tables”, applied to a person instead of a product. The outfit is also an extra reference signal: wardrobe details fed into generation give the model more to lock onto than the face alone.',
     },
     {
       type: 'h2',

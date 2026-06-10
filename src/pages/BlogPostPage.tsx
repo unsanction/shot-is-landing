@@ -25,7 +25,7 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
   const related = blogPostsByLang[post.lang].filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:text-accent">
+    <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
       <HomeNav />
 
@@ -85,60 +85,53 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
             </div>
           </header>
 
-          <div className="mx-auto max-w-[44rem] px-5 pb-10 md:px-8">
-            {/* TL;DR — high-citability key takeaways */}
-            <section aria-label={t.keyTakeaways} className="rounded-[6px] border border-white/12 bg-white/[0.03] p-6 md:p-8">
-              <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-accent">{t.keyTakeaways}</p>
-              <ul className="space-y-3">
-                {post.tldr.map((item, i) => (
-                  <li key={i} className="flex gap-3 font-body text-[1.02rem] font-medium leading-relaxed text-white/80">
-                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-accent" />
-                    <span>{renderInline(item)}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            {/* Table of contents */}
-            {sections.length > 2 ? (
-              <nav aria-label={t.onThisPage} className="mt-6 border-l-2 border-white/10 pl-5">
-                <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-white/40">{t.onThisPage}</p>
-                <ul className="space-y-2">
-                  {sections.map((section) => (
-                    <li key={section.id}>
-                      <a
-                        href={`#${section.id}`}
-                        className="text-sm font-semibold text-white/55 transition-colors hover:text-accent"
-                      >
-                        {section.text}
-                      </a>
+          {/* Paper reading surface — dark brand header above, light "print" sheet for the long read */}
+          <div className="border-t-2 border-accent bg-paper text-ink">
+            <div className="mx-auto max-w-[44rem] px-5 pt-12 md:px-8 md:pt-16">
+              {/* TL;DR — high-citability key takeaways */}
+              <section
+                aria-label={t.keyTakeaways}
+                className="rounded-[4px] border border-ink/15 bg-white/70 p-6 md:p-8"
+              >
+                <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
+                  {t.keyTakeaways}
+                </p>
+                <ul className="space-y-3">
+                  {post.tldr.map((item, i) => (
+                    <li key={i} className="flex gap-3.5 font-body text-[1rem] font-medium leading-relaxed text-ink/85">
+                      <span aria-hidden="true" className="mt-[0.55em] h-[7px] w-[7px] flex-none bg-accent" />
+                      <span>{renderInline(item)}</span>
                     </li>
                   ))}
                 </ul>
-              </nav>
-            ) : null}
-          </div>
+              </section>
 
-          <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 md:px-8 md:pb-20">
-            {post.blocks.map((block, index) => renderBlock(block, index))}
-          </div>
+              {/* Table of contents */}
+              {sections.length > 2 ? (
+                <nav aria-label={t.onThisPage} className="mt-8 border-l-2 border-ink/15 pl-5">
+                  <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-ink/45">
+                    {t.onThisPage}
+                  </p>
+                  <ul className="space-y-2">
+                    {sections.map((section) => (
+                      <li key={section.id}>
+                        <a
+                          href={`#${section.id}`}
+                          className="font-body text-sm font-semibold text-ink/60 transition-colors hover:text-accent"
+                        >
+                          {section.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ) : null}
+            </div>
 
-          {/* FAQ — visible text mirrors the FAQPage JSON-LD emitted in buildBlogPostSchema */}
-          {post.faq?.length ? (
-            <section aria-label={t.faqTitle} className="mx-auto max-w-[44rem] px-5 pb-16 md:px-8 md:pb-20">
-              <h2 className="font-body mb-8 text-2xl font-extrabold tracking-tight md:text-3xl">{t.faqTitle}</h2>
-              <div className="space-y-4">
-                {post.faq.map((f) => (
-                  <div key={f.question} className="rounded-[4px] border border-white/10 bg-white/[0.02] p-6">
-                    <h3 className="text-lg font-black uppercase leading-tight tracking-tight">{f.question}</h3>
-                    <p className="mt-4 text-[1.02rem] font-medium leading-relaxed text-white/70">
-                      {renderInline(f.answer)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
+            <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 pt-10 md:px-8 md:pb-20 md:pt-12">
+              {post.blocks.map((block, index) => renderBlock(block, index))}
+            </div>
+          </div>
         </article>
 
         {/* CTA */}

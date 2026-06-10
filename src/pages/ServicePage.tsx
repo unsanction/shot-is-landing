@@ -14,7 +14,7 @@ export function ServicePage({ page }: ServicePageProps) {
   const relatedPages = servicePages.filter((candidate) => candidate.path !== page.path);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:text-accent">
+    <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
       <HomeNav />
 
