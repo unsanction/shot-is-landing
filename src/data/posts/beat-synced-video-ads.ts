@@ -25,7 +25,7 @@ export const post: BlogPost = {
   blocks: [
     {
       type: 'p',
-      text: 'Beat-synced video ads are edits where every cut lands on a musical onset — a drum hit, a bass note, a vocal stab — instead of wherever a clip happens to end. For AI-generated footage this matters more than for filmed footage: a cut on the beat reads as a deliberate editorial decision, while a cut that lands nowhere reads as «the render stopped here». The mechanism is a beat grid: detect onsets in the track, choose cut points from them, and slot generated clips into the windows between cuts.',
+      text: 'Beat-synced video ads are edits where every cut lands on a musical onset — a drum hit, a bass note, a vocal stab — instead of wherever a clip happens to end. For AI-generated footage this matters more than for filmed footage: a cut on the beat reads as a deliberate editorial decision, while a cut that lands nowhere reads as “the render stopped here”. The mechanism is a beat grid: detect onsets in the track, choose cut points from them, and slot generated clips into the windows between cuts.',
     },
     {
       type: 'h2',
@@ -63,7 +63,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'The output is boring on purpose: a list like «0.00–2.31s: shot 1, 2.31–4.87s: shot 2, …». Once that list exists, assembly is deterministic — our renderer trims, concatenates, and burns overlays without any creative judgment at render time. All the judgment happened upstream, in selection and slotting, where iterating costs nothing.',
+      text: 'The output is boring on purpose: a list like “0.00–2.31s: shot 1, 2.31–4.87s: shot 2, …”. Once that list exists, assembly is deterministic — our renderer trims, concatenates, and burns overlays without any creative judgment at render time. All the judgment happened upstream, in selection and slotting, where iterating costs nothing.',
     },
     {
       type: 'h2',
@@ -93,7 +93,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Cutting on the beat answers «when». Energy mapping answers «what». The idea is to read the structure of the track — intro, verse, build, drop, outro — and assign shot types to sections so that visual intensity tracks musical intensity.',
+      text: 'Cutting on the beat answers “when”. Energy mapping answers “what”. The idea is to read the structure of the track — intro, verse, build, drop, outro — and assign shot types to sections so that visual intensity tracks musical intensity.',
     },
     {
       type: 'ul',

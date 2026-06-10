@@ -105,7 +105,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'The discipline that matters most: the gate is binary. A still that «mostly» passes does not get animated on the theory that motion will hide the flaw. Motion amplifies flaws — a slightly-off label in a still becomes a visibly morphing label in a clip.',
+      text: 'The discipline that matters most: the gate is binary. A still that “mostly” passes does not get animated on the theory that motion will hide the flaw. Motion amplifies flaws — a slightly-off label in a still becomes a visibly morphing label in a clip.',
     },
     {
       type: 'h2',
@@ -132,7 +132,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'You ask for «she lifts the cup slightly» and get a toast, a head turn, and a camera orbit. i2v models tend to maximize motion unless told otherwise. The fix is in the motion prompt: state explicitly what stays still («camera locked, background static»), describe one motion per clip, and scale adjectives down — models read «slowly» as normal speed and «slightly» as a full gesture.',
+      text: 'You ask for “she lifts the cup slightly” and get a toast, a head turn, and a camera orbit. i2v models tend to maximize motion unless told otherwise. The fix is in the motion prompt: state explicitly what stays still (“camera locked, background static”), describe one motion per clip, and scale adjectives down — models read “slowly” as normal speed and “slightly” as a full gesture.',
     },
     {
       type: 'h3',

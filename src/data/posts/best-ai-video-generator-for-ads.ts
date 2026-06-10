@@ -62,7 +62,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'The failure modes are practical rather than visual. Iteration on Veo is slower and more expensive than on Grok Imagine, which makes it a poor fit for the «generate eight hook variants and grade them» phase of a campaign. Tier restrictions are real too: depending on access level, you can run into aspect-ratio limits and watermarked output, which disqualifies a clip for paid placement no matter how good the motion is. Check what your tier actually delivers before you commit a campaign to it.',
+      text: 'The failure modes are practical rather than visual. Iteration on Veo is slower and more expensive than on Grok Imagine, which makes it a poor fit for the “generate eight hook variants and grade them” phase of a campaign. Tier restrictions are real too: depending on access level, you can run into aspect-ratio limits and watermarked output, which disqualifies a clip for paid placement no matter how good the motion is. Check what your tier actually delivers before you commit a campaign to it.',
     },
     {
       type: 'h2',
@@ -119,7 +119,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'This is why «cheapest per clip» and «best looking clip» are both the wrong single metric. Grok Imagine lets us explore wide — many keyframes, many candidates — while Veo 3 and Kling are spent more deliberately on the shots that justify them. Hooks fatigue within days on paid social, so testing volume matters more than single-asset polish; the model mix has to support volume first. The economics rhyme with the [AI vs. traditional production comparison](/blog/ai-video-ads-vs-traditional): spend cheap iterations finding the winner, spend expensive generations polishing it.',
+      text: 'This is why “cheapest per clip” and “best looking clip” are both the wrong single metric. Grok Imagine lets us explore wide — many keyframes, many candidates — while Veo 3 and Kling are spent more deliberately on the shots that justify them. Hooks fatigue within days on paid social, so testing volume matters more than single-asset polish; the model mix has to support volume first. The economics rhyme with the [AI vs. traditional production comparison](/blog/ai-video-ads-vs-traditional): spend cheap iterations finding the winner, spend expensive generations polishing it.',
     },
     {
       type: 'h2',

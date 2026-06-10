@@ -21,7 +21,7 @@ export function AboutPage() {
   useRevealOnScroll();
 
   return (
-    <div className="min-h-screen bg-black text-white selection:text-accent">
+    <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
       <HomeNav />
 

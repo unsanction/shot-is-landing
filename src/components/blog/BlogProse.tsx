@@ -33,7 +33,7 @@ export function renderInline(text: string): ReactNode[] {
         <a
           key={`l${key++}`}
           href={href}
-          className="font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
+          className="font-semibold text-accent underline decoration-accent/35 underline-offset-4 transition-colors hover:decoration-accent"
           {...(isInternal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
         >
           {match[1]}
@@ -41,7 +41,7 @@ export function renderInline(text: string): ReactNode[] {
       );
     } else if (match[3]) {
       nodes.push(
-        <strong key={`b${key++}`} className="font-bold text-white">
+        <strong key={`b${key++}`} className="font-bold">
           {match[3]}
         </strong>,
       );
@@ -58,7 +58,7 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
   switch (block.type) {
     case 'p':
       return (
-        <p key={index} className="font-serif text-[1.15rem] leading-[1.85] text-white/75 md:text-[1.2rem]">
+        <p key={index} className="font-serif text-[1.14rem] leading-[1.8] text-ink/85 md:text-[1.19rem]">
           {renderInline(block.text)}
         </p>
       );
@@ -67,7 +67,7 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
         <h2
           key={index}
           id={block.id}
-          className="font-body scroll-mt-28 pt-7 text-[1.7rem] font-extrabold leading-tight tracking-tight text-white md:text-[2rem]"
+          className="font-body scroll-mt-28 pt-8 text-[1.55rem] font-extrabold leading-[1.12] tracking-tight text-ink md:text-[1.9rem]"
         >
           {block.text}
         </h2>
@@ -77,17 +77,17 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
         <h3
           key={index}
           id={block.id}
-          className="font-body scroll-mt-28 pt-3 text-xl font-bold leading-snug tracking-tight text-white/95 md:text-[1.4rem]"
+          className="font-body scroll-mt-28 pt-4 text-xl font-bold leading-snug tracking-tight text-ink md:text-[1.35rem]"
         >
           {block.text}
         </h3>
       );
     case 'ul':
       return (
-        <ul key={index} className="space-y-3">
+        <ul key={index} className="space-y-3.5">
           {block.items.map((item, i) => (
-            <li key={i} className="flex gap-3.5 font-serif text-[1.12rem] leading-[1.75] text-white/75 md:text-[1.15rem]">
-              <span aria-hidden="true" className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-accent" />
+            <li key={i} className="flex gap-4 font-serif text-[1.1rem] leading-[1.72] text-ink/85 md:text-[1.14rem]">
+              <span aria-hidden="true" className="mt-[0.72em] h-[7px] w-[7px] flex-none bg-accent" />
               <span>{renderInline(item)}</span>
             </li>
           ))}
@@ -95,10 +95,10 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
       );
     case 'ol':
       return (
-        <ol key={index} className="space-y-3">
+        <ol key={index} className="space-y-3.5">
           {block.items.map((item, i) => (
-            <li key={i} className="flex gap-3.5 font-serif text-[1.12rem] leading-[1.75] text-white/75 md:text-[1.15rem]">
-              <span aria-hidden="true" className="mt-[0.15em] font-body text-sm font-extrabold tabular-nums text-accent">
+            <li key={i} className="flex gap-4 font-serif text-[1.1rem] leading-[1.72] text-ink/85 md:text-[1.14rem]">
+              <span aria-hidden="true" className="mt-[0.2em] font-mono text-sm font-bold tabular-nums text-accent">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span>{renderInline(item)}</span>
@@ -110,25 +110,25 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
       return (
         <blockquote
           key={index}
-          className="border-l-2 border-accent py-1 pl-6 font-serif text-[1.35rem] italic leading-snug text-white/90 md:text-[1.5rem]"
+          className="border-l-[3px] border-accent py-1 pl-6 font-serif text-[1.3rem] italic leading-[1.4] text-ink md:text-[1.45rem]"
         >
           {renderInline(block.text)}
-          {block.cite ? <cite className="mt-3 block font-body text-sm not-italic text-white/45">— {block.cite}</cite> : null}
+          {block.cite ? <cite className="mt-3 block font-body text-sm not-italic text-ink/50">— {block.cite}</cite> : null}
         </blockquote>
       );
     case 'callout':
       return (
-        <aside key={index} className="rounded-[6px] border-l-2 border-accent bg-white/[0.04] py-6 pl-6 pr-6 md:pr-8">
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-accent">{block.title}</p>
-          <p className="font-serif text-[1.1rem] leading-[1.7] text-white/80">{renderInline(block.body)}</p>
+        <aside key={index} className="rounded-[4px] bg-ink px-6 py-6 text-paper shadow-[6px_6px_0_0_rgba(255,17,0,0.9)] md:px-8 md:py-7">
+          <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-accent">{block.title}</p>
+          <p className="font-serif text-[1.08rem] leading-[1.7] text-paper/90">{renderInline(block.body)}</p>
         </aside>
       );
     case 'image':
       return (
-        <figure key={index} className="overflow-hidden rounded-[6px] border border-white/10">
+        <figure key={index} className="overflow-hidden rounded-[4px] border border-ink/10">
           <img src={block.src} alt={block.alt} loading="lazy" className="w-full" />
           {block.caption ? (
-            <figcaption className="bg-white/[0.03] px-4 py-3 font-body text-sm text-white/45">{block.caption}</figcaption>
+            <figcaption className="bg-ink/[0.04] px-4 py-3 font-body text-sm text-ink/55">{block.caption}</figcaption>
           ) : null}
         </figure>
       );

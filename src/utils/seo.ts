@@ -255,19 +255,6 @@ export const buildBlogPostSchema = (post: BlogPost) => {
         mainEntityOfPage: { '@id': `${url}#webpage` },
         keywords: post.tags.join(', '),
       },
-      ...(post.faq?.length
-        ? [
-            {
-              '@type': 'FAQPage',
-              '@id': `${url}#faq`,
-              mainEntity: post.faq.map((f) => ({
-                '@type': 'Question',
-                name: f.question,
-                acceptedAnswer: { '@type': 'Answer', text: f.answer },
-              })),
-            },
-          ]
-        : []),
       {
         '@type': 'WebPage',
         '@id': `${url}#webpage`,

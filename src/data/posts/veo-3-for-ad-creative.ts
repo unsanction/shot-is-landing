@@ -98,7 +98,7 @@ export const post: BlogPost = {
     {
       type: 'ol',
       items: [
-        'Lock a Scene Bible before generating anything: one location, one outfit, and a short list of look constants — palette, lens feel, lighting direction. Without this, a six-shot ad reads like «4 drinks on 4 different tables»: technically fine shots that never form one world.',
+        'Lock a Scene Bible before generating anything: one location, one outfit, and a short list of look constants — palette, lens feel, lighting direction. Without this, a six-shot ad reads like “4 drinks on 4 different tables”: technically fine shots that never form one world.',
         'Generate still keyframes for every shot using a reference-aware image model, feeding brand product shots and creator identity images as references. Stills are cheap and fast to judge.',
         'Grade the keyframes against a checklist — brand fidelity, identity match, continuity with the Scene Bible, artifacts — and regenerate the weak ones. Expect to make 2–4 candidates per shot to keep one. It is far cheaper to reject a bad still than a bad video.',
         'Animate each approved keyframe with Veo 3 image-to-video, keeping clips short — 4–8 seconds. A 6-second clip typically renders in about 1–5 minutes depending on load.',
@@ -127,16 +127,16 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        'Subject — who or what, with the identifying details that must survive: «a woman in a mustard-yellow coat holding a matte black water bottle, label facing camera».',
-        'Action — one verb phrase, one beat: «she unscrews the cap and takes a sip». One action per clip; if the storyboard needs two beats, that is two shots.',
-        'Camera — name the move and the framing: «slow push-in from medium to close-up, eye level, shallow depth of field». Unspecified camera is where Veo 3 freelances the most.',
-        'Lighting — direction and quality, matched to your Scene Bible: «soft window light from the left, warm late-afternoon tone».',
-        'Audio cue — because Veo 3 generates sound, direct it: «quiet café ambience, the click of the cap, no music». If you skip this, you get arbitrary ambience you may have to bury in the mix.',
+        'Subject — who or what, with the identifying details that must survive: “a woman in a mustard-yellow coat holding a matte black water bottle, label facing camera”.',
+        'Action — one verb phrase, one beat: “she unscrews the cap and takes a sip”. One action per clip; if the storyboard needs two beats, that is two shots.',
+        'Camera — name the move and the framing: “slow push-in from medium to close-up, eye level, shallow depth of field”. Unspecified camera is where Veo 3 freelances the most.',
+        'Lighting — direction and quality, matched to your Scene Bible: “soft window light from the left, warm late-afternoon tone”.',
+        'Audio cue — because Veo 3 generates sound, direct it: “quiet café ambience, the click of the cap, no music”. If you skip this, you get arbitrary ambience you may have to bury in the mix.',
       ],
     },
     {
       type: 'p',
-      text: 'Two habits compound the structure. First, keep negative space in the brief: say what should not happen («no camera shake, no other people entering frame») because the model fills silence with invention. Second, when a prompt works, change one field at a time on the next shot. Treating prompts as structured records rather than prose makes results reproducible enough to debug — which is the entire difference between generating clips and running a pipeline. How this slots into the larger system — briefs, QA gates, assembly — is covered in our [AI ad production pipeline](/blog/ai-ad-production-pipeline) write-up.',
+      text: 'Two habits compound the structure. First, keep negative space in the brief: say what should not happen (“no camera shake, no other people entering frame”) because the model fills silence with invention. Second, when a prompt works, change one field at a time on the next shot. Treating prompts as structured records rather than prose makes results reproducible enough to debug — which is the entire difference between generating clips and running a pipeline. How this slots into the larger system — briefs, QA gates, assembly — is covered in our [AI ad production pipeline](/blog/ai-ad-production-pipeline) write-up.',
     },
     {
       type: 'h2',
@@ -170,7 +170,7 @@ export const post: BlogPost = {
     {
       question: 'Does Veo 3 generate audio with the video?',
       answer:
-        'Yes. Veo 3 generates ambience, foley, and short speech in the same pass as the video, which reduces post-production for UGC-style ad clips. In an ad workflow it pays to direct the audio explicitly in the prompt — for example «quiet café ambience, no music» — or you get arbitrary sound.',
+        'Yes. Veo 3 generates ambience, foley, and short speech in the same pass as the video, which reduces post-production for UGC-style ad clips. In an ad workflow it pays to direct the audio explicitly in the prompt — for example “quiet café ambience, no music” — or you get arbitrary sound.',
     },
     {
       question: 'How long should Veo 3 clips be for ad creative?',

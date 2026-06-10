@@ -24,12 +24,25 @@ body {
   overflow-x: hidden;
   background-color: var(--bg);
   color: #ffffff;
-  cursor: crosshair;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+a,
+button,
+[role='button'],
+label,
+select,
+summary {
+  cursor: pointer;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #ffffff;
 }
 
 .gift-page {
@@ -135,7 +148,6 @@ a {
   background: var(--shot-black);
   color: var(--shot-white);
   font-family: var(--shot-font-body);
-  cursor: crosshair;
   isolation: isolate;
 }
 
@@ -483,7 +495,7 @@ a {
   gap: 14px;
   border: 0;
   color: inherit;
-  cursor: crosshair;
+  cursor: pointer;
   font-family: var(--shot-font-body);
   font-weight: 900;
   text-decoration: none;
@@ -604,7 +616,7 @@ a {
   border: 0;
   background: transparent;
   color: var(--shot-fg-2);
-  cursor: crosshair;
+  cursor: pointer;
   font-size: 14px;
 }
 
@@ -636,7 +648,7 @@ a {
   border: 1px solid var(--shot-border-subtle);
   background: transparent;
   color: var(--shot-white);
-  cursor: crosshair;
+  cursor: pointer;
   font-family: var(--shot-font-body);
   font-size: 9px;
   font-weight: 700;
@@ -666,7 +678,7 @@ a {
   border: 0;
   background: var(--shot-accent);
   color: var(--shot-white);
-  cursor: crosshair;
+  cursor: pointer;
   font-family: var(--shot-font-body);
   font-size: 10px;
   font-weight: 900;

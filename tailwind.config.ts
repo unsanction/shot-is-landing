@@ -6,6 +6,8 @@ export default {
     extend: {
       colors: {
         accent: '#ff1100',
+        paper: '#faf7f1',
+        ink: '#17130e',
       },
       fontFamily: {
         sans: ['Syne', 'sans-serif'],

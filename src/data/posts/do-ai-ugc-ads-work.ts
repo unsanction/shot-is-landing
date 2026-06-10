@@ -30,7 +30,7 @@ export const post: BlogPost = {
     {
       type: 'h2',
       id: 'why-single-video-is-wrong-question',
-      text: 'Why «does this AI video convert?» is the wrong question',
+      text: 'Why “does this AI video convert?” is the wrong question',
     },
     {
       type: 'p',
@@ -70,7 +70,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Hooks fatigue in days on paid social, not weeks. A winning ad’s frequency climbs, its hook rate sags, and CPA drifts up — and the traditional answer, «brief the creator for a refresh», takes longer than the decay itself. An AI pipeline can ship a refreshed opening on the same winning body within a day, which means you’re replacing fatigued creative on the algorithm’s schedule instead of a production calendar’s.',
+      text: 'Hooks fatigue in days on paid social, not weeks. A winning ad’s frequency climbs, its hook rate sags, and CPA drifts up — and the traditional answer, “brief the creator for a refresh”, takes longer than the decay itself. An AI pipeline can ship a refreshed opening on the same winning body within a day, which means you’re replacing fatigued creative on the algorithm’s schedule instead of a production calendar’s.',
     },
     {
       type: 'h3',
@@ -139,7 +139,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'This part is moving, so treat the following as orientation, not legal advice. Meta requires advertisers to disclose when ads in certain categories use digitally created or altered content, and applies «AI info» style labeling more broadly to synthetic media. TikTok requires creators and advertisers to label AI-generated content that shows realistic scenes or people, and has its own AI-generated content toggle. In the EU, the AI Act’s transparency provisions point toward a general expectation that synthetic media is marked as such. The direction across all three is the same: realistic AI-generated people in ads should be labeled.',
+      text: 'This part is moving, so treat the following as orientation, not legal advice. Meta requires advertisers to disclose when ads in certain categories use digitally created or altered content, and applies “AI info” style labeling more broadly to synthetic media. TikTok requires creators and advertisers to label AI-generated content that shows realistic scenes or people, and has its own AI-generated content toggle. In the EU, the AI Act’s transparency provisions point toward a general expectation that synthetic media is marked as such. The direction across all three is the same: realistic AI-generated people in ads should be labeled.',
     },
     {
       type: 'p',

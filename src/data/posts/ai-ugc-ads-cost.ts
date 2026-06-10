@@ -139,7 +139,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'This is also the honest defense of AI UGC against the «a human video is only $300» objection. One human video for $300 is fine. Twelve variants for testing is $3,000+ and weeks of coordination — or one pipeline run.',
+      text: 'This is also the honest defense of AI UGC against the “a human video is only $300” objection. One human video for $300 is fine. Twelve variants for testing is $3,000+ and weeks of coordination — or one pipeline run.',
     },
     {
       type: 'h2',
