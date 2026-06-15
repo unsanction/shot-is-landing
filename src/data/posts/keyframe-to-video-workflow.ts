@@ -10,8 +10,8 @@ export const post: BlogPost = {
     'An image to video AI workflow that holds up in production: generate still keyframes with reference-aware models, QA them, then animate with i2v.',
   excerpt:
     'Text-to-video from a prompt is a lottery for brand work. Generating a keyframe first — then animating it — is how you get control back.',
-  datePublished: '2026-06-13',
-  dateModified: '2026-06-13',
+  datePublished: '2026-06-15',
+  dateModified: '2026-06-15',
   author: defaultAuthor,
   ogImageKey: 'blog-keyframe-to-video-workflow',
   tags: ['keyframe to video', 'i2v', 'image to video', 'AI workflow', 'consistency'],

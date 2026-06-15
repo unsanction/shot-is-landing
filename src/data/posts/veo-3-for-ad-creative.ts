@@ -10,8 +10,8 @@ export const post: BlogPost = {
     'What Veo 3 ads get right — motion realism, native audio — and where it bites in production: aspect ratios, watermarks, quotas. Field notes from daily use.',
   excerpt:
     'Veo 3 is the strongest motion-and-physics model we run — and the one with the most production gotchas. What a daily pipeline taught us.',
-  datePublished: '2026-06-13',
-  dateModified: '2026-06-13',
+  datePublished: '2026-06-15',
+  dateModified: '2026-06-15',
   author: defaultAuthor,
   ogImageKey: 'blog-veo-3-for-ad-creative',
   tags: ['Veo 3', 'AI video ads', 'production', 'prompting'],
