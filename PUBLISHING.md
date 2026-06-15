@@ -15,7 +15,7 @@ imports + array entries in `src/data/posts/index.ts`, fixing dates, and pushing 
 - ai-ugc-ads-cost
 - ugc-hook-patterns
 
-## Batch B — target ~2026-06-13
+## Batch B — LIVE (published 2026-06-15)
 
 - veo-3-for-ad-creative
 - keyframe-to-video-workflow
