@@ -13,10 +13,10 @@ import { post as ugcHookPatterns } from './ugc-hook-patterns';
 import { post as veo3ForAdCreative } from './veo-3-for-ad-creative';
 import { post as keyframeToVideoWorkflow } from './keyframe-to-video-workflow';
 import { post as beatSyncedVideoAds } from './beat-synced-video-ads';
-// Batch C — register around 2026-06-17:
-// import { post as aiCharacterConsistency } from './ai-character-consistency';
-// import { post as brandConsistencyAiAds } from './brand-consistency-ai-ads';
-// import { post as doAiUgcAdsWork } from './do-ai-ugc-ads-work';
+// Batch C — published 2026-06-19:
+import { post as aiCharacterConsistency } from './ai-character-consistency';
+import { post as brandConsistencyAiAds } from './brand-consistency-ai-ads';
+import { post as doAiUgcAdsWork } from './do-ai-ugc-ads-work';
 
 export const blogPosts: BlogPost[] = [
   aiUgcAdsGuide,
@@ -34,7 +34,7 @@ export const blogPosts: BlogPost[] = [
   keyframeToVideoWorkflow,
   beatSyncedVideoAds,
   // Batch C:
-  // aiCharacterConsistency,
-  // brandConsistencyAiAds,
-  // doAiUgcAdsWork,
+  aiCharacterConsistency,
+  brandConsistencyAiAds,
+  doAiUgcAdsWork,
 ];
