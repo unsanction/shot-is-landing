@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { GiftPageContent, GiftVideo } from '../data/gifts';
+import { track } from '../lib/track';
 
 /**
  * Low-opinion shared logic for gift pages.
@@ -10,15 +11,8 @@ import type { GiftPageContent, GiftVideo } from '../data/gifts';
  * is what made every gift page look the same — don't reintroduce that.
  */
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 export const trackGiftEvent = (eventName: string, params: Record<string, string>) => {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('event', eventName, params);
+  track(eventName, params);
 };
 
 export const trackVideoPlay = (page: GiftPageContent, video: GiftVideo) => {

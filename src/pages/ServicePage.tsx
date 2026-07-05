@@ -3,6 +3,7 @@ import { HomeNav } from '../components/home/HomeNav';
 import type { ServicePageContent } from '../data/seo';
 import { servicePages } from '../data/seo';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
+import { trackCta, trackStudioClick, withUtm } from '../lib/track';
 
 type ServicePageProps = {
   page: ServicePageContent;
@@ -47,13 +48,15 @@ export function ServicePage({ page }: ServicePageProps) {
             </p>
             <div className="mt-12 flex flex-col gap-4 sm:flex-row">
               <a
-                href="https://studio.shot.is/"
+                href={withUtm('https://studio.shot.is/', 'service_page')}
+                onClick={() => trackStudioClick('service_page')}
                 className="inline-flex items-center justify-center bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.26em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white md:px-10"
               >
                 {page.primaryCta}
               </a>
               <a
                 href="#workflow"
+                onClick={() => trackCta('service_page', page.secondaryCta)}
                 className="inline-flex items-center justify-center border border-white/15 px-8 py-5 text-xs font-black uppercase tracking-[0.26em] text-white transition-colors hover:border-accent hover:text-accent md:px-10"
               >
                 {page.secondaryCta}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { trackStudioClick, withUtm } from '../../lib/track';
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -82,7 +83,8 @@ export function HeroSection() {
           virtual influencers, product demos, and branded campaigns end-to-end — without traditional production delays.
         </p>
         <a
-          href="https://studio.shot.is/"
+          href={withUtm('https://studio.shot.is/', 'hero')}
+          onClick={() => trackStudioClick('hero')}
           className="inline-block bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
         >
           Start Creating AI Content

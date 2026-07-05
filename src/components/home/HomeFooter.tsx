@@ -1,3 +1,5 @@
+import { trackCta } from '../../lib/track';
+
 const footerLinks = [
   { label: 'AI UGC Ads', href: '/ai-ugc-ads' },
   { label: 'AI Video Ads', href: '/ai-video-ads' },
@@ -20,6 +22,7 @@ export function HomeFooter() {
             <a
               key={link.href}
               href={link.href}
+              onClick={() => trackCta('footer', link.label)}
               className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/55 transition-colors hover:text-accent"
             >
               {link.label}

@@ -1,10 +1,12 @@
 import { FormEvent, useState } from 'react';
+import { trackCta } from '../../lib/track';
 
 export function JoinSection() {
   const [email, setEmail] = useState('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    trackCta('join_section', 'request_access');
     setEmail('');
   };
 
