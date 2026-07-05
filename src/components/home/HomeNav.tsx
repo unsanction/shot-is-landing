@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { navLinks } from '../../data/landing';
 import { BrandLink } from '../common/BrandLink';
+import { isStudioUrl, trackCta, trackStudioClick, withUtm } from '../../lib/track';
 
 const menuLinks = navLinks.slice(0, -1);
 const studioLink = navLinks[navLinks.length - 1];
@@ -32,7 +33,12 @@ export function HomeNav() {
 
         <div className="hidden items-center gap-5 text-[10px] font-bold uppercase tracking-[0.18em] md:flex lg:gap-10 lg:text-[11px] lg:tracking-[0.24em]">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors hover:text-accent">
+            <a
+              key={link.href}
+              href={isStudioUrl(link.href) ? withUtm(link.href, 'nav') : link.href}
+              onClick={() => (isStudioUrl(link.href) ? trackStudioClick('nav') : trackCta('nav', link.label))}
+              className="transition-colors hover:text-accent"
+            >
               {link.label}
             </a>
           ))}
@@ -70,7 +76,10 @@ export function HomeNav() {
             <a
               key={link.href}
               href={link.href}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                trackCta('nav', link.label);
+                setMenuOpen(false);
+              }}
               className={`flex items-baseline gap-4 border-b border-white/10 py-5 text-3xl font-extrabold uppercase italic leading-none tracking-tight text-white transition-all duration-300 ${
                 menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
               }`}
@@ -85,8 +94,11 @@ export function HomeNav() {
         </div>
 
         <a
-          href={studioLink.href}
-          onClick={() => setMenuOpen(false)}
+          href={withUtm(studioLink.href, 'nav')}
+          onClick={() => {
+            trackStudioClick('nav');
+            setMenuOpen(false);
+          }}
           className={`block bg-white px-8 py-5 text-center text-xs font-black uppercase tracking-[0.3em] text-black transition-all duration-300 active:scale-95 ${
             menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
           }`}

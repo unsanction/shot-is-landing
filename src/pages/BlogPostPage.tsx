@@ -10,7 +10,9 @@ import {
   readingTime,
   type BlogPost,
 } from '../data/blog';
+import { useReadProgress } from '../hooks/useReadProgress';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
+import { trackStudioClick, withUtm } from '../lib/track';
 
 type BlogPostPageProps = {
   post: BlogPost;
@@ -18,6 +20,7 @@ type BlogPostPageProps = {
 
 export function BlogPostPage({ post }: BlogPostPageProps) {
   useRevealOnScroll();
+  useReadProgress(post.slug, post.lang);
 
   const t = blogStrings[post.lang];
   const sibling = blogSibling(post);
@@ -140,7 +143,8 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
             <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl">{t.ctaTitle}</h2>
             <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-white/85 md:text-lg">{t.ctaBody}</p>
             <a
-              href="https://studio.shot.is/"
+              href={withUtm('https://studio.shot.is/', 'blog_post')}
+              onClick={() => trackStudioClick('blog_post')}
               className="mt-8 inline-flex items-center justify-center bg-white px-9 py-5 text-xs font-black uppercase tracking-[0.26em] text-black transition-all hover:-rotate-1 hover:bg-black hover:text-white"
             >
               {t.ctaButton}
