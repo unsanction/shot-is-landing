@@ -1,5 +1,6 @@
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
+import { RosterSection } from '../components/home/RosterSection';
 import type { ServicePageContent } from '../data/seo';
 import { servicePages } from '../data/seo';
 import { useCasePages } from '../data/useCases';
@@ -94,6 +95,8 @@ export function ServicePage({ page }: ServicePageProps) {
             </div>
           </div>
         </section>
+
+        {page.showRoster ? <RosterSection /> : null}
 
         <section id="workflow" className="bg-[#050505] px-5 py-24 text-white md:px-8 md:py-32">
           <div className="mx-auto max-w-7xl">
@@ -193,6 +196,28 @@ export function ServicePage({ page }: ServicePageProps) {
             </div>
           </div>
         </section>
+
+        {page.reading?.length ? (
+          <section className="bg-black px-5 py-16 text-white md:px-8 md:py-20">
+            <div className="mx-auto max-w-5xl">
+              <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
+                Go deeper
+              </p>
+              <div className="space-y-3">
+                {page.reading.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => trackCta('service_page', item.label)}
+                    className="block border-b border-white/10 pb-3 text-lg font-bold uppercase tracking-tight text-white/70 transition-colors hover:text-accent md:text-xl"
+                  >
+                    {item.label} →
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="bg-accent px-5 py-24 text-white md:px-8 md:py-32">
           <div className="mx-auto max-w-7xl">

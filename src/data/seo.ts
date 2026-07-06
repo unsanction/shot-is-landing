@@ -90,6 +90,10 @@ export type ServicePageContent = {
     question: string;
     answer: string;
   }>;
+  /** Render the AI creator roster gallery (virtual-influencers page). */
+  showRoster?: boolean;
+  /** Deep-dive blog links rendered after the FAQ — closes the topic cluster loop. */
+  reading?: Array<{ label: string; href: string }>;
 };
 
 export const servicePages: ServicePageContent[] = [
@@ -241,13 +245,13 @@ export const servicePages: ServicePageContent[] = [
     path: '/virtual-influencers',
     slug: 'virtual-influencers',
     navLabel: 'Virtual Influencers',
-    title: 'Virtual Influencer Campaigns & AI Creators | SHOT.IS',
+    title: 'Create a Virtual Influencer for Your Brand | SHOT.IS',
     description:
-      'Design virtual influencers and AI creator campaigns with consistent characters, brand lore, visual identity, and social-ready content systems.',
+      'SHOT.IS builds custom virtual influencers: consistent AI creators with a locked identity, brand lore, and a repeatable content system. Process, timelines, FAQ.',
     eyebrow: 'VIRTUAL INFLUENCERS',
-    h1: 'VIRTUAL CREATORS WITH A CAMPAIGN JOB.',
+    h1: 'CREATE A VIRTUAL INFLUENCER FOR YOUR BRAND.',
     lede:
-      'SHOT.IS builds AI creators and virtual influencers as repeatable brand assets, not one-off images. Each character can carry a style, audience, content format, and campaign role.',
+      'SHOT.IS designs virtual influencers and AI creators as repeatable brand assets, not one-off images. Each character ships with a locked identity, wardrobe logic, brand lore, and a content system that can carry campaigns week after week.',
     primaryCta: 'Build a virtual creator',
     secondaryCta: 'Explore creator systems',
     ogImage: `${siteBaseUrl}/media/hero/shot-hero-poster.webp`,
@@ -300,13 +304,44 @@ export const servicePages: ServicePageContent[] = [
       {
         question: 'What is a virtual influencer?',
         answer:
-          'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling. For performance marketing, the useful part is not only the character design but the ability to create repeatable content quickly.',
+          'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling — characters like Lil Miquela or Shudu, but scoped to your brand. For performance marketing, the useful part is not only the character design but the ability to create repeatable content quickly.',
       },
       {
         question: 'Why use a virtual influencer instead of a human influencer?',
         answer:
-          'Virtual influencers give brands more control over timing, format, visuals, localization, and campaign continuity. Human influencers can still provide audience trust; virtual creators are strongest when consistency and production speed matter.',
+          'Virtual influencers give brands more control over timing, format, visuals, localization, and campaign continuity. Human influencers can still provide audience trust; virtual creators are strongest when consistency and production speed matter. Many brands run both: a human creator for reach, a virtual one for always-on content.',
       },
+      {
+        question: 'How do you create a virtual influencer?',
+        answer:
+          'Our process has four steps: position the creator (audience, genre, brand fit), lock the identity (a canonical face set, wardrobe logic, world, and tone), generate campaign assets with reference-anchored AI production, and QA every output against the identity so the character stays recognizable. The result is a system, not a folder of images.',
+      },
+      {
+        question: 'How much does a virtual influencer cost?',
+        answer:
+          'Far less than the celebrity-grade CGI characters that made the format famous — those are run by full studios. A brand-scoped virtual creator is a one-time identity build plus per-campaign content production, so the comparison that matters is against your ongoing creator sourcing and reshoot costs. Pricing depends on how many formats and markets the character needs to cover; brief us and we will scope it.',
+      },
+      {
+        question: 'How long does it take to launch one?',
+        answer:
+          'A locked identity typically takes days, not months, and the first campaign content pack follows within one to two weeks. After that the character is reusable: new drops, seasonal offers, and localized versions start from the existing identity instead of from zero.',
+      },
+      {
+        question: 'Can the character actually stay consistent across hundreds of shots?',
+        answer:
+          'Yes — this is the hard engineering part and the reason one-off image generation fails as an influencer strategy. We use canonical reference sets, reference-anchored generation, and machine-graded identity QA so the same face, styling, and world survive across posts, ads, formats, and weeks.',
+      },
+      {
+        question: 'Do virtual influencers need to be disclosed as AI?',
+        answer:
+          'In several markets, yes: sponsored content must be labeled as advertising everywhere, and jurisdictions like the US and India require disclosing that the character is not a real person. Platforms are adding their own AI-content labels too. Every SHOT.IS character ships with brand-safety guidelines that include disclosure rules for each market it runs in.',
+      },
+    ],
+    showRoster: true,
+    reading: [
+      { label: 'What is a virtual influencer — the full guide', href: '/blog/what-is-a-virtual-influencer' },
+      { label: 'AI character consistency: how one face stays one face', href: '/blog/ai-character-consistency' },
+      { label: 'How a persona moves through our ad pipeline', href: '/blog/ai-ad-production-pipeline' },
     ],
   },
 ];
