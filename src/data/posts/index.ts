@@ -17,6 +17,9 @@ import { post as beatSyncedVideoAds } from './beat-synced-video-ads';
 import { post as aiCharacterConsistency } from './ai-character-consistency';
 import { post as brandConsistencyAiAds } from './brand-consistency-ai-ads';
 import { post as doAiUgcAdsWork } from './do-ai-ugc-ads-work';
+// Batch D — virtual influencer cluster, published 2026-07-07:
+import { post as howToCreateAVirtualInfluencer } from './how-to-create-a-virtual-influencer';
+import { post as virtualInfluencerCost } from './virtual-influencer-cost';
 
 export const blogPosts: BlogPost[] = [
   aiUgcAdsGuide,
@@ -37,4 +40,7 @@ export const blogPosts: BlogPost[] = [
   aiCharacterConsistency,
   brandConsistencyAiAds,
   doAiUgcAdsWork,
+  // Batch D:
+  howToCreateAVirtualInfluencer,
+  virtualInfluencerCost,
 ];

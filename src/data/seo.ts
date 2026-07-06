@@ -339,9 +339,10 @@ export const servicePages: ServicePageContent[] = [
     ],
     showRoster: true,
     reading: [
-      { label: 'What is a virtual influencer — the full guide', href: '/blog/what-is-a-virtual-influencer' },
+      { label: 'What is a virtual influencer — the complete guide', href: '/blog/what-is-a-virtual-influencer' },
+      { label: 'How to create a virtual influencer, step by step', href: '/blog/how-to-create-a-virtual-influencer' },
+      { label: 'Virtual influencer cost: what brands actually pay', href: '/blog/virtual-influencer-cost' },
       { label: 'AI character consistency: how one face stays one face', href: '/blog/ai-character-consistency' },
-      { label: 'How a persona moves through our ad pipeline', href: '/blog/ai-ad-production-pipeline' },
     ],
   },
 ];
