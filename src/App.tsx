@@ -10,6 +10,7 @@ import { AboutPage } from './pages/AboutPage';
 import { BlogIndexPage } from './pages/BlogIndexPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
+import { FaqPage } from './pages/FaqPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { ServicePage } from './pages/ServicePage';
 import { TermsPage } from './pages/TermsPage';
@@ -18,6 +19,7 @@ import {
   buildBlogIndexSeo,
   buildBlogPostSeo,
   buildServiceSchema,
+  getPageSeo,
   homeStructuredData,
   notFoundSeo,
 } from './utils/seo';
@@ -31,6 +33,7 @@ const HOME_PATHS = new Set(['/', '/index.html']);
 const STATIC_PAGES: Record<string, () => JSX.Element> = {
   '/about': () => <AboutPage />,
   '/contact': () => <ContactPage />,
+  '/faq': () => <FaqPage />,
   '/privacy': () => <PrivacyPage />,
   '/terms': () => <TermsPage />,
 };
@@ -127,13 +130,18 @@ function App({ path }: AppProps = {}) {
       return;
     }
 
+    if (staticPage) {
+      applySeoMeta(getPageSeo(pathname));
+      return;
+    }
+
     if (isNotFound) {
       applySeoMeta(notFoundSeo);
       return;
     }
 
     applySeoMeta({ ...homeSeo, structuredData: homeStructuredData });
-  }, [blogIndexLang, blogPost, giftPage, isNotFound, servicePage]);
+  }, [blogIndexLang, blogPost, giftPage, isNotFound, pathname, servicePage, staticPage]);
 
   if (giftPage) {
     const BespokeGiftPage = bespokeGiftPages[giftPage.slug];

@@ -1,4 +1,4 @@
-import { siteBaseUrl } from './seo';
+import { founder, siteBaseUrl } from './seo';
 
 export type BlogLang = 'en' | 'es';
 
@@ -19,6 +19,8 @@ export type BlogAuthor = {
   url?: string;
   /** Schema.org author type. Defaults to 'Organization' for backwards compatibility. */
   authorType?: 'Person' | 'Organization';
+  /** Profile URLs (e.g. LinkedIn) emitted as schema sameAs — E-E-A-T signal. */
+  sameAs?: string[];
 };
 
 export type BlogPost = {
@@ -51,3 +53,17 @@ export const defaultAuthor: BlogAuthor = {
   url: `${siteBaseUrl}/about`,
   authorType: 'Organization',
 };
+
+/**
+ * Person authorship for experience-led posts. Resolves to the real founder
+ * once `founder` in data/seo.ts is filled; falls back to the Organization
+ * author until then, so posts can reference it unconditionally.
+ */
+export const founderAuthor: BlogAuthor = founder
+  ? {
+      name: founder.name,
+      url: `${siteBaseUrl}/about#founder`,
+      authorType: 'Person',
+      ...(founder.linkedIn ? { sameAs: [founder.linkedIn] } : {}),
+    }
+  : defaultAuthor;

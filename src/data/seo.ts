@@ -7,6 +7,43 @@ export const buildDate: string =
 
 export const organizationSameAs: string[] = [
   // Populate with real social profiles to strengthen entity disambiguation.
+  // e.g. 'https://www.linkedin.com/company/shot-is', 'https://x.com/shotis',
+  // 'https://www.crunchbase.com/organization/shot-is'
+];
+
+export type FounderInfo = {
+  name: string;
+  role: string;
+  /** One-paragraph bio shown on /about and used in Person schema. */
+  bio: string;
+  linkedIn?: string;
+  /** Absolute or root-relative photo URL for the /about founder section. */
+  photo?: string;
+};
+
+/**
+ * Fill with the real founder to light up E-E-A-T signals everywhere at once:
+ * Person node in Organization schema, the founder section on /about, and
+ * Person authorship of flagship blog posts (via founderAuthor in blogTypes).
+ * Leave null to keep Organization-only signals.
+ */
+export const founder: FounderInfo | null = null;
+
+/** ISO yyyy-mm-dd (or yyyy) — emitted as Organization foundingDate when set. */
+export const organizationFoundingDate: string | null = null;
+
+export const organizationEmail = 'hello@shot.is';
+
+/** Entity-association hints for answer engines — keep aligned with actual service pages. */
+export const organizationKnowsAbout = [
+  'AI UGC ads',
+  'AI video ads',
+  'virtual influencers',
+  'AI video generation',
+  'creator-style product demos',
+  'paid social creative testing',
+  'image-to-video workflows',
+  'AI character consistency',
 ];
 
 export const homeSeo = {

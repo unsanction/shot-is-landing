@@ -1,7 +1,11 @@
 import {
   buildDate,
   defaultImage,
+  founder,
   homeSeo,
+  organizationEmail,
+  organizationFoundingDate,
+  organizationKnowsAbout,
   organizationSameAs,
   servicePages,
   servicePagesByPath,
@@ -21,6 +25,7 @@ import {
   type BlogLang,
   type BlogPost,
 } from '../data/blog';
+import { allFaqItems, faqPageMeta } from '../data/faq';
 
 type PageSeo = {
   path: string;
@@ -38,6 +43,21 @@ type PageSeo = {
 };
 
 const absoluteUrl = (path: string) => new URL(path, siteBaseUrl).toString();
+
+/** Strip the inline `[label](href)` / `**bold**` markup used in content strings — schema text must be plain. */
+const plainText = (text: string) =>
+  text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1');
+
+/** FAQPage node for a page's visible Q&A blocks. Only emit for questions actually rendered on the page. */
+export const buildFaqSchema = (url: string, faqs: Array<{ question: string; answer: string }>) => ({
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: plainText(faq.question),
+    acceptedAnswer: { '@type': 'Answer', text: plainText(faq.answer) },
+  })),
+});
 
 const upsertMeta = (selector: string, attributes: Record<string, string>) => {
   let element = document.head.querySelector<HTMLMetaElement>(selector);
@@ -78,6 +98,19 @@ const upsertJsonLd = (id: string, data: Record<string, unknown>) => {
   element.textContent = JSON.stringify(data);
 };
 
+const founderPersonSchema = founder
+  ? {
+      '@type': 'Person',
+      '@id': `${siteBaseUrl}/about#founder`,
+      name: founder.name,
+      jobTitle: founder.role,
+      description: founder.bio,
+      url: `${siteBaseUrl}/about#founder`,
+      worksFor: { '@id': `${siteBaseUrl}/#organization` },
+      ...(founder.linkedIn ? { sameAs: [founder.linkedIn] } : {}),
+    }
+  : null;
+
 const organizationSchema: Record<string, unknown> = {
   '@type': 'Organization',
   '@id': `${siteBaseUrl}/#organization`,
@@ -85,7 +118,31 @@ const organizationSchema: Record<string, unknown> = {
   url: siteBaseUrl,
   logo: `${siteBaseUrl}/favicon.svg`,
   description: 'AI content studio for UGC-style ads, virtual influencers, AI video ads, and campaign creative.',
+  email: organizationEmail,
+  knowsAbout: organizationKnowsAbout,
+  ...(organizationFoundingDate ? { foundingDate: organizationFoundingDate } : {}),
+  ...(founderPersonSchema ? { founder: { '@id': `${siteBaseUrl}/about#founder` } } : {}),
   ...(organizationSameAs.length > 0 ? { sameAs: organizationSameAs } : {}),
+};
+
+/** studio.shot.is (Forge) — the self-serve app built on the SHOT.IS pipeline. Emitted on the home page. */
+const softwareApplicationSchema = {
+  '@type': 'SoftwareApplication',
+  '@id': 'https://studio.shot.is/#app',
+  name: 'SHOT.IS Studio (Forge)',
+  url: 'https://studio.shot.is/',
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Web',
+  description:
+    'Self-serve studio for generating AI ad video: reusable AI creators, product and outfit references, keyframe-to-video generation across multiple AI models, and ad assembly.',
+  featureList: [
+    'Reusable AI creator personas',
+    'Product, outfit, and background reference images',
+    'Keyframe-first image-to-video generation',
+    'Multi-model routing (Veo 3, Grok Imagine, Kling)',
+    'Hook variants and ad assembly',
+  ],
+  publisher: { '@id': `${siteBaseUrl}/#organization` },
 };
 
 const websiteSchema = {
@@ -101,7 +158,9 @@ const buildHomeSchema = () => ({
   '@context': 'https://schema.org',
   '@graph': [
     organizationSchema,
+    ...(founderPersonSchema ? [founderPersonSchema] : []),
     websiteSchema,
+    softwareApplicationSchema,
     {
       '@type': 'WebPage',
       '@id': `${siteBaseUrl}/#webpage`,
@@ -124,6 +183,7 @@ const buildHomeSchema = () => ({
       areaServed: 'Worldwide',
       serviceType: 'AI content creation, AI UGC ads, AI video ads, virtual influencer campaigns',
       description: homeSeo.description,
+      isRelatedTo: { '@id': 'https://studio.shot.is/#app' },
       offers: {
         '@type': 'OfferCatalog',
         name: 'AI content services',
@@ -200,6 +260,7 @@ export const buildServiceSchema = (page: ServicePageContent) => ({
       description: page.description,
       url: absoluteUrl(page.path),
     },
+    buildFaqSchema(absoluteUrl(page.path), page.questions),
   ],
 });
 
@@ -276,6 +337,7 @@ export const buildBlogPostSchema = (post: BlogPost) => {
           { '@type': 'ListItem', position: 3, name: post.title, item: url },
         ],
       },
+      ...(post.faq?.length ? [buildFaqSchema(url, post.faq)] : []),
     ],
   };
 };
@@ -350,11 +412,33 @@ export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
   };
 };
 
+const buildAboutSchema = () => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    ...(founderPersonSchema ? [founderPersonSchema] : []),
+    websiteSchema,
+    {
+      '@type': 'AboutPage',
+      '@id': `${siteBaseUrl}/about#webpage`,
+      url: `${siteBaseUrl}/about`,
+      name: 'About SHOT.IS — AI Content Studio',
+      description:
+        'SHOT.IS is an AI content studio building UGC-style ads, AI video ads, and virtual influencer systems for performance marketing teams.',
+      isPartOf: { '@id': `${siteBaseUrl}/#website` },
+      about: { '@id': `${siteBaseUrl}/#organization` },
+      mainEntity: { '@id': `${siteBaseUrl}/#organization` },
+      dateModified: buildDate,
+    },
+  ],
+});
+
 export const aboutSeo: PageSeo = {
   path: '/about',
   title: 'About SHOT.IS — AI Content Studio',
   description:
     'SHOT.IS is an AI content studio building UGC-style ads, AI video ads, and virtual influencer systems for performance marketing teams.',
+  structuredData: buildAboutSchema(),
 };
 
 export const contactSeo: PageSeo = {
@@ -376,7 +460,42 @@ export const termsSeo: PageSeo = {
   description: 'Terms of service governing use of SHOT.IS, including AI content output rights and disclaimers.',
 };
 
-const STATIC_PAGES: PageSeo[] = [aboutSeo, contactSeo, privacySeo, termsSeo];
+const buildFaqPageSchema = () => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    websiteSchema,
+    {
+      '@type': 'WebPage',
+      '@id': `${absoluteUrl(faqPageMeta.path)}#webpage`,
+      url: absoluteUrl(faqPageMeta.path),
+      name: faqPageMeta.title,
+      description: faqPageMeta.description,
+      isPartOf: { '@id': `${siteBaseUrl}/#website` },
+      about: { '@id': `${siteBaseUrl}/#organization` },
+      dateModified: buildDate,
+      breadcrumb: { '@id': `${absoluteUrl(faqPageMeta.path)}#breadcrumb` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${absoluteUrl(faqPageMeta.path)}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'SHOT.IS', item: siteBaseUrl },
+        { '@type': 'ListItem', position: 2, name: 'FAQ', item: absoluteUrl(faqPageMeta.path) },
+      ],
+    },
+    buildFaqSchema(absoluteUrl(faqPageMeta.path), allFaqItems),
+  ],
+});
+
+export const faqSeo: PageSeo = {
+  path: faqPageMeta.path,
+  title: faqPageMeta.title,
+  description: faqPageMeta.description,
+  structuredData: buildFaqPageSchema(),
+};
+
+const STATIC_PAGES: PageSeo[] = [aboutSeo, contactSeo, faqSeo, privacySeo, termsSeo];
 const STATIC_PAGES_BY_PATH = new Map(STATIC_PAGES.map((p) => [p.path, p]));
 
 export const applySeoMeta = ({
@@ -507,7 +626,8 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       robots: staticPage.robots,
       ogImage: staticPage.ogImage ?? ogImageUrl(staticOgKey(staticPage.path)),
       canonical: absoluteUrl(staticPage.path),
-      structuredData: buildSimplePageSchema(staticPage.path, staticPage.title, staticPage.description),
+      structuredData:
+        staticPage.structuredData ?? buildSimplePageSchema(staticPage.path, staticPage.title, staticPage.description),
     });
   }
 
@@ -540,6 +660,7 @@ export type SitemapEntry = {
 const sitemapMeta = (path: string): { changefreq: string; priority: string } => {
   if (path === '/') return { changefreq: 'weekly', priority: '1.0' };
   if (servicePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.9' };
+  if (path === faqPageMeta.path) return { changefreq: 'weekly', priority: '0.8' };
   if (path === blogIndexPath('en') || path === blogIndexPath('es')) return { changefreq: 'weekly', priority: '0.7' };
   if (blogPostByPath.has(path)) return { changefreq: 'monthly', priority: '0.6' };
   if (path === '/privacy' || path === '/terms') return { changefreq: 'yearly', priority: '0.3' };

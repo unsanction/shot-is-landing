@@ -16,6 +16,7 @@ export type OgTarget = {
 const staticPages: OgTarget[] = [
   { key: 'about', title: 'About SHOT.IS', eyebrow: 'AI Content Studio', kind: 'page' },
   { key: 'contact', title: 'Start an AI content sprint', eyebrow: 'Contact', kind: 'page' },
+  { key: 'faq', title: 'Questions, answered straight', eyebrow: 'FAQ', kind: 'page' },
   { key: 'privacy', title: 'Privacy Policy', eyebrow: 'SHOT.IS', kind: 'page' },
   { key: 'terms', title: 'Terms of Service', eyebrow: 'SHOT.IS', kind: 'page' },
 ];
