@@ -27,7 +27,10 @@ export type CtaLocation =
   | 'footer'
   | 'join_section'
   | 'service_page'
-  | 'blog_post';
+  | 'blog_post'
+  | 'faq_page'
+  | 'comparison_page'
+  | 'use_case_page';
 
 const pageContext = (): TrackParams => {
   if (typeof window === 'undefined') return { page_path: '', language: 'en' };
