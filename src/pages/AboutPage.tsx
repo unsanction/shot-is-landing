@@ -1,5 +1,6 @@
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
+import { founder } from '../data/seo';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 
 const principles = [
@@ -69,6 +70,44 @@ export function AboutPage() {
             </div>
           </div>
         </section>
+
+        {founder ? (
+          <section id="founder" className="bg-[#050505] px-5 py-24 text-white md:px-8 md:py-32">
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 md:grid-cols-[auto_1fr] md:gap-14">
+              {founder.photo ? (
+                <img
+                  src={founder.photo}
+                  alt={founder.name}
+                  className="h-40 w-40 rounded-[4px] object-cover md:h-52 md:w-52"
+                />
+              ) : null}
+              <div>
+                <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
+                  Founder
+                </p>
+                <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight sm:text-4xl md:text-[52px]">
+                  {founder.name}
+                </h2>
+                <p className="mt-3 font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-white/45">
+                  {founder.role}
+                </p>
+                <p className="mt-6 max-w-2xl text-base font-medium leading-relaxed text-white/60 md:text-lg">
+                  {founder.bio}
+                </p>
+                {founder.linkedIn ? (
+                  <a
+                    href={founder.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-block font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-accent transition-colors hover:text-white"
+                  >
+                    LinkedIn →
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="bg-black px-5 py-24 text-white md:px-8 md:py-32">
           <div className="mx-auto max-w-5xl">

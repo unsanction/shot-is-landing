@@ -131,6 +131,9 @@ export const readingTime = (post: BlogPost): number => {
     if ('text' in block && typeof block.text === 'string') words += countWords(block.text);
     if ('items' in block) words += block.items.reduce((n, i) => n + countWords(i), 0);
     if (block.type === 'callout') words += countWords(block.title) + countWords(block.body);
+    if (block.type === 'table')
+      words += block.rows.reduce((n, row) => n + row.reduce((m, cell) => m + countWords(cell), 0), 0);
+    if (block.type === 'stat') words += countWords(block.label);
   }
   for (const f of post.faq ?? []) words += countWords(f.question) + countWords(f.answer);
   return Math.max(1, Math.round(words / 200));

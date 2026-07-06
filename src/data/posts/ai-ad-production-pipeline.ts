@@ -1,4 +1,4 @@
-import { defaultAuthor, type BlogPost } from '../blogTypes';
+import { founderAuthor, type BlogPost } from '../blogTypes';
 
 export const post: BlogPost = {
   slug: 'ai-ad-production-pipeline',
@@ -12,7 +12,7 @@ export const post: BlogPost = {
     'Nine stages sit between a brand brief and a published ad. Here’s the full map of how our studio actually runs them — failure modes included.',
   datePublished: '2026-06-10',
   dateModified: '2026-06-10',
-  author: defaultAuthor,
+  author: founderAuthor,
   ogImageKey: 'blog-ai-ad-production-pipeline',
   tags: ['AI ad production', 'pipeline', 'AI video ads', 'workflow'],
   tldr: [

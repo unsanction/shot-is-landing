@@ -2,6 +2,7 @@ import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import type { ServicePageContent } from '../data/seo';
 import { servicePages } from '../data/seo';
+import { useCasePages } from '../data/useCases';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 import { trackCta, trackStudioClick, withUtm } from '../lib/track';
 
@@ -12,7 +13,7 @@ type ServicePageProps = {
 export function ServicePage({ page }: ServicePageProps) {
   useRevealOnScroll();
 
-  const relatedPages = servicePages.filter((candidate) => candidate.path !== page.path);
+  const relatedPages = [...servicePages, ...useCasePages].filter((candidate) => candidate.path !== page.path);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -142,30 +143,32 @@ export function ServicePage({ page }: ServicePageProps) {
           </div>
         </section>
 
-        <section className="bg-[#050505] px-5 py-24 text-white md:px-8 md:py-32">
-          <div className="mx-auto max-w-5xl">
-            <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
-              Case in motion
-            </p>
-            <h2 className="mb-10 text-4xl font-black uppercase leading-[0.92] tracking-tight sm:text-5xl md:text-[64px]">
-              {page.caseStudy.client}
-            </h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <article data-reveal className="reveal-text rounded-[4px] border border-white/10 p-6 md:p-8">
-                <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-white/45">
-                  Challenge
-                </p>
-                <p className="text-base font-medium leading-relaxed text-white/70">{page.caseStudy.challenge}</p>
-              </article>
-              <article data-reveal className="reveal-text rounded-[4px] border border-accent/40 bg-accent/5 p-6 md:p-8">
-                <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-                  Outcome
-                </p>
-                <p className="text-base font-medium leading-relaxed text-white/80">{page.caseStudy.outcome}</p>
-              </article>
+        {page.caseStudy ? (
+          <section className="bg-[#050505] px-5 py-24 text-white md:px-8 md:py-32">
+            <div className="mx-auto max-w-5xl">
+              <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
+                Case in motion
+              </p>
+              <h2 className="mb-10 text-4xl font-black uppercase leading-[0.92] tracking-tight sm:text-5xl md:text-[64px]">
+                {page.caseStudy.client}
+              </h2>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <article data-reveal className="reveal-text rounded-[4px] border border-white/10 p-6 md:p-8">
+                  <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-white/45">
+                    Challenge
+                  </p>
+                  <p className="text-base font-medium leading-relaxed text-white/70">{page.caseStudy.challenge}</p>
+                </article>
+                <article data-reveal className="reveal-text rounded-[4px] border border-accent/40 bg-accent/5 p-6 md:p-8">
+                  <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
+                    Outcome
+                  </p>
+                  <p className="text-base font-medium leading-relaxed text-white/80">{page.caseStudy.outcome}</p>
+                </article>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
         <section className="bg-white px-5 py-24 text-black md:px-8 md:py-32">
           <div className="mx-auto max-w-5xl">

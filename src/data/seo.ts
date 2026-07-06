@@ -22,12 +22,18 @@ export type FounderInfo = {
 };
 
 /**
- * Fill with the real founder to light up E-E-A-T signals everywhere at once:
+ * The real founder lights up E-E-A-T signals everywhere at once:
  * Person node in Organization schema, the founder section on /about, and
  * Person authorship of flagship blog posts (via founderAuthor in blogTypes).
- * Leave null to keep Organization-only signals.
+ * Set to null to fall back to Organization-only signals.
  */
-export const founder: FounderInfo | null = null;
+export const founder: FounderInfo | null = {
+  name: 'Ivan Kapeykin',
+  role: 'Founder',
+  bio: 'Ivan Kapeykin is the founder of SHOT.IS, an AI content studio for performance advertising. He runs the studio’s generation pipeline daily — keyframe-first workflows, multi-model routing across Veo 3, Grok Imagine, and Kling, and the QA discipline that keeps AI ad creative consistent — and writes the field notes on the SHOT.IS blog.',
+  linkedIn: 'https://www.linkedin.com/in/ikapeykin/',
+  photo: '/media/team/ivan-kapeykin.png',
+};
 
 /** ISO yyyy-mm-dd (or yyyy) — emitted as Organization foundingDate when set. */
 export const organizationFoundingDate: string | null = null;
@@ -79,7 +85,7 @@ export type ServicePageContent = {
     body: string;
   }>;
   proof: ProofItem[];
-  caseStudy: CaseStudy;
+  caseStudy?: CaseStudy;
   questions: Array<{
     question: string;
     answer: string;

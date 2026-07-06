@@ -1,4 +1,4 @@
-import { defaultAuthor, type BlogPost } from '../blogTypes';
+import { founderAuthor, type BlogPost } from '../blogTypes';
 
 export const post: BlogPost = {
   slug: 'brand-consistency-ai-ads',
@@ -12,7 +12,7 @@ export const post: BlogPost = {
     'Eight shots that are individually fine and collectively incoherent is the default failure mode of AI ads. The fix is boring discipline: a Scene Bible.',
   datePublished: '2026-06-17',
   dateModified: '2026-06-17',
-  author: defaultAuthor,
+  author: founderAuthor,
   ogImageKey: 'blog-brand-consistency-ai-ads',
   tags: ['brand consistency', 'AI video ads', 'Scene Bible', 'product fidelity', 'QA'],
   tldr: [

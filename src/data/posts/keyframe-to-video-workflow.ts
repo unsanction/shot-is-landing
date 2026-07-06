@@ -1,4 +1,4 @@
-import { defaultAuthor, type BlogPost } from '../blogTypes';
+import { founderAuthor, type BlogPost } from '../blogTypes';
 
 export const post: BlogPost = {
   slug: 'keyframe-to-video-workflow',
@@ -12,7 +12,7 @@ export const post: BlogPost = {
     'Text-to-video from a prompt is a lottery for brand work. Generating a keyframe first — then animating it — is how you get control back.',
   datePublished: '2026-06-15',
   dateModified: '2026-06-15',
-  author: defaultAuthor,
+  author: founderAuthor,
   ogImageKey: 'blog-keyframe-to-video-workflow',
   tags: ['keyframe to video', 'i2v', 'image to video', 'AI workflow', 'consistency'],
   tldr: [
