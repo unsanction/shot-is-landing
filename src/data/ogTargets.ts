@@ -1,5 +1,7 @@
 import { blogPosts } from './blog';
+import { comparisonPages } from './comparisons';
 import { servicePages } from './seo';
+import { useCasePages } from './useCases';
 
 export type OgKind = 'home' | 'service' | 'page' | 'article';
 
@@ -31,6 +33,12 @@ export const ogTargets: OgTarget[] = [
   },
   ...servicePages.map(
     (page): OgTarget => ({ key: page.slug, title: page.navLabel, eyebrow: page.eyebrow, kind: 'service' }),
+  ),
+  ...useCasePages.map(
+    (page): OgTarget => ({ key: page.slug, title: page.navLabel, eyebrow: page.eyebrow, kind: 'service' }),
+  ),
+  ...comparisonPages.map(
+    (page): OgTarget => ({ key: page.slug, title: page.navLabel, eyebrow: page.eyebrow, kind: 'page' }),
   ),
   { key: 'blog-index', title: 'SHOT.IS Blog', eyebrow: 'AI content, ads & creators', kind: 'page' },
   ...staticPages,

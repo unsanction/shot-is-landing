@@ -1,4 +1,4 @@
-import { defaultAuthor, type BlogPost } from '../blogTypes';
+import { founderAuthor, type BlogPost } from '../blogTypes';
 
 export const post: BlogPost = {
   slug: 'ai-ugc-ads-cost',
@@ -12,7 +12,7 @@ export const post: BlogPost = {
     'The raw model bill is the smallest line item. Here is what an AI UGC ad actually costs once you count rejects, QA, music, and assembly.',
   datePublished: '2026-06-10',
   dateModified: '2026-06-10',
-  author: defaultAuthor,
+  author: founderAuthor,
   ogImageKey: 'blog-ai-ugc-ads-cost',
   tags: ['AI UGC ads', 'cost', 'pricing', 'paid social'],
   tldr: [

@@ -10,6 +10,9 @@ import {
 import { ogTargets, type OgTarget } from './data/ogTargets';
 import { blogPostPath, blogPosts, type BlogBlock, type BlogPost } from './data/blog';
 import { siteBaseUrl } from './data/seo';
+import { comparisonPages } from './data/comparisons';
+import { useCasePages } from './data/useCases';
+import { faqGroups, faqPageMeta } from './data/faq';
 
 export type RenderedRoute = {
   path: string;
@@ -77,7 +80,92 @@ const blockToMarkdown = (block: BlogBlock): string => {
       return `**${block.title}.** ${absolutizeLinks(block.body)}`;
     case 'image':
       return `![${block.alt}](${block.src})${block.caption ? `\n*${block.caption}*` : ''}`;
+    case 'table': {
+      const header = `| ${block.headers.join(' | ')} |`;
+      const divider = `| ${block.headers.map(() => '---').join(' | ')} |`;
+      const rows = block.rows.map((row) => `| ${row.map((cell) => absolutizeLinks(cell)).join(' | ')} |`);
+      return [...(block.caption ? [`*${block.caption}*`, ''] : []), header, divider, ...rows].join('\n');
+    }
+    case 'stat':
+      return `**${block.value}** — ${absolutizeLinks(block.label)}${block.source ? ` (source: ${block.sourceUrl ?? block.source})` : ''}`;
   }
+};
+
+// ── llms.txt page index (non-blog pages) ─────────────────────────────────────
+
+export type LlmsIndexEntry = { section: string; title: string; url: string; description: string };
+
+/**
+ * Index of non-blog pages for llms.txt, built from the same data the router
+ * uses so the file can never drift from real routes.
+ */
+export const llmsPageIndex = (): LlmsIndexEntry[] => [
+  {
+    section: 'FAQ',
+    title: 'FAQ',
+    url: `${siteBaseUrl}${faqPageMeta.path}`,
+    description: faqPageMeta.description,
+  },
+  ...useCasePages.map((page) => ({
+    section: 'Use Cases',
+    title: page.navLabel,
+    url: `${siteBaseUrl}${page.path}`,
+    description: page.description,
+  })),
+  ...comparisonPages.map((page) => ({
+    section: 'Comparisons',
+    title: page.navLabel,
+    url: `${siteBaseUrl}${page.path}`,
+    description: page.description,
+  })),
+];
+
+const faqToMarkdown = (faqs: Array<{ question: string; answer: string }>) =>
+  faqs.map((f) => `**${f.question}**\n\n${absolutizeLinks(f.answer)}`).join('\n\n');
+
+/** Comparison + FAQ pages flattened to markdown — appended to llms-full.txt after blog posts. */
+export const llmsFullExtraSections = (): string[] => {
+  const sections: string[] = [];
+
+  sections.push(
+    [
+      `# ${faqPageMeta.title}`,
+      `URL: ${siteBaseUrl}${faqPageMeta.path}`,
+      ...faqGroups.map((group) => `## ${group.heading}\n\n${faqToMarkdown(group.items)}`),
+    ].join('\n\n'),
+  );
+
+  for (const page of comparisonPages) {
+    const parts: string[] = [
+      `# ${page.title}`,
+      [`URL: ${siteBaseUrl}${page.path}`, `Competitor facts verified: ${page.asOf}`].join('\n'),
+      page.description,
+      `## The short answer\n\n${page.verdict}`,
+    ];
+    if (page.kind === 'vs') {
+      const header = `| Feature | SHOT.IS | ${page.competitor.name} |`;
+      const divider = '| --- | --- | --- |';
+      const rows = page.rows.map((row) => `| ${row.feature} | ${row.shotIs} | ${row.competitor} |`);
+      parts.push(`## ${page.tableCaption}\n\n${[header, divider, ...rows].join('\n')}`);
+      parts.push(
+        `## Choose ${page.competitor.name} if\n\n${page.whenToChooseThem.map((i) => `- ${i}`).join('\n')}`,
+      );
+      parts.push(`## Choose SHOT.IS if\n\n${page.whenToChooseUs.map((i) => `- ${i}`).join('\n')}`);
+    } else {
+      parts.push(
+        `## The options\n\n${page.alternatives
+          .map(
+            (alt, i) =>
+              `${i + 1}. **${alt.name}** (${alt.url.startsWith('/') ? siteBaseUrl + alt.url : alt.url}) — best for ${alt.bestFor}. ${alt.summary}`,
+          )
+          .join('\n')}`,
+      );
+    }
+    parts.push(`## FAQ\n\n${faqToMarkdown(page.faq)}`);
+    sections.push(parts.join('\n\n'));
+  }
+
+  return sections;
 };
 
 /** Each post flattened to a self-contained markdown section — llms-full.txt source. */

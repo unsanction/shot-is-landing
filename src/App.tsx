@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { homeSeo, servicePagesByPath } from './data/seo';
+import { useCasePagesByPath } from './data/useCases';
+import { comparisonPagesByPath } from './data/comparisons';
+import { ComparisonPage } from './pages/ComparisonPage';
 import { giftPagesBySlug } from './data/gifts';
 import { blogIndexPath, blogPostByPath, blogPostsByLang } from './data/blog';
 import { bespokeGiftPages } from './gifts/registry';
@@ -76,7 +79,10 @@ function App({ path }: AppProps = {}) {
   const onGiftSurface = isGiftSurface(pathname, hostname);
   const giftSlug = getGiftSlug(pathname, hostname);
   const giftPage = giftSlug ? giftPagesBySlug.get(giftSlug) : undefined;
-  const servicePage = onGiftSurface ? undefined : servicePagesByPath.get(pathname);
+  const servicePage = onGiftSurface
+    ? undefined
+    : servicePagesByPath.get(pathname) ?? useCasePagesByPath.get(pathname);
+  const comparisonPage = onGiftSurface ? undefined : comparisonPagesByPath.get(pathname);
   const blogPost = onGiftSurface ? undefined : blogPostByPath.get(pathname);
   const blogIndexLang = onGiftSurface
     ? undefined
@@ -87,7 +93,8 @@ function App({ path }: AppProps = {}) {
         : undefined;
   const isHome = !onGiftSurface && HOME_PATHS.has(pathname);
   const staticPage = onGiftSurface ? undefined : STATIC_PAGES[pathname];
-  const isNotFound = !giftPage && !isHome && !servicePage && !staticPage && !blogPost && !blogIndexLang;
+  const isNotFound =
+    !giftPage && !isHome && !servicePage && !comparisonPage && !staticPage && !blogPost && !blogIndexLang;
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -120,6 +127,11 @@ function App({ path }: AppProps = {}) {
       return;
     }
 
+    if (comparisonPage) {
+      applySeoMeta(getPageSeo(pathname));
+      return;
+    }
+
     if (blogPost) {
       applySeoMeta(buildBlogPostSeo(blogPost));
       return;
@@ -141,7 +153,7 @@ function App({ path }: AppProps = {}) {
     }
 
     applySeoMeta({ ...homeSeo, structuredData: homeStructuredData });
-  }, [blogIndexLang, blogPost, giftPage, isNotFound, pathname, servicePage, staticPage]);
+  }, [blogIndexLang, blogPost, comparisonPage, giftPage, isNotFound, pathname, servicePage, staticPage]);
 
   if (giftPage) {
     const BespokeGiftPage = bespokeGiftPages[giftPage.slug];
@@ -150,6 +162,10 @@ function App({ path }: AppProps = {}) {
 
   if (servicePage) {
     return <ServicePage page={servicePage} />;
+  }
+
+  if (comparisonPage) {
+    return <ComparisonPage page={comparisonPage} />;
   }
 
   if (blogPost) {

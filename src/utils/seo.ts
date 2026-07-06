@@ -26,6 +26,8 @@ import {
   type BlogPost,
 } from '../data/blog';
 import { allFaqItems, faqPageMeta } from '../data/faq';
+import { useCasePages, useCasePagesByPath } from '../data/useCases';
+import { comparisonPages, comparisonPagesByPath, type ComparisonPageContent } from '../data/comparisons';
 
 type PageSeo = {
   path: string;
@@ -107,6 +109,7 @@ const founderPersonSchema = founder
       description: founder.bio,
       url: `${siteBaseUrl}/about#founder`,
       worksFor: { '@id': `${siteBaseUrl}/#organization` },
+      ...(founder.photo ? { image: new URL(founder.photo, siteBaseUrl).toString() } : {}),
       ...(founder.linkedIn ? { sameAs: [founder.linkedIn] } : {}),
     }
   : null;
@@ -264,6 +267,54 @@ export const buildServiceSchema = (page: ServicePageContent) => ({
   ],
 });
 
+export const buildComparisonSchema = (page: ComparisonPageContent) => {
+  const url = absoluteUrl(page.path);
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema,
+      websiteSchema,
+      {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: page.title,
+        description: page.description,
+        isPartOf: { '@id': `${siteBaseUrl}/#website` },
+        about: { '@id': `${siteBaseUrl}/#organization` },
+        dateModified: page.asOf,
+        breadcrumb: { '@id': `${url}#breadcrumb` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'SHOT.IS', item: siteBaseUrl },
+          { '@type': 'ListItem', position: 2, name: page.navLabel, item: url },
+        ],
+      },
+      ...(page.kind === 'alternatives'
+        ? [
+            {
+              '@type': 'ItemList',
+              '@id': `${url}#list`,
+              name: page.h1,
+              description: page.description,
+              itemListElement: page.alternatives.map((alt, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: alt.name,
+                url: alt.url.startsWith('/') ? absoluteUrl(alt.url) : alt.url,
+                description: `Best for ${alt.bestFor}. ${alt.summary}`,
+              })),
+            },
+          ]
+        : []),
+      buildFaqSchema(url, page.faq),
+    ],
+  };
+};
+
 const buildSimplePageSchema = (path: string, title: string, description: string) => ({
   '@context': 'https://schema.org',
   '@graph': [
@@ -311,6 +362,7 @@ export const buildBlogPostSchema = (post: BlogPost) => {
           '@type': post.author.authorType ?? 'Organization',
           name: post.author.name,
           url: post.author.url ?? siteBaseUrl,
+          ...(post.author.sameAs?.length ? { sameAs: post.author.sameAs } : {}),
         },
         publisher: { '@id': `${siteBaseUrl}/#organization` },
         mainEntityOfPage: { '@id': `${url}#webpage` },
@@ -596,7 +648,7 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
     });
   }
 
-  const service = servicePagesByPath.get(path);
+  const service = servicePagesByPath.get(path) ?? useCasePagesByPath.get(path);
   if (service) {
     return resolve({
       path: service.path,
@@ -605,6 +657,18 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       ogImage: ogImageUrl(service.slug),
       canonical: absoluteUrl(service.path),
       structuredData: buildServiceSchema(service),
+    });
+  }
+
+  const comparison = comparisonPagesByPath.get(path);
+  if (comparison) {
+    return resolve({
+      path: comparison.path,
+      title: comparison.title,
+      description: comparison.description,
+      ogImage: ogImageUrl(comparison.slug),
+      canonical: absoluteUrl(comparison.path),
+      structuredData: buildComparisonSchema(comparison),
     });
   }
 
@@ -645,6 +709,8 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
 export const getIndexableRoutes = (): string[] => [
   '/',
   ...servicePages.map((p) => p.path),
+  ...useCasePages.map((p) => p.path),
+  ...comparisonPages.map((p) => p.path),
   ...STATIC_PAGES.map((p) => p.path),
   ...blogRoutes(),
 ];
@@ -660,6 +726,8 @@ export type SitemapEntry = {
 const sitemapMeta = (path: string): { changefreq: string; priority: string } => {
   if (path === '/') return { changefreq: 'weekly', priority: '1.0' };
   if (servicePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.9' };
+  if (useCasePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.8' };
+  if (comparisonPagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.8' };
   if (path === faqPageMeta.path) return { changefreq: 'weekly', priority: '0.8' };
   if (path === blogIndexPath('en') || path === blogIndexPath('es')) return { changefreq: 'weekly', priority: '0.7' };
   if (blogPostByPath.has(path)) return { changefreq: 'monthly', priority: '0.6' };

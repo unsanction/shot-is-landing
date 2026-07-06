@@ -132,6 +132,63 @@ export function renderBlock(block: BlogBlock, index: number): ReactNode {
           ) : null}
         </figure>
       );
+    case 'table':
+      return (
+        <figure key={index} className="overflow-x-auto">
+          <table className="w-full border-collapse text-left">
+            {block.caption ? (
+              <caption className="mb-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-ink/50">
+                {block.caption}
+              </caption>
+            ) : null}
+            <thead>
+              <tr className="border-b-2 border-ink">
+                {block.headers.map((header, i) => (
+                  <th key={i} className="py-3 pr-4 font-body text-sm font-extrabold uppercase tracking-wide text-ink">
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, r) => (
+                <tr key={r} className="border-b border-ink/15">
+                  {row.map((cell, c) => (
+                    <td key={c} className="py-3.5 pr-4 align-top font-serif text-[1.02rem] leading-[1.55] text-ink/85">
+                      {renderInline(cell)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </figure>
+      );
+    case 'stat':
+      return (
+        <figure key={index} className="border-l-[3px] border-accent bg-ink/[0.03] py-5 pl-6 pr-5">
+          <p className="font-body text-4xl font-extrabold tracking-tight text-ink md:text-5xl">{block.value}</p>
+          <figcaption className="mt-2 font-serif text-[1.05rem] leading-[1.6] text-ink/75">
+            {renderInline(block.label)}
+            {block.source ? (
+              <span className="mt-1 block font-body text-sm text-ink/50">
+                {block.sourceUrl ? (
+                  <a
+                    href={block.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-ink/30 underline-offset-4 hover:decoration-accent"
+                  >
+                    {block.source}
+                  </a>
+                ) : (
+                  block.source
+                )}
+              </span>
+            ) : null}
+          </figcaption>
+        </figure>
+      );
     default:
       return null;
   }

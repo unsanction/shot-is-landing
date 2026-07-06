@@ -1,4 +1,4 @@
-import { defaultAuthor, type BlogPost } from '../blogTypes';
+import { founderAuthor, type BlogPost } from '../blogTypes';
 
 export const post: BlogPost = {
   slug: 'ai-character-consistency',
@@ -12,7 +12,7 @@ export const post: BlogPost = {
     'Every generation resamples the face, and image-to-video drifts further with every second. Here is the system that holds one face together across hundreds of shots.',
   datePublished: '2026-06-17',
   dateModified: '2026-06-17',
-  author: defaultAuthor,
+  author: founderAuthor,
   ogImageKey: 'blog-ai-character-consistency',
   tags: ['AI character consistency', 'virtual influencers', 'face drift', 'identity QA', 'AI video'],
   tldr: [

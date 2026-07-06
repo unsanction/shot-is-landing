@@ -2,6 +2,16 @@ import { founder, siteBaseUrl } from './seo';
 
 export type BlogLang = 'en' | 'es';
 
+/*
+ * Editorial pattern for citable content (GEO):
+ * - The first block after every h2 answers the heading's implied question in
+ *   1–2 self-contained sentences that name the entity ("AI UGC ads are…").
+ * - Every numeric claim gets a `stat` block with a `sourceUrl` when the number
+ *   comes from outside our own pipeline.
+ * - Comparison-shaped posts carry one `table` block — tables are the single
+ *   most-extracted structure by answer engines.
+ * - `tldr` bullets are standalone quotable sentences, not fragments.
+ */
 export type BlogBlock =
   | { type: 'p'; text: string }
   | { type: 'h2'; text: string; id: string }
@@ -10,7 +20,9 @@ export type BlogBlock =
   | { type: 'ol'; items: string[] }
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'callout'; title: string; body: string }
-  | { type: 'image'; src: string; alt: string; caption?: string };
+  | { type: 'image'; src: string; alt: string; caption?: string }
+  | { type: 'table'; caption?: string; headers: string[]; rows: string[][] }
+  | { type: 'stat'; value: string; label: string; source?: string; sourceUrl?: string };
 
 export type BlogFaq = { question: string; answer: string };
 
