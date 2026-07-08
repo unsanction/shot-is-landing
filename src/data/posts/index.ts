@@ -20,6 +20,8 @@ import { post as doAiUgcAdsWork } from './do-ai-ugc-ads-work';
 // Batch D — virtual influencer cluster, published 2026-07-07:
 import { post as howToCreateAVirtualInfluencer } from './how-to-create-a-virtual-influencer';
 import { post as virtualInfluencerCost } from './virtual-influencer-cost';
+// Canvas mode announcement — published 2026-07-08:
+import { post as canvasModeNodeBasedAiVideoWorkflow } from './canvas-mode-node-based-ai-video-workflow';
 
 export const blogPosts: BlogPost[] = [
   aiUgcAdsGuide,
@@ -43,4 +45,6 @@ export const blogPosts: BlogPost[] = [
   // Batch D:
   howToCreateAVirtualInfluencer,
   virtualInfluencerCost,
+  // Canvas mode:
+  canvasModeNodeBasedAiVideoWorkflow,
 ];
