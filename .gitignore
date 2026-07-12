@@ -5,6 +5,8 @@ node_modules
 firebase-debug.log
 *.tsbuildinfo
 artifacts
+captures/
+*.sqlite
 
 .DS_Store
 vite.config.js
