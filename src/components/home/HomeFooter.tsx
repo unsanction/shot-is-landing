@@ -33,14 +33,6 @@ export function HomeFooter() {
         </nav>
       </div>
 
-      <div className="pointer-events-none my-16 select-none font-syne text-[15vw] font-extrabold uppercase italic tracking-tighter opacity-[0.05]">
-        SHOT.IS
-      </div>
-
-      <p className="mx-auto max-w-3xl px-5 pb-10 text-sm font-medium leading-relaxed text-white/40 md:px-8">
-        SHOT.IS is an AI-powered video generation and content automation platform for businesses and brands.
-      </p>
-
       <div className="px-5 pb-12 font-mono text-[10px] uppercase tracking-[0.28em] text-white/30 md:px-8">
         © SHOT.IS
       </div>
