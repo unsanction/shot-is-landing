@@ -1,4 +1,5 @@
 import { HeroSection } from '../components/home/HeroSection';
+import { CanvasDemoSection } from '../components/home/CanvasDemoSection';
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import { JoinSection } from '../components/home/JoinSection';
@@ -21,6 +22,7 @@ function HomePage() {
 
       <main className="bg-black">
         <HeroSection />
+        <CanvasDemoSection />
         <RosterSection />
         <UseCasesSection />
         <VisionSection />

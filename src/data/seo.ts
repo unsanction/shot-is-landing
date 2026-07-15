@@ -1,9 +1,8 @@
 export const siteBaseUrl = 'https://shot.is';
 export const defaultImage = `${siteBaseUrl}/media/hero/shot-hero-poster.webp`;
-
-export const buildDate: string =
-  (typeof import.meta !== 'undefined' && (import.meta as { env?: { VITE_BUILD_DATE?: string } }).env?.VITE_BUILD_DATE) ||
-  new Date().toISOString().slice(0, 10);
+export const homeReelUploadDate = '2026-04-15';
+export const privacyPolicyLastUpdated = '2026-06-10';
+export const termsLastUpdated = '2026-06-10';
 
 export const organizationSameAs: string[] = [
   // Populate with real social profiles to strengthen entity disambiguation.
@@ -54,6 +53,7 @@ export const organizationKnowsAbout = [
 
 export const homeSeo = {
   path: '/',
+  dateModified: '2026-07-15',
   title: 'SHOT.IS | AI UGC Ads, Virtual Influencers & AI Content Studio',
   description:
     'SHOT.IS helps brands start creating AI UGC videos, paid social ads, virtual influencers, product demos, and campaign creative without traditional shoots.',
@@ -70,6 +70,8 @@ export type CaseStudy = {
 export type ServicePageContent = {
   path: string;
   slug: string;
+  /** ISO yyyy-mm-dd. Update only after a significant change to this page's primary content. */
+  dateModified: string;
   navLabel: string;
   title: string;
   description: string;
@@ -100,6 +102,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/ai-ugc-ads',
     slug: 'ai-ugc-ads',
+    dateModified: '2026-05-06',
     navLabel: 'AI UGC Ads',
     title: 'AI UGC Ads Studio for Brands | SHOT.IS',
     description:
@@ -172,6 +175,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/ai-video-ads',
     slug: 'ai-video-ads',
+    dateModified: '2026-05-06',
     navLabel: 'AI Video Ads',
     title: 'AI Video Ads for Paid Social Campaigns | SHOT.IS',
     description:
@@ -244,6 +248,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/virtual-influencers',
     slug: 'virtual-influencers',
+    dateModified: '2026-07-07',
     navLabel: 'Virtual Influencers',
     title: 'Create a Virtual Influencer for Your Brand | SHOT.IS',
     description:

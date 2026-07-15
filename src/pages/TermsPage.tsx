@@ -1,6 +1,6 @@
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
-import { buildDate } from '../data/seo';
+import { termsLastUpdated } from '../data/seo';
 
 export function TermsPage() {
   return (
@@ -18,7 +18,7 @@ export function TermsPage() {
               Terms of Service
             </h1>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.24em] text-white/45">
-              Last updated: {buildDate}
+              Last updated: {termsLastUpdated}
             </p>
           </header>
 
