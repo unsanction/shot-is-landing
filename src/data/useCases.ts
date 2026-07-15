@@ -12,6 +12,7 @@ export const useCasePages: ServicePageContent[] = [
   {
     path: '/use-cases/ecommerce',
     slug: 'use-cases-ecommerce',
+    dateModified: '2026-07-06',
     navLabel: 'AI Ads for Ecommerce',
     title: 'AI UGC Ads for Ecommerce & DTC Brands | SHOT.IS',
     description:
@@ -89,6 +90,7 @@ export const useCasePages: ServicePageContent[] = [
   {
     path: '/use-cases/mobile-apps',
     slug: 'use-cases-mobile-apps',
+    dateModified: '2026-07-06',
     navLabel: 'AI Ads for Mobile Apps',
     title: 'AI UGC Ads for Mobile Apps & Games | SHOT.IS',
     description:

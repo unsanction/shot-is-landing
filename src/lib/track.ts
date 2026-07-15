@@ -24,6 +24,7 @@ export const track = (eventName: string, params: TrackParams = {}) => {
 export type CtaLocation =
   | 'nav'
   | 'hero'
+  | 'canvas_demo'
   | 'footer'
   | 'join_section'
   | 'service_page'

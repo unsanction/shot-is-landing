@@ -1,15 +1,17 @@
 import {
-  buildDate,
   defaultImage,
   founder,
+  homeReelUploadDate,
   homeSeo,
   organizationEmail,
   organizationFoundingDate,
   organizationKnowsAbout,
   organizationSameAs,
+  privacyPolicyLastUpdated,
   servicePages,
   servicePagesByPath,
   siteBaseUrl,
+  termsLastUpdated,
   type ServicePageContent,
 } from '../data/seo';
 import {
@@ -41,6 +43,7 @@ type PageSeo = {
   structuredData?: Record<string, unknown>;
   /** ISO yyyy-mm-dd — emitted as article:published_time when ogType is 'article'. */
   publishedTime?: string;
+  /** Significant content modification date. Also used for sitemap lastmod. */
   modifiedTime?: string;
 };
 
@@ -176,7 +179,7 @@ const buildHomeSchema = () => ({
         '@type': 'ImageObject',
         url: defaultImage,
       },
-      dateModified: buildDate,
+      dateModified: homeSeo.dateModified,
     },
     {
       '@type': 'Service',
@@ -211,7 +214,7 @@ const buildHomeSchema = () => ({
       name: 'SHOT.IS AI content studio reel',
       description: 'A short visual reel for AI UGC ads, AI video ads, and virtual creator campaigns by SHOT.IS.',
       thumbnailUrl: `${siteBaseUrl}/media/reel/visual-overload-poster.jpg`,
-      uploadDate: buildDate,
+      uploadDate: homeReelUploadDate,
       contentUrl: `${siteBaseUrl}/media/reel/visual-overload.mp4`,
       embedUrl: `${siteBaseUrl}/media/reel/visual-overload.mp4`,
       duration: 'PT12S',
@@ -232,7 +235,7 @@ export const buildServiceSchema = (page: ServicePageContent) => ({
       description: page.description,
       isPartOf: { '@id': `${siteBaseUrl}/#website` },
       about: { '@id': `${siteBaseUrl}/#organization` },
-      dateModified: buildDate,
+      dateModified: page.dateModified,
       breadcrumb: { '@id': `${absoluteUrl(page.path)}#breadcrumb` },
     },
     {
@@ -315,7 +318,7 @@ export const buildComparisonSchema = (page: ComparisonPageContent) => {
   };
 };
 
-const buildSimplePageSchema = (path: string, title: string, description: string) => ({
+const buildSimplePageSchema = (path: string, title: string, description: string, modifiedTime?: string) => ({
   '@context': 'https://schema.org',
   '@graph': [
     organizationSchema,
@@ -328,7 +331,7 @@ const buildSimplePageSchema = (path: string, title: string, description: string)
       description,
       isPartOf: { '@id': `${siteBaseUrl}/#website` },
       about: { '@id': `${siteBaseUrl}/#organization` },
-      dateModified: buildDate,
+      ...(modifiedTime ? { dateModified: modifiedTime } : {}),
     },
   ],
 });
@@ -398,6 +401,11 @@ export const buildBlogIndexSchema = (lang: BlogLang) => {
   const path = blogIndexPath(lang);
   const url = absoluteUrl(path);
   const posts = blogPostsByLang[lang];
+  const dateModified = posts.reduce(
+    (latest, post) => Math.max(latest, Date.parse(post.dateModified ?? post.datePublished)),
+    0,
+  );
+  const modifiedTime = new Date(dateModified).toISOString().slice(0, 10);
 
   return {
     '@context': 'https://schema.org',
@@ -411,6 +419,7 @@ export const buildBlogIndexSchema = (lang: BlogLang) => {
         name: blogStrings[lang].blogTitle,
         description: blogStrings[lang].blogLede,
         inLanguage: lang,
+        dateModified: modifiedTime,
         publisher: { '@id': `${siteBaseUrl}/#organization` },
         blogPost: posts.map((post) => ({
           '@type': 'BlogPosting',
@@ -427,6 +436,7 @@ export const buildBlogIndexSchema = (lang: BlogLang) => {
         name: blogStrings[lang].blogTitle,
         description: blogStrings[lang].blogLede,
         inLanguage: lang,
+        dateModified: modifiedTime,
         isPartOf: { '@id': `${siteBaseUrl}/#website` },
         about: { '@id': `${siteBaseUrl}/#organization` },
       },
@@ -452,6 +462,10 @@ export const buildBlogPostSeo = (post: BlogPost): PageSeo => {
 
 export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
   const path = blogIndexPath(lang);
+  const modifiedTime = blogPostsByLang[lang]
+    .map((post) => post.dateModified ?? post.datePublished)
+    .sort()
+    .slice(-1)[0];
   return {
     path,
     title: `${blogStrings[lang].blogTitle} — AI UGC Ads, AI Video Ads & Virtual Influencers`,
@@ -461,8 +475,12 @@ export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
     canonical: absoluteUrl(path),
     alternates: blogIndexAlternates(),
     structuredData: buildBlogIndexSchema(lang),
+    modifiedTime,
   };
 };
+
+const aboutModifiedTime = '2026-07-06';
+const faqModifiedTime = '2026-07-06';
 
 const buildAboutSchema = () => ({
   '@context': 'https://schema.org',
@@ -480,13 +498,14 @@ const buildAboutSchema = () => ({
       isPartOf: { '@id': `${siteBaseUrl}/#website` },
       about: { '@id': `${siteBaseUrl}/#organization` },
       mainEntity: { '@id': `${siteBaseUrl}/#organization` },
-      dateModified: buildDate,
+      dateModified: aboutModifiedTime,
     },
   ],
 });
 
 export const aboutSeo: PageSeo = {
   path: '/about',
+  modifiedTime: aboutModifiedTime,
   title: 'About SHOT.IS — AI Content Studio',
   description:
     'SHOT.IS is an AI content studio building UGC-style ads, AI video ads, and virtual influencer systems for performance marketing teams.',
@@ -495,6 +514,7 @@ export const aboutSeo: PageSeo = {
 
 export const contactSeo: PageSeo = {
   path: '/contact',
+  modifiedTime: '2026-06-10',
   title: 'Contact SHOT.IS — Start an AI Content Sprint',
   description:
     'Reach SHOT.IS to scope AI UGC ads, AI video ads, virtual influencer campaigns, or a creative testing pipeline.',
@@ -502,12 +522,14 @@ export const contactSeo: PageSeo = {
 
 export const privacySeo: PageSeo = {
   path: '/privacy',
+  modifiedTime: privacyPolicyLastUpdated,
   title: 'Privacy Policy | SHOT.IS',
   description: 'How SHOT.IS handles personal data, contact form submissions, and analytics.',
 };
 
 export const termsSeo: PageSeo = {
   path: '/terms',
+  modifiedTime: termsLastUpdated,
   title: 'Terms of Service | SHOT.IS',
   description: 'Terms of service governing use of SHOT.IS, including AI content output rights and disclaimers.',
 };
@@ -525,7 +547,7 @@ const buildFaqPageSchema = () => ({
       description: faqPageMeta.description,
       isPartOf: { '@id': `${siteBaseUrl}/#website` },
       about: { '@id': `${siteBaseUrl}/#organization` },
-      dateModified: buildDate,
+      dateModified: faqModifiedTime,
       breadcrumb: { '@id': `${absoluteUrl(faqPageMeta.path)}#breadcrumb` },
     },
     {
@@ -542,6 +564,7 @@ const buildFaqPageSchema = () => ({
 
 export const faqSeo: PageSeo = {
   path: faqPageMeta.path,
+  modifiedTime: faqModifiedTime,
   title: faqPageMeta.title,
   description: faqPageMeta.description,
   structuredData: buildFaqPageSchema(),
@@ -645,6 +668,7 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       ogImage: ogImageUrl('home'),
       canonical: absoluteUrl('/'),
       structuredData: homeStructuredData,
+      modifiedTime: homeSeo.dateModified,
     });
   }
 
@@ -657,6 +681,7 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       ogImage: ogImageUrl(service.slug),
       canonical: absoluteUrl(service.path),
       structuredData: buildServiceSchema(service),
+      modifiedTime: service.dateModified,
     });
   }
 
@@ -669,6 +694,7 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       ogImage: ogImageUrl(comparison.slug),
       canonical: absoluteUrl(comparison.path),
       structuredData: buildComparisonSchema(comparison),
+      modifiedTime: comparison.asOf,
     });
   }
 
@@ -691,7 +717,9 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
       ogImage: staticPage.ogImage ?? ogImageUrl(staticOgKey(staticPage.path)),
       canonical: absoluteUrl(staticPage.path),
       structuredData:
-        staticPage.structuredData ?? buildSimplePageSchema(staticPage.path, staticPage.title, staticPage.description),
+        staticPage.structuredData ??
+        buildSimplePageSchema(staticPage.path, staticPage.title, staticPage.description, staticPage.modifiedTime),
+      modifiedTime: staticPage.modifiedTime,
     });
   }
 
@@ -718,29 +746,15 @@ export const getIndexableRoutes = (): string[] => [
 export type SitemapEntry = {
   loc: string;
   lastmod: string;
-  changefreq: string;
-  priority: string;
   alternates: Alternate[];
 };
 
-const sitemapMeta = (path: string): { changefreq: string; priority: string } => {
-  if (path === '/') return { changefreq: 'weekly', priority: '1.0' };
-  if (servicePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.9' };
-  if (useCasePagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.8' };
-  if (comparisonPagesByPath.has(path)) return { changefreq: 'weekly', priority: '0.8' };
-  if (path === faqPageMeta.path) return { changefreq: 'weekly', priority: '0.8' };
-  if (path === blogIndexPath('en') || path === blogIndexPath('es')) return { changefreq: 'weekly', priority: '0.7' };
-  if (blogPostByPath.has(path)) return { changefreq: 'monthly', priority: '0.6' };
-  if (path === '/privacy' || path === '/terms') return { changefreq: 'yearly', priority: '0.3' };
-  return { changefreq: 'monthly', priority: '0.6' };
-};
-
-/** Sitemap rows for every indexable route, with hreflang alternates + per-post lastmod. */
+/** Sitemap rows for every indexable route. Every lastmod must describe a significant content change. */
 export const buildSitemapEntries = (): SitemapEntry[] =>
   getIndexableRoutes().map((path) => {
     const seo = getPageSeo(path);
-    const post = blogPostByPath.get(path);
-    const lastmod = post ? post.dateModified ?? post.datePublished : buildDate;
-    const { changefreq, priority } = sitemapMeta(path);
-    return { loc: seo.canonical, lastmod, changefreq, priority, alternates: seo.alternates };
+    if (!seo.modifiedTime) {
+      throw new Error(`Missing honest lastmod for indexable route: ${path}`);
+    }
+    return { loc: seo.canonical, lastmod: seo.modifiedTime, alternates: seo.alternates };
   });

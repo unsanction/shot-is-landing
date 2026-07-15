@@ -61,8 +61,6 @@ const renderSitemap = (entries) => {
         '  <url>',
         `    <loc>${escapeHtml(entry.loc)}</loc>`,
         `    <lastmod>${escapeHtml(entry.lastmod)}</lastmod>`,
-        `    <changefreq>${escapeHtml(entry.changefreq)}</changefreq>`,
-        `    <priority>${escapeHtml(entry.priority)}</priority>`,
         ...(alternates ? [alternates] : []),
         '  </url>',
       ].join('\n');
@@ -241,11 +239,20 @@ const main = async () => {
     console.log(`prerendered ${route} -> ${join(outDir, 'index.html').replace(projectRoot + '/', '')}`);
   }
 
+  // Firebase serves dist/404.html with a real HTTP 404 when no static route matches.
+  const { appHtml: notFoundHtml, seo: notFoundSeo } = render('/404');
+  const notFoundHead = renderHead(notFoundSeo);
+  const notFoundDocument = cleanTemplate
+    .replace('<head>', `<head>\n    ${notFoundHead}`)
+    .replace('<div id="root"></div>', `<div id="root">${notFoundHtml}</div>`);
+  await fs.writeFile(join(distDir, '404.html'), notFoundDocument, 'utf8');
+  console.log('prerendered custom 404 -> dist/404.html');
+
   // Generate sitemap.xml from the indexable route list (incl. hreflang alternates).
   const sitemapPath = join(distDir, 'sitemap.xml');
   const entries = sitemapEntries();
   await fs.writeFile(sitemapPath, renderSitemap(entries), 'utf8');
-  console.log(`generated sitemap.xml with ${entries.length} urls (build date ${buildDate})`);
+  console.log(`generated sitemap.xml with ${entries.length} urls`);
 
   // Generate feed.xml, llms.txt, and llms-full.txt from blog data so they never go stale.
   const origin = new URL(entries[0].loc).origin;
