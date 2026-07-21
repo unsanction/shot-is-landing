@@ -7,9 +7,9 @@ export function StatsSection() {
       <div className="relative z-10 mx-auto max-w-[1400px]">
         <div className="mb-16 text-center md:mb-24">
           <h2 className="mb-8 text-4xl font-black uppercase tracking-tight italic sm:text-5xl md:text-[72px] lg:text-[84px] xl:text-8xl">
-            Content
+            Recent
             <br />
-            <span className="text-exclusion-fill">Engine</span>
+            <span className="text-exclusion-fill">results.</span>
           </h2>
         </div>
 

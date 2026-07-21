@@ -37,12 +37,9 @@ export const reelVideos: ReelVideo[] = [
   { src: '/media/reel/visual-overload.mp4', poster: '/media/reel/visual-overload-poster.jpg' },
 ];
 
-export const slotResults = ['READY', 'CLICKED', 'INDEXED', 'VIRAL'];
-
 export const stats: Stat[] = [
-  { value: 'UGC', label: 'Creator-style AI videos', sub: 'Product demos, hooks, testimonials' },
-  { value: 'ADS', label: 'Paid social creative', sub: 'TikTok, Reels, Shorts, app campaigns' },
-  { value: 'AI', label: 'Virtual creator systems', sub: 'Reusable faces, lore, style, content pillars' },
-  { value: 'TESTS', label: 'Creative variant packs', sub: 'Angles, scripts, captions, thumbnails' },
-  { value: 'GLOBAL', label: 'Localization-ready concepts', sub: 'Adaptable for multi-market campaigns' },
+  { value: '8 DAYS', label: '18 ad concepts delivered', sub: 'DTC ecommerce launch — vs. a 4-week traditional shoot quote' },
+  { value: '31%', label: 'Lower CPI', sub: 'Mobile gaming studio, 6 AI hook variants shipped per week' },
+  { value: '1.7x', label: 'ROAS lift', sub: 'Best-performing AI variant vs. baseline, DTC ecommerce brand' },
+  { value: '6/WK', label: 'Hook variants shipped', sub: 'Typical ongoing cadence per creator persona' },
 ];
