@@ -17,11 +17,11 @@ export function JoinSection() {
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="mb-20 text-center md:mb-24">
           <h2 className="mb-8 text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-[88px] lg:text-[120px]">
-            JOIN THE <br />
-            <span className="mix-blend-difference">INNER CIRCLE.</span>
+            GET YOUR FIRST <br />
+            <span className="mix-blend-difference">AD MADE.</span>
           </h2>
           <p className="text-lg font-bold uppercase italic tracking-[0.35em] opacity-80 md:text-2xl">
-            Access is a privilege, not a right.
+            We onboard a limited number of brands directly each month.
           </p>
         </div>
 
@@ -30,7 +30,7 @@ export function JoinSection() {
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="YOUR_PRIVATE_EMAIL"
+            placeholder="YOUR_WORK_EMAIL"
             required
             className="input-underlined mb-12 text-center font-black uppercase placeholder:text-white/20"
           />
@@ -40,6 +40,9 @@ export function JoinSection() {
           >
             Request Access
           </button>
+          <p className="mt-8 font-mono text-[11px] font-bold uppercase tracking-[0.28em] opacity-60">
+            Typical first campaign: a few hundred dollars in finished variants, delivered in days.
+          </p>
         </form>
       </div>
     </section>

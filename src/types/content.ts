@@ -16,8 +16,6 @@ export type ReelVideo = {
   poster: string;
 };
 
-export type SlotPhase = 'idle' | 'spinning' | 'settling';
-
 export type Stat = {
   value: string;
   label: string;
