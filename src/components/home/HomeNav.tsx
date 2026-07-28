@@ -31,13 +31,15 @@ export function HomeNav() {
       <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
         <BrandLink href="/" />
 
-        <div className="hidden items-center gap-5 text-[10px] font-bold uppercase tracking-[0.18em] md:flex lg:gap-10 lg:text-[11px] lg:tracking-[0.24em]">
+        {/* Five links plus the wordmark only clear the logo from xl up; below
+            that the burger takes over, so nothing overlaps or wraps. */}
+        <div className="hidden items-center gap-7 text-[10px] font-bold uppercase tracking-[0.18em] xl:flex xl:gap-10 xl:text-[11px] xl:tracking-[0.22em]">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={isStudioUrl(link.href) ? withUtm(link.href, 'nav') : link.href}
               onClick={() => (isStudioUrl(link.href) ? trackStudioClick('nav') : trackCta('nav', link.label))}
-              className="transition-colors hover:text-accent"
+              className="whitespace-nowrap transition-colors hover:text-accent"
             >
               {link.label}
             </a>
@@ -49,7 +51,7 @@ export function HomeNav() {
           aria-expanded={menuOpen}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen((open) => !open)}
-          className="relative flex h-10 w-10 items-center justify-center md:hidden"
+          className="relative flex h-10 w-10 items-center justify-center xl:hidden"
         >
           <span
             className={`absolute h-0.5 w-6 bg-white transition-transform duration-300 ${
@@ -65,7 +67,7 @@ export function HomeNav() {
       </nav>
 
       <div
-        className={`fixed inset-0 z-[95] flex flex-col justify-between bg-black px-5 pb-8 pt-28 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[95] flex flex-col justify-between bg-black px-5 pb-8 pt-28 transition-opacity duration-300 xl:hidden ${
           menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         aria-hidden={!menuOpen}

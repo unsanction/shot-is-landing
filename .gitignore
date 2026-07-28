@@ -7,3 +7,5 @@ firebase-debug.log
 artifacts
 
 .DS_Store
+vite.config.js
+vite.config.d.ts

@@ -13,7 +13,9 @@ function CreatorCard({ creator, index }: { creator: Creator; index: number }) {
         <div className="image-card__accent" />
       </div>
       <h3
-        className={`${creator.lifted ? 'md:mt-12' : ''} break-words text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-[30px] xl:text-4xl`}
+        /* Fluid below md: at Galaxy-Fold widths a fixed 2.25rem split
+           "PRODUCT" across two lines. */
+        className={`${creator.lifted ? 'md:mt-12' : ''} break-words text-[clamp(1.75rem,7.5vw,2.25rem)] font-black uppercase leading-[0.95] tracking-tight md:text-[30px] xl:text-4xl`}
       >
         {creator.name}
       </h3>
@@ -28,13 +30,13 @@ export function RosterSection() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-20 flex flex-col gap-8 md:mb-24 xl:flex-row xl:items-end xl:justify-between">
           <h2 className="text-[clamp(2.65rem,10vw,7rem)] font-extrabold uppercase leading-none tracking-tight">
-            AI <br className="sm:hidden" />
-            CREATOR <br />
-            <span className="italic text-accent">ROSTER.</span>
+            WHAT <br className="sm:hidden" />
+            WE <br />
+            <span className="italic text-accent">SHIP.</span>
           </h2>
           <p className="max-w-md text-base font-bold uppercase leading-tight md:text-lg xl:text-right">
-            Virtual influencers, creator personas, and AI talent systems for campaigns that need repeatable visual
-            identity.
+            Product heroes, character-led spots, and virtual influencer personas — built as systems, so a brand looks
+            identical across every variant. Frames below are from shipped campaigns.
           </p>
         </div>
 

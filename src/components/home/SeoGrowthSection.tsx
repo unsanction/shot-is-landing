@@ -29,7 +29,9 @@ export function SeoGrowthSection() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {/* Two-up until xl: at md a third of the row is too narrow for
+              "Virtual Influencers" and the title breaks mid-word. */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {servicePages.map((page, index) => (
               <a
                 key={page.path}
@@ -39,13 +41,13 @@ export function SeoGrowthSection() {
                 style={{ transitionDelay: `${index * 0.08}s` }}
               >
                 <div>
-                  <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-white/35">
+                  <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-white/55">
                     {page.eyebrow}
                   </p>
-                  <h3 className="break-words text-[1.65rem] font-black uppercase leading-none tracking-tight sm:text-3xl xl:text-4xl">
+                  <h3 className="break-words text-[clamp(1.25rem,5.5vw,1.55rem)] font-black uppercase leading-none tracking-tight xl:text-[1.65rem]">
                     {page.navLabel}
                   </h3>
-                  <p className="mt-6 text-sm font-medium leading-relaxed text-white/45 md:text-base">{page.description}</p>
+                  <p className="mt-6 text-sm font-medium leading-relaxed text-white/62 md:text-base">{page.description}</p>
                 </div>
                 <span className="mt-10 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-accent transition-colors group-hover:text-white">
                   Open service
@@ -112,7 +114,7 @@ export function SeoGrowthSection() {
                 style={{ transitionDelay: `${index * 0.08}s` }}
               >
                 <h3 className="text-2xl font-black uppercase leading-none tracking-tight">{block.title}</h3>
-                <p className="mt-5 text-sm font-medium leading-relaxed text-white/48 md:text-base">{block.body}</p>
+                <p className="mt-5 text-sm font-medium leading-relaxed text-white/62 md:text-base">{block.body}</p>
               </article>
             ))}
           </div>
