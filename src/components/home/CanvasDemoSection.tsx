@@ -5,8 +5,7 @@ import {
   defaultPresetId,
   generatedNodeIds,
   nodeLogLines,
-  referenceFile,
-  referenceImage,
+  referenceAssets,
   type DemoNode,
   type DemoNodeId,
   type DemoNodeStatus,
@@ -100,24 +99,44 @@ function NodeBody({
     );
   }
 
-  if (failed) return placeholder('preview unavailable', node.id === 'reference' ? referenceFile : 'asset not loaded');
+  if (failed) return placeholder('preview unavailable', 'asset not loaded');
 
   switch (node.id) {
-    case 'reference':
+    case 'reference': {
+      /* The library is identical on every run — the direction only decides
+         which asset it leans on, so the node legitimately stays cached. */
+      const active = referenceAssets.find((asset) => asset.id === preset.usesReference) ?? referenceAssets[0];
       return (
         <>
-          <div className="cx-media cx-media--ref">
-            <img
-              src={referenceImage}
-              alt="Product packshot used as the campaign reference"
-              loading="lazy"
-              decoding="async"
-              onError={() => setFailed(true)}
-            />
+          <div className="cx-media cx-media--refset">
+            <div className="cx-refset__main">
+              <img
+                key={active.image}
+                src={active.image}
+                alt={active.alt}
+                loading="lazy"
+                decoding="async"
+                onError={() => setFailed(true)}
+              />
+            </div>
+            <div className="cx-refset__chips">
+              {referenceAssets.map((asset) => (
+                <span
+                  key={asset.id}
+                  className={asset.id === active.id ? 'is-active' : ''}
+                  style={{ backgroundImage: `url(${asset.image})` }}
+                  title={asset.label}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
           </div>
-          <p className="cx-meta">{referenceFile}</p>
+          <p className="cx-meta">
+            {referenceAssets.length} refs · using {active.file}
+          </p>
         </>
       );
+    }
 
     case 'direction':
       return (

@@ -647,8 +647,59 @@ summary {
   object-fit: cover;
 }
 
-.cx-media--ref { aspect-ratio: 5 / 4; }
-.cx-media--ref img { filter: saturate(0.7) contrast(1.08) brightness(0.95); }
+/* Reference library: the asset in use, plus chips for the whole set so the
+   node visibly answers "which of these did this direction lean on?". */
+.cx-media--refset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.5rem;
+  gap: 0.3rem;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+}
+
+.cx-refset__main {
+  overflow: hidden;
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  background: #131317;
+}
+
+.cx-refset__main img {
+  width: 100%;
+  height: 100%;
+  /* Bias the crop upward: faces and the can's lockup sit above centre. */
+  object-fit: cover;
+  object-position: 50% 38%;
+  filter: saturate(0.82) contrast(1.06);
+}
+
+/* A vertical rail of the whole library, so the set stays visible while the
+   direction only swaps which one is lit. */
+.cx-refset__chips {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.25rem;
+}
+
+.cx-refset__chips span {
+  display: block;
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  background-position: center 38%;
+  background-size: cover;
+  filter: saturate(0.3) brightness(0.45);
+  transition: filter 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.cx-refset__chips span.is-active {
+  border-color: var(--cx-ok);
+  box-shadow: 0 0 0 1px rgba(94, 210, 140, 0.35);
+  filter: none;
+}
 
 .cx-media--gen,
 .cx-media--motion { aspect-ratio: 4 / 5; }
@@ -1221,7 +1272,21 @@ summary {
     aspect-ratio: 4 / 5;
   }
 
-  .cx-board > .cx-node--reference .cx-media { aspect-ratio: 5 / 4; }
+  /* Below the graph the media box has no flexible row to stretch into, so the
+     reference set stacks and states its own sizes instead of collapsing. */
+  .cx-board > .cx-node--reference .cx-media {
+    grid-template-columns: minmax(0, 1fr);
+    aspect-ratio: auto;
+  }
+
+  .cx-board > .cx-node--reference .cx-refset__main { aspect-ratio: 1 / 1; }
+
+  .cx-board > .cx-node--reference .cx-refset__chips {
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cx-board > .cx-node--reference .cx-refset__chips span { aspect-ratio: 1 / 1; }
 
   .cx-board > .cx-node--direction .cx-media {
     min-height: 5.5rem;
@@ -1294,7 +1359,6 @@ summary {
     aspect-ratio: 4 / 5;
   }
 
-  .cx-board > .cx-node--reference .cx-media { aspect-ratio: 4 / 5; }
 
   .cx-node__title {
     align-self: end;

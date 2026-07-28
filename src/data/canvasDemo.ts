@@ -23,7 +23,7 @@ export type DemoNode = {
 };
 
 export const demoNodes: DemoNode[] = [
-  { id: 'reference', kind: 'Input · product', title: 'Reference', runtime: 420, inputs: [], isInput: true },
+  { id: 'reference', kind: 'Input · refs', title: 'Reference', runtime: 420, inputs: [], isInput: true },
   { id: 'direction', kind: 'Input · prompt', title: 'Direction', runtime: 320, inputs: [], isInput: true },
   { id: 'keyframe', kind: 'Generate · image', title: 'Keyframe', runtime: 1250, inputs: ['reference', 'direction'] },
   { id: 'motion', kind: 'Generate · video', title: 'Motion', runtime: 1600, inputs: ['keyframe'] },
@@ -35,9 +35,45 @@ export const demoNodeOrder = demoNodes.map((node) => node.id);
 /** The two hand-authored inputs; everything else is generated and can go stale. */
 export const generatedNodeIds = demoNodes.filter((node) => !node.isInput).map((node) => node.id);
 
+/** The project's reference library. It is the same on every run — a direction
+ *  only picks which asset it leans on, which is why the node stays cached. */
+export type ReferenceAsset = {
+  id: 'mascot' | 'product' | 'creator';
+  label: string;
+  file: string;
+  image: string;
+  alt: string;
+};
+
+export const referenceAssets: ReferenceAsset[] = [
+  {
+    id: 'mascot',
+    label: 'Mascot',
+    file: 'gorilla-mascot.png',
+    image: '/media/work/ref-mascot.jpg',
+    alt: 'Brand mascot reference: the gorilla character',
+  },
+  {
+    id: 'product',
+    label: 'Product',
+    file: 'gorilla-can-packshot.jpg',
+    image: '/media/work/ref-product.jpg',
+    alt: 'Product reference: the energy drink can',
+  },
+  {
+    id: 'creator',
+    label: 'Creator',
+    file: 'creator-persona-01.jpg',
+    image: '/media/work/ref-creator.jpg',
+    alt: 'Creator persona reference used for UGC-style variants',
+  },
+];
+
 export type DemoPreset = {
   id: 'retro' | 'neon' | 'ugc';
   label: string;
+  /** Which asset from the reference library this direction leans on. */
+  usesReference: ReferenceAsset['id'];
   /** Shown on the direction node. */
   prompt: string;
   imageModel: string;
@@ -55,15 +91,10 @@ export type DemoPreset = {
   seconds: number;
 };
 
-const REFERENCE_IMAGE = '/media/work/ref-product.jpg';
-const REFERENCE_FILE = 'gorilla-can-packshot.jpg';
-
-export const referenceImage = REFERENCE_IMAGE;
-export const referenceFile = REFERENCE_FILE;
-
 export const demoPresets: DemoPreset[] = [
   {
     id: 'retro',
+    usesReference: 'mascot',
     label: 'Retro arcade',
     prompt: 'Late-night bedroom arcade. CRT glow, RGB spill, practical lamps, handheld camera, product on the desk.',
     imageModel: 'Grok Imagine · 9:16',
@@ -82,6 +113,7 @@ export const demoPresets: DemoPreset[] = [
   },
   {
     id: 'neon',
+    usesReference: 'product',
     label: 'Neon packshot',
     prompt: 'Studio packshot on black. Neon rim light, volumetric haze, slow orbit, hard specular on the can.',
     imageModel: 'Grok Imagine · 9:16',
@@ -100,6 +132,7 @@ export const demoPresets: DemoPreset[] = [
   },
   {
     id: 'ugc',
+    usesReference: 'creator',
     label: 'Creator UGC',
     prompt: 'Creator holds the product in a warm bar interior. Phone-camera framing, ambient practicals, natural motion.',
     imageModel: 'Grok Imagine · 9:16',
@@ -122,7 +155,10 @@ export const defaultPresetId: DemoPreset['id'] = 'retro';
 
 /** Log lines the execution panel streams while a node runs. */
 export const nodeLogLines: Record<DemoNodeId, (preset: DemoPreset) => string> = {
-  reference: () => `load ${REFERENCE_FILE} → 1080×1920`,
+  reference: (preset) =>
+    `resolve ${referenceAssets.length} refs → use ${
+      referenceAssets.find((asset) => asset.id === preset.usesReference)?.file
+    }`,
   direction: (preset) => `parse direction "${preset.label.toLowerCase()}"`,
   keyframe: (preset) => `${preset.imageModel.split(' · ')[0].toLowerCase()}: keyframe from 2 refs`,
   motion: (preset) => `${preset.videoModel.split(' · ')[0].toLowerCase()}: image→video, ${preset.videoModel.split(' · ')[1]}`,
