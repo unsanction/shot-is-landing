@@ -75,7 +75,7 @@ export function HeroSection() {
             IN DAYS.
           </span>
         </h1>
-        <p className="mx-auto mb-16 max-w-3xl text-lg font-medium leading-tight text-white/40 sm:text-xl md:text-3xl">
+        <p className="mx-auto mb-16 max-w-3xl text-lg font-medium leading-tight text-white/65 sm:text-xl md:text-3xl">
           SHOT.IS is an AI video studio for paid social — UGC-style ad variants, human-reviewed before they ship,
           built in days instead of the weeks a traditional shoot takes.
         </p>

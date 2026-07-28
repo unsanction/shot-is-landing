@@ -8,33 +8,38 @@ export const navLinks: NavLink[] = [
   { href: 'https://studio.shot.is/', label: 'Open Studio' },
 ];
 
+/** Frames lifted straight out of shipped campaign cuts — no stock photography. */
 export const creators: Creator[] = [
   {
-    name: 'VEXA-9',
-    description: 'AI fashion creator // premium launch visuals',
-    alt: 'Virtual fashion creator for AI UGC ads and product launch content',
-    image:
-      'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000',
+    name: 'PRODUCT HERO',
+    description: 'Packshot campaigns // neon studio look, 9:16',
+    alt: 'Frame from an AI-generated energy drink packshot ad on a neon backdrop',
+    image: '/media/work/case-neon.jpg',
   },
   {
-    name: 'KAI_OS',
-    description: 'AI streetwear creator // short-form ad energy',
-    alt: 'Virtual streetwear creator built for short-form AI video ads',
-    image:
-      'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1000',
+    name: 'CHARACTER SPOT',
+    description: 'Brand mascot as a repeatable persona',
+    alt: 'Frame from an AI-generated character-led energy drink ad in a retro gaming room',
+    image: '/media/work/case-retro.jpg',
     lifted: true,
   },
   {
-    name: 'LUNA_CORE',
-    description: 'AI cinematic creator // concept-led campaigns',
-    alt: 'Cinematic virtual influencer for AI content campaigns',
-    image:
-      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1000',
+    name: 'CREATOR UGC',
+    description: 'Virtual influencer personas // testimonial ads',
+    alt: 'Frame from an AI-generated creator UGC ad shot in a bar interior',
+    image: '/media/work/case-ugc.jpg',
   },
 ];
 
+/** Scenes cut from a shipped 9:16 campaign, so the strip shows real variety. */
 export const reelVideos: ReelVideo[] = [
+  { src: '/media/work/reel-01.mp4', poster: '/media/work/reel-01.jpg' },
+  { src: '/media/work/reel-02.mp4', poster: '/media/work/reel-02.jpg' },
+  { src: '/media/work/reel-03.mp4', poster: '/media/work/reel-03.jpg' },
   { src: '/media/reel/visual-overload.mp4', poster: '/media/reel/visual-overload-poster.jpg' },
+  { src: '/media/work/reel-04.mp4', poster: '/media/work/reel-04.jpg' },
+  { src: '/media/work/reel-05.mp4', poster: '/media/work/reel-05.jpg' },
+  { src: '/media/work/reel-06.mp4', poster: '/media/work/reel-06.jpg' },
 ];
 
 export const stats: Stat[] = [

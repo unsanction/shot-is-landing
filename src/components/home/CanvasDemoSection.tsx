@@ -1,285 +1,629 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  demoNodes,
+  demoPresets,
+  defaultPresetId,
+  generatedNodeIds,
+  nodeLogLines,
+  referenceFile,
+  referenceImage,
+  type DemoNode,
+  type DemoNodeId,
+  type DemoNodeStatus,
+  type DemoPreset,
+} from '../../data/canvasDemo';
 import { track, trackStudioClick, withUtm } from '../../lib/track';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
-type DemoPhase = 'idle' | 'running-initial' | 'complete' | 'edited' | 'running-stale' | 'variant-complete';
-type DemoNodeId = 'import' | 'prompt' | 'image' | 'video' | 'composer';
-type DemoNodeStatus = 'waiting' | 'running' | 'fresh' | 'stale';
+type Phase = 'idle' | 'running' | 'done' | 'dirty';
 
-type PromptPreset = {
-  id: 'studio' | 'neon';
-  label: string;
-  prompt: string;
-  poster: string;
-  video: string;
-};
-
-const presets: PromptPreset[] = [
-  {
-    id: 'studio',
-    label: 'Studio impact',
-    prompt: 'Premium product reveal. Hard light, macro texture, fast match cuts.',
-    poster: '/media/reel/visual-overload-poster.jpg',
-    video: '/media/reel/visual-overload.mp4',
-  },
-  {
-    id: 'neon',
-    label: 'Neon energy',
-    prompt: 'Night campaign. Red neon, kinetic camera, bold creator energy.',
-    poster: '/media/hero/shot-hero-poster.webp',
-    video: '/media/hero/shot-hero-loop.mp4',
-  },
-];
-
-const initialOrder: DemoNodeId[] = ['import', 'prompt', 'image', 'video', 'composer'];
-const staleOrder: DemoNodeId[] = ['image', 'video', 'composer'];
-
-const nodeCopy: Record<DemoNodeId, { eyebrow: string; title: string; meta: string }> = {
-  import: { eyebrow: 'Input · image', title: 'Product reference', meta: 'product-packshot.jpg' },
-  prompt: { eyebrow: 'Input · text', title: 'Creative direction', meta: 'Editable prompt' },
-  image: { eyebrow: 'Generation · image', title: 'Generate image', meta: 'Grok Imagine · 9:16' },
-  video: { eyebrow: 'Generation · video', title: 'Generate video', meta: 'Kling · 5 sec · 1080p' },
-  composer: { eyebrow: 'Assembly · video', title: 'Composer', meta: 'Cut · vertical · 1080p' },
-};
+type Edge = { id: string; from: DemoNodeId; to: DemoNodeId; d: string };
 
 const statusLabel: Record<DemoNodeStatus, string> = {
-  waiting: 'waiting',
+  idle: 'idle',
+  queued: 'queued',
   running: 'running',
   fresh: 'fresh',
+  cached: 'cached',
   stale: 'stale',
 };
 
-function DemoNode({
-  id,
-  status,
-  preset,
-}: {
-  id: DemoNodeId;
-  status: DemoNodeStatus;
-  preset: PromptPreset;
-}) {
-  const copy = nodeCopy[id];
+/* The page is prerendered, and useLayoutEffect is a no-op (and warns) on the
+   server. Edge measurement is client-only anyway. */
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
+const idleStatuses = () =>
+  Object.fromEntries(demoNodes.map((node) => [node.id, 'idle'])) as Record<DemoNodeId, DemoNodeStatus>;
+
+const zeroProgress = () =>
+  Object.fromEntries(demoNodes.map((node) => [node.id, 0])) as Record<DemoNodeId, number>;
+
+/** Seconds a human would burn re-doing a node by hand — used for the cache readout. */
+const MANUAL_SECONDS_PER_NODE = 14;
+
+function ProgressBar({ value }: { value: number }) {
   return (
-    <article className={`canvas-demo-node canvas-demo-node--${id} is-${status}`} data-node={id}>
-      <div className="canvas-demo-node__head">
-        <span>{copy.eyebrow}</span>
-        <span className={`canvas-demo-status canvas-demo-status--${status}`}>
-          {status === 'running' ? <span className="canvas-demo-spinner" aria-hidden="true" /> : null}
-          {statusLabel[status]}
-        </span>
-      </div>
-      <div className="canvas-demo-node__body">
-        <h3>{copy.title}</h3>
-        {id === 'import' ? (
-          <div className="canvas-demo-thumb">
-            <img src="/media/reel/visual-overload-poster.jpg" alt="Product reference used by the demo workflow" />
-          </div>
-        ) : null}
-        {id === 'prompt' ? <p className="canvas-demo-prompt">{preset.prompt}</p> : null}
-        {id === 'image' ? (
-          <div className="canvas-demo-thumb canvas-demo-thumb--generated">
-            <img src={preset.poster} alt="Generated campaign keyframe" />
-          </div>
-        ) : null}
-        {id === 'video' ? <div className="canvas-demo-wave" aria-hidden="true"><i /><i /><i /><i /><i /></div> : null}
-        {id === 'composer' ? (
-          <div className="canvas-demo-timeline" aria-hidden="true"><i /><i /><i /></div>
-        ) : null}
-        <p className="canvas-demo-node__meta">{copy.meta}</p>
-      </div>
-      <span className="canvas-demo-port canvas-demo-port--in" aria-hidden="true" />
-      <span className="canvas-demo-port canvas-demo-port--out" aria-hidden="true" />
-    </article>
+    <div className="cx-progress" aria-hidden="true">
+      <i style={{ transform: `scaleX(${value})` }} />
+    </div>
   );
 }
 
-export function CanvasDemoSection() {
-  const [phase, setPhase] = useState<DemoPhase>('idle');
-  const [activeStep, setActiveStep] = useState(0);
-  const [selectedPresetId, setSelectedPresetId] = useState<PromptPreset['id']>('studio');
-  const [renderedPresetId, setRenderedPresetId] = useState<PromptPreset['id']>('studio');
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  const selectedPreset = presets.find((preset) => preset.id === selectedPresetId) ?? presets[0];
-  const renderedPreset = presets.find((preset) => preset.id === renderedPresetId) ?? presets[0];
-  const isRunning = phase === 'running-initial' || phase === 'running-stale';
-  const hasOutput = phase !== 'idle' && phase !== 'running-initial';
-  const outputIsStale = phase === 'edited' || phase === 'running-stale';
+function NodeBody({
+  node,
+  status,
+  preset,
+  autoplay,
+}: {
+  node: DemoNode;
+  status: DemoNodeStatus;
+  preset: DemoPreset;
+  autoplay: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const settled = status === 'fresh' || status === 'cached';
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReducedMotion(query.matches);
-    update();
-    query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
+    if (settled && autoplay) {
+      void video.play().catch(() => {
+        /* Autoplay can be refused; the poster stays visible. */
+      });
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [settled, autoplay, preset.id]);
+
+  const busy = status === 'running' ? 'is-generating' : '';
+
+  /* Generated nodes have nothing to show until the graph has run once. */
+  if (!node.isInput && (status === 'idle' || status === 'queued')) {
+    return (
+      <>
+        <div className="cx-media cx-media--empty">
+          <span aria-hidden="true">{status === 'queued' ? 'queued' : 'no output yet'}</span>
+        </div>
+        <p className="cx-meta">{node.id === 'composer' ? 'awaiting upstream' : preset.imageModel.split(' · ')[0]}</p>
+      </>
+    );
+  }
+
+  switch (node.id) {
+    case 'reference':
+      return (
+        <>
+          <div className="cx-media cx-media--ref">
+            <img src={referenceImage} alt="Product packshot used as the campaign reference" loading="lazy" decoding="async" />
+          </div>
+          <p className="cx-meta">{referenceFile}</p>
+        </>
+      );
+
+    case 'direction':
+      return (
+        <>
+          <div className="cx-media cx-media--prompt">
+            <p>{preset.prompt}</p>
+          </div>
+          <p className="cx-meta">
+            <span className="cx-chip">editable</span> 1 of {demoPresets.length} directions
+          </p>
+        </>
+      );
+
+    case 'keyframe':
+      return (
+        <>
+          <div className={`cx-media cx-media--gen ${busy}`}>
+            <img key={preset.keyframe} src={preset.keyframe} alt={preset.keyframeAlt} loading="lazy" decoding="async" />
+            {status === 'running' ? <span className="cx-scan" aria-hidden="true" /> : null}
+          </div>
+          <p className="cx-meta">{preset.imageModel}</p>
+        </>
+      );
+
+    case 'motion':
+      return (
+        <>
+          <div className={`cx-media cx-media--motion ${busy}`}>
+            <video
+              ref={videoRef}
+              key={preset.motionClip}
+              src={preset.motionClip}
+              poster={preset.motionPoster}
+              muted
+              loop
+              playsInline
+              preload="none"
+              aria-hidden="true"
+            />
+            {status === 'running' ? <span className="cx-scan" aria-hidden="true" /> : null}
+            {settled ? <span className="cx-badge">loop</span> : null}
+          </div>
+          <p className="cx-meta">{preset.videoModel}</p>
+        </>
+      );
+
+    case 'composer':
+      return (
+        <>
+          <div className="cx-media cx-media--strip">
+            <div className="cx-strip" aria-hidden="true">
+              {preset.strip.map((frame, index) => (
+                <span key={`${frame}-${index}`} style={{ backgroundImage: `url(${frame})` }} />
+              ))}
+            </div>
+            <div className="cx-timeline" aria-hidden="true">
+              <i style={{ width: '38%' }} />
+              <i style={{ width: '26%' }} className="is-accent" />
+              <i style={{ width: '36%' }} />
+            </div>
+          </div>
+          <p className="cx-meta">
+            {preset.cuts} cuts · {preset.seconds}s · 1080×1920
+          </p>
+        </>
+      );
+
+    default:
+      return null;
+  }
+}
+
+export function CanvasDemoSection() {
+  const reducedMotion = useReducedMotion();
+
+  const [phase, setPhase] = useState<Phase>('idle');
+  const [statuses, setStatuses] = useState<Record<DemoNodeId, DemoNodeStatus>>(idleStatuses);
+  const [progress, setProgress] = useState<Record<DemoNodeId, number>>(zeroProgress);
+  const [log, setLog] = useState<string[]>([]);
+  const [queue, setQueue] = useState<DemoNodeId[]>([]);
+  const [step, setStep] = useState(0);
+  const [selectedId, setSelectedId] = useState<DemoPreset['id']>(defaultPresetId);
+  const [renderedId, setRenderedId] = useState<DemoPreset['id']>(defaultPresetId);
+  const [soundOn, setSoundOn] = useState(false);
+
+  const selected = demoPresets.find((preset) => preset.id === selectedId) ?? demoPresets[0];
+  const rendered = demoPresets.find((preset) => preset.id === renderedId) ?? demoPresets[0];
+
+  const isRunning = phase === 'running';
+  const hasOutput = phase === 'done' || phase === 'dirty';
+  const isDirty = phase === 'dirty';
+  const cachedCount = Object.values(statuses).filter((status) => status === 'cached').length;
+  const freshCount = Object.values(statuses).filter((status) => status === 'fresh' || status === 'cached').length;
+
+  /* ---- run engine -------------------------------------------------- */
+
+  const runningNode = isRunning ? queue[step] : undefined;
 
   useEffect(() => {
     if (!isRunning) return;
-    const order = phase === 'running-initial' ? initialOrder : staleOrder;
-    const delay = reducedMotion ? 80 : 620;
-    const timer = window.setTimeout(() => {
-      if (activeStep < order.length - 1) {
-        setActiveStep((step) => step + 1);
-        return;
-      }
-      setRenderedPresetId(selectedPresetId);
-      setPhase(phase === 'running-initial' ? 'complete' : 'variant-complete');
-      setActiveStep(0);
-    }, delay);
-    return () => window.clearTimeout(timer);
-  }, [activeStep, isRunning, phase, reducedMotion, selectedPresetId]);
+    const nodeId = queue[step];
 
-  const statuses = useMemo<Record<DemoNodeId, DemoNodeStatus>>(() => {
-    if (phase === 'idle') {
-      return { import: 'waiting', prompt: 'waiting', image: 'waiting', video: 'waiting', composer: 'waiting' };
+    if (!nodeId) {
+      setPhase('done');
+      setRenderedId(selectedId);
+      setLog((lines) => [...lines, `done · ${queue.length} node${queue.length === 1 ? '' : 's'} executed`].slice(-40));
+      return;
     }
-    if (phase === 'running-initial') {
-      return Object.fromEntries(
-        initialOrder.map((id, index) => [id, index < activeStep ? 'fresh' : index === activeStep ? 'running' : 'waiting']),
-      ) as Record<DemoNodeId, DemoNodeStatus>;
-    }
-    if (phase === 'edited') {
-      return { import: 'fresh', prompt: 'fresh', image: 'stale', video: 'stale', composer: 'stale' };
-    }
-    if (phase === 'running-stale') {
-      const downstream = Object.fromEntries(
-        staleOrder.map((id, index) => [id, index < activeStep ? 'fresh' : index === activeStep ? 'running' : 'stale']),
-      ) as Pick<Record<DemoNodeId, DemoNodeStatus>, 'image' | 'video' | 'composer'>;
-      return { import: 'fresh', prompt: 'fresh', ...downstream };
-    }
-    return { import: 'fresh', prompt: 'fresh', image: 'fresh', video: 'fresh', composer: 'fresh' };
-  }, [activeStep, phase]);
 
-  const runInitial = () => {
-    if (isRunning) return;
-    setActiveStep(0);
-    setPhase('running-initial');
-    track('canvas_demo_run', { preset: selectedPresetId });
+    const node = demoNodes.find((candidate) => candidate.id === nodeId)!;
+    const runtime = reducedMotion ? 120 : node.runtime;
+    const tick = 60;
+    const started = performance.now();
+
+    setStatuses((current) => ({ ...current, [nodeId]: 'running' }));
+
+    const timer = window.setInterval(() => {
+      const ratio = Math.min(1, (performance.now() - started) / runtime);
+      setProgress((current) => ({ ...current, [nodeId]: ratio }));
+
+      if (ratio < 1) return;
+      window.clearInterval(timer);
+      setStatuses((current) => ({ ...current, [nodeId]: 'fresh' }));
+      setLog((lines) => [...lines, nodeLogLines[nodeId](selected)].slice(-40));
+      setStep((current) => current + 1);
+    }, tick);
+
+    return () => window.clearInterval(timer);
+  }, [isRunning, queue, step, reducedMotion, selected, selectedId]);
+
+  const startRun = useCallback(
+    (ids: DemoNodeId[], event: string) => {
+      setQueue(ids);
+      setStep(0);
+      setProgress(zeroProgress());
+      setStatuses((current) => {
+        const next = { ...current };
+        ids.forEach((id) => {
+          next[id] = 'queued';
+        });
+        return next;
+      });
+      setPhase('running');
+      track(event, { preset: selectedId, node_count: ids.length });
+    },
+    [selectedId],
+  );
+
+  const runAll = () => {
+    setLog([`run graph · ${demoNodes.length} nodes · direction "${selected.label.toLowerCase()}"`]);
+    startRun(
+      demoNodes.map((node) => node.id),
+      'canvas_demo_run',
+    );
   };
 
-  const runStale = () => {
-    if (phase !== 'edited') return;
-    setActiveStep(0);
-    setPhase('running-stale');
-    track('canvas_demo_run_stale', { preset: selectedPresetId, node_count: 3 });
+  const runChanged = () => {
+    setLog((lines) => [...lines, `re-run · ${generatedNodeIds.length} stale · ${cachedCount} cached`].slice(-40));
+    startRun(generatedNodeIds, 'canvas_demo_run_stale');
   };
 
-  const selectPreset = (preset: PromptPreset) => {
-    if (isRunning || preset.id === selectedPresetId) return;
-    setSelectedPresetId(preset.id);
-    if (hasOutput) setPhase(preset.id === renderedPresetId ? 'variant-complete' : 'edited');
+  const selectPreset = (preset: DemoPreset) => {
+    if (isRunning || preset.id === selectedId) return;
+    setSelectedId(preset.id);
     track('canvas_demo_prompt_change', { preset: preset.id });
+
+    if (phase === 'idle') return;
+
+    if (preset.id === renderedId) {
+      setPhase('done');
+      setStatuses((current) => {
+        const next = { ...current };
+        demoNodes.forEach((node) => {
+          next[node.id] = 'fresh';
+        });
+        return next;
+      });
+      return;
+    }
+
+    setPhase('dirty');
+    setStatuses((current) => {
+      const next = { ...current };
+      next.reference = 'cached';
+      next.direction = 'fresh';
+      generatedNodeIds.forEach((id) => {
+        next[id] = 'stale';
+      });
+      return next;
+    });
+    setLog((lines) => [...lines, `direction changed → ${generatedNodeIds.length} nodes stale`].slice(-40));
   };
 
-  const replay = () => {
-    setSelectedPresetId('studio');
-    setRenderedPresetId('studio');
-    setActiveStep(0);
+  const reset = () => {
     setPhase('idle');
+    setStatuses(idleStatuses());
+    setProgress(zeroProgress());
+    setQueue([]);
+    setStep(0);
+    setLog([]);
+    setSelectedId(defaultPresetId);
+    setRenderedId(defaultPresetId);
     track('canvas_demo_replay');
   };
 
-  const liveMessage = isRunning
-    ? `${nodeCopy[(phase === 'running-initial' ? initialOrder : staleOrder)[activeStep]].title} is running.`
-    : outputIsStale
-      ? 'Three downstream nodes need to be refreshed.'
+  /* The graph plays itself the first time it scrolls into view, so the
+     section never sits there as five empty slots waiting for a click. */
+  const sectionRef = useRef<HTMLElement>(null);
+  const autoRunRef = useRef(false);
+  const runAllRef = useRef(runAll);
+  runAllRef.current = runAll;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting) || autoRunRef.current) return;
+        autoRunRef.current = true;
+        observer.disconnect();
+        runAllRef.current();
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  /* ---- edges measured from the real node ports ---------------------- */
+
+  const boardRef = useRef<HTMLDivElement>(null);
+  const portRefs = useRef(new Map<string, HTMLSpanElement>());
+  const [edges, setEdges] = useState<Edge[]>([]);
+  const [boardBox, setBoardBox] = useState({ width: 0, height: 0 });
+
+  const setPort = useCallback((key: string, element: HTMLSpanElement | null) => {
+    if (element) portRefs.current.set(key, element);
+    else portRefs.current.delete(key);
+  }, []);
+
+  const measure = useCallback(() => {
+    const board = boardRef.current;
+    if (!board) return;
+    const box = board.getBoundingClientRect();
+    if (!box.width) return;
+
+    const next: Edge[] = [];
+    demoNodes.forEach((node) => {
+      node.inputs.forEach((input) => {
+        const from = portRefs.current.get(`${input}:out`);
+        const to = portRefs.current.get(`${node.id}:in`);
+        if (!from || !to) return;
+        const a = from.getBoundingClientRect();
+        const b = to.getBoundingClientRect();
+        const x1 = a.left + a.width / 2 - box.left;
+        const y1 = a.top + a.height / 2 - box.top;
+        const x2 = b.left + b.width / 2 - box.left;
+        const y2 = b.top + b.height / 2 - box.top;
+        const bend = Math.max(26, (x2 - x1) * 0.55);
+        next.push({
+          id: `${input}->${node.id}`,
+          from: input,
+          to: node.id,
+          d: `M ${x1},${y1} C ${x1 + bend},${y1} ${x2 - bend},${y2} ${x2},${y2}`,
+        });
+      });
+    });
+
+    setBoardBox({ width: box.width, height: box.height });
+    setEdges(next);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    measure();
+  }, [measure, selectedId, statuses]);
+
+  useEffect(() => {
+    const board = boardRef.current;
+    if (!board || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => measure());
+    observer.observe(board);
+    board.querySelectorAll('.cx-node').forEach((node) => observer.observe(node));
+    window.addEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [measure]);
+
+  /* ---- final output video ------------------------------------------ */
+
+  const outputRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = outputRef.current;
+    if (!video || !hasOutput) return;
+    video.muted = !soundOn;
+    if (reducedMotion) return;
+    void video.play().catch(() => {
+      /* Autoplay can be refused; the poster stays visible. */
+    });
+  }, [hasOutput, renderedId, soundOn, reducedMotion]);
+
+  const edgeState = (edge: Edge): string => {
+    const target = statuses[edge.to];
+    if (target === 'stale') return 'is-stale';
+    if (target === 'running') return 'is-flowing';
+    if (target === 'fresh' || target === 'cached') return 'is-live';
+    return '';
+  };
+
+  const liveMessage = useMemo(() => {
+    if (isRunning && runningNode) return `${demoNodes.find((n) => n.id === runningNode)?.title} is running.`;
+    if (isDirty) return `Direction changed. ${generatedNodeIds.length} nodes need a re-run, ${cachedCount} stay cached.`;
+    if (hasOutput) return `Workflow complete. ${rendered.outputName} is ready.`;
+    return 'Demo graph ready to run.';
+  }, [isRunning, runningNode, isDirty, hasOutput, cachedCount, rendered.outputName]);
+
+  const runLabel = isRunning
+    ? `Running ${step + 1}/${queue.length}…`
+    : isDirty
+      ? `Re-run ${generatedNodeIds.length} stale nodes`
       : hasOutput
-        ? 'Workflow complete. Final video is ready.'
-        : 'Demo ready to run.';
+        ? 'All nodes fresh'
+        : 'Run workflow';
 
   return (
-    <section id="canvas" className="canvas-demo-section" data-testid="canvas-demo">
-      <div className="mx-auto max-w-7xl">
-        <div className="canvas-demo-intro">
+    <section id="canvas" className="cx-section" data-testid="canvas-demo" ref={sectionRef}>
+      <div className="cx-wrap">
+        <header className="cx-intro">
           <div>
-            <p className="canvas-demo-kicker">Canvas mode · Interactive demo</p>
-            <h2>Build the whole ad.<br /><span>Change only what matters.</span></h2>
+            <p className="cx-kicker">Canvas mode · interactive demo</p>
+            <h2>
+              Build the whole ad.
+              <br />
+              <span>Re-run only what changed.</span>
+            </h2>
           </div>
-          <div className="canvas-demo-intro__copy">
+          <div className="cx-intro__aside">
             <p>
-              Wire references, prompts, image and video models into one re-runnable production graph. Change one input
-              and Canvas keeps every approved result that is still fresh.
+              References, prompts, image and video models wired into one re-runnable graph. Swap a creative direction
+              and Canvas keeps every approved result that is still valid.
             </p>
             <a href="/blog/canvas-mode-node-based-ai-video-workflow">How Canvas works ↗</a>
           </div>
-        </div>
+        </header>
 
-        <div className="canvas-demo-shell">
-          <div className="canvas-demo-toolbar">
-            <div>
-              <span className="canvas-demo-toolbar__dot" />
-              <span>PRODUCT LAUNCH / 9:16 CAMPAIGN</span>
-            </div>
-            <div className="canvas-demo-toolbar__meta">
-              <span>{Object.values(statuses).filter((status) => status === 'fresh').length}/5 fresh</span>
-              <span>Server-side graph</span>
-            </div>
+        <div className="cx-shell">
+          <div className="cx-toolbar">
+            <span className="cx-toolbar__project">
+              <i className="cx-dot" aria-hidden="true" />
+              gorilla-energy / 9:16 launch
+            </span>
+            <span className="cx-toolbar__meta">
+              <span>
+                <b>{freshCount}</b>/{demoNodes.length} fresh
+              </span>
+              <span>server-side graph</span>
+            </span>
           </div>
 
-          <div className="canvas-demo-workspace">
-            <div className="canvas-demo-board" aria-label="Example AI video production graph">
-              <svg className="canvas-demo-edges" viewBox="0 0 1000 550" preserveAspectRatio="none" aria-hidden="true">
-                <path className={statuses.image === 'stale' ? 'is-stale' : statuses.image !== 'waiting' ? 'is-active' : ''} d="M220 140 C265 140 245 245 290 245" />
-                <path className={statuses.image === 'stale' ? 'is-stale' : statuses.image !== 'waiting' ? 'is-active' : ''} d="M220 415 C265 415 245 300 290 300" />
-                <path className={statuses.video === 'stale' ? 'is-stale' : statuses.video !== 'waiting' ? 'is-active' : ''} d="M490 275 C515 275 525 275 550 275" />
-                <path className={statuses.composer === 'stale' ? 'is-stale' : statuses.composer !== 'waiting' ? 'is-active' : ''} d="M750 275 C770 275 780 275 800 275" />
+          <div className="cx-workspace">
+            <div className="cx-board" ref={boardRef} aria-label="Example AI video production graph">
+              <svg
+                className="cx-edges"
+                viewBox={`0 0 ${boardBox.width || 1} ${boardBox.height || 1}`}
+                width={boardBox.width || undefined}
+                height={boardBox.height || undefined}
+                aria-hidden="true"
+              >
+                {edges.map((edge) => (
+                  <g key={edge.id} className={`cx-edge ${edgeState(edge)}`}>
+                    <path className="cx-edge__base" d={edge.d} />
+                    <path className="cx-edge__flow" d={edge.d} />
+                  </g>
+                ))}
               </svg>
-              {initialOrder.map((id, index) => (
-                <div className="canvas-demo-node-wrap" key={id}>
-                  {index > 0 ? <span className="canvas-demo-mobile-connector" aria-hidden="true" /> : null}
-                  <DemoNode id={id} status={statuses[id]} preset={selectedPreset} />
-                </div>
-              ))}
+
+              {demoNodes.map((node, index) => {
+                const status = statuses[node.id];
+                return (
+                  <article key={node.id} className={`cx-node cx-node--${node.id} is-${status}`} data-node={node.id}>
+                    {index > 0 ? <span className={`cx-rail is-${status}`} aria-hidden="true" /> : null}
+                    <div className="cx-node__head">
+                      <span className="cx-step" aria-hidden="true">
+                        {index + 1}
+                      </span>
+                      <span className="cx-node__kind">{node.kind}</span>
+                      <span className={`cx-status cx-status--${status}`}>
+                        {status === 'running' ? <i className="cx-spinner" aria-hidden="true" /> : null}
+                        {statusLabel[status]}
+                      </span>
+                    </div>
+                    <h3 className="cx-node__title">{node.title}</h3>
+                    <NodeBody
+                      node={node}
+                      status={status}
+                      /* A stale node still shows the result it produced last run —
+                         the new direction only lands once it is re-executed. */
+                      preset={!node.isInput && status === 'stale' ? rendered : selected}
+                      autoplay={!reducedMotion}
+                    />
+                    {status === 'running' ? <ProgressBar value={progress[node.id]} /> : null}
+                    {node.inputs.length ? (
+                      <span
+                        className="cx-port cx-port--in"
+                        ref={(element) => setPort(`${node.id}:in`, element)}
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                    {node.id !== 'composer' ? (
+                      <span
+                        className="cx-port cx-port--out"
+                        ref={(element) => setPort(`${node.id}:out`, element)}
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                  </article>
+                );
+              })}
             </div>
 
-            <aside className="canvas-demo-output">
-              <div className="canvas-demo-output__head">
+            <aside className="cx-output">
+              <div className="cx-output__head">
                 <div>
-                  <span>FINAL OUTPUT</span>
-                  <strong>{hasOutput ? 'campaign-cut.mp4' : 'Awaiting render'}</strong>
+                  <span>Final output</span>
+                  <strong>{hasOutput ? rendered.outputName : 'awaiting render'}</strong>
                 </div>
-                {hasOutput ? <span className={outputIsStale ? 'is-stale' : 'is-ready'}>{outputIsStale ? 'outdated' : 'ready'}</span> : null}
-              </div>
-              <div className="canvas-demo-video-frame">
                 {hasOutput ? (
-                  <video
-                    key={renderedPreset.id}
-                    controls
-                    playsInline
-                    preload="metadata"
-                    poster={renderedPreset.poster}
-                    aria-label={`Final video for ${renderedPreset.label}`}
-                  >
-                    <source src={renderedPreset.video} type="video/mp4" />
-                  </video>
+                  <span className={isDirty ? 'cx-tag is-stale' : 'cx-tag is-ready'}>{isDirty ? 'outdated' : 'ready'}</span>
+                ) : null}
+              </div>
+
+              <div className="cx-player">
+                {hasOutput ? (
+                  <>
+                    <video
+                      ref={outputRef}
+                      key={rendered.id}
+                      src={rendered.output}
+                      poster={rendered.outputPoster}
+                      loop
+                      muted={!soundOn}
+                      playsInline
+                      preload="metadata"
+                      aria-label={rendered.outputAlt}
+                    />
+                    <button
+                      type="button"
+                      className="cx-sound"
+                      onClick={() => setSoundOn((on) => !on)}
+                      aria-pressed={soundOn}
+                    >
+                      {soundOn ? 'Sound on' : 'Sound off'}
+                    </button>
+                  </>
                 ) : (
-                  <div className="canvas-demo-video-empty">
-                    <span>▶</span>
-                    <p>Run the graph to render<br />your campaign video.</p>
+                  <div className="cx-player__empty">
+                    <span aria-hidden="true">▶</span>
+                    <p>Run the graph to render the campaign cut.</p>
                   </div>
                 )}
-                {outputIsStale ? <div className="canvas-demo-video-stale">Previous render<br /><strong>3 changes pending</strong></div> : null}
+                {isDirty ? (
+                  <div className="cx-player__veil">
+                    <span>previous render</span>
+                    <strong>{generatedNodeIds.length} changes pending</strong>
+                  </div>
+                ) : null}
               </div>
-              <dl className="canvas-demo-output__specs">
-                <div><dt>Format</dt><dd>1080 × 1920</dd></div>
-                <div><dt>Pipeline</dt><dd>5 nodes</dd></div>
-                <div><dt>Re-run</dt><dd>{outputIsStale ? '3 nodes' : '0 nodes'}</dd></div>
+
+              <dl className="cx-specs">
+                <div>
+                  <dt>Format</dt>
+                  <dd>1080×1920</dd>
+                </div>
+                <div>
+                  <dt>Length</dt>
+                  <dd>{hasOutput ? `${rendered.seconds}s` : '—'}</dd>
+                </div>
+                <div>
+                  <dt>Cached</dt>
+                  <dd>
+                    {cachedCount}/{demoNodes.length}
+                  </dd>
+                </div>
               </dl>
+
+              {isDirty ? (
+                <p className="cx-saving">
+                  Re-running {generatedNodeIds.length} of {demoNodes.length} nodes —{' '}
+                  <b>~{cachedCount * MANUAL_SECONDS_PER_NODE}s of work reused.</b>
+                </p>
+              ) : null}
             </aside>
           </div>
 
-          <div className="canvas-demo-controls">
-            <div className="canvas-demo-presets" aria-label="Creative direction presets">
-              <span>CHANGE PROMPT</span>
-              <div>
-                {presets.map((preset) => (
+          <div className="cx-console" aria-hidden="true">
+            <span className="cx-console__label">log</span>
+            <div className="cx-console__lines">
+              {log.length === 0 ? (
+                <p className="is-muted">waiting for run…</p>
+              ) : (
+                log.slice(-3).map((line, index, all) => (
+                  <p key={`${line}-${index}`} className={index === all.length - 1 ? 'is-current' : ''}>
+                    <i>›</i>
+                    {line}
+                  </p>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="cx-controls">
+            <div className="cx-presets">
+              <span>Creative direction</span>
+              <div role="group" aria-label="Creative direction presets">
+                {demoPresets.map((preset) => (
                   <button
                     key={preset.id}
                     type="button"
                     disabled={isRunning}
-                    aria-pressed={preset.id === selectedPresetId}
+                    aria-pressed={preset.id === selectedId}
                     onClick={() => selectPreset(preset)}
                   >
                     {preset.label}
@@ -287,29 +631,35 @@ export function CanvasDemoSection() {
                 ))}
               </div>
             </div>
-            <div className="canvas-demo-actions">
-              {hasOutput && !isRunning ? <button type="button" className="canvas-demo-reset" onClick={replay}>Replay</button> : null}
+            <div className="cx-actions">
+              {hasOutput && !isRunning ? (
+                <button type="button" className="cx-reset" onClick={reset}>
+                  Reset
+                </button>
+              ) : null}
               <button
                 type="button"
-                className="canvas-demo-run"
-                disabled={isRunning || (hasOutput && phase !== 'edited')}
-                onClick={phase === 'edited' ? runStale : runInitial}
+                className="cx-run"
+                disabled={isRunning || phase === 'done'}
+                onClick={isDirty ? runChanged : runAll}
               >
-                {isRunning ? 'Running…' : phase === 'edited' ? 'Run changed nodes (3)' : hasOutput ? 'All nodes fresh' : 'Run workflow'}
+                {runLabel}
                 <span aria-hidden="true">▶</span>
               </button>
             </div>
           </div>
-          <p className="sr-only" aria-live="polite">{liveMessage}</p>
+
+          <p className="sr-only" aria-live="polite">
+            {liveMessage}
+          </p>
         </div>
 
-        <div className="canvas-demo-foot">
-          <p><strong>One graph.</strong> Every asset, model, branch and final render — visible and reusable.</p>
-          <a
-            href={withUtm('https://studio.shot.is/', 'canvas_demo')}
-            onClick={() => trackStudioClick('canvas_demo')}
-          >
-            Open Canvas in Studio <span>↗</span>
+        <div className="cx-foot">
+          <p>
+            <strong>One graph.</strong> Every reference, model, branch and final render — visible, cached and reusable.
+          </p>
+          <a href={withUtm('https://studio.shot.is/', 'canvas_demo')} onClick={() => trackStudioClick('canvas_demo')}>
+            Open Canvas in Studio <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>

@@ -33,7 +33,7 @@ export function HomeFooter() {
         </nav>
       </div>
 
-      <div className="px-5 pb-12 font-mono text-[10px] uppercase tracking-[0.28em] text-white/30 md:px-8">
+      <div className="px-5 pb-12 font-mono text-[10px] uppercase tracking-[0.28em] text-white/50 md:px-8">
         © SHOT.IS
       </div>
     </footer>
