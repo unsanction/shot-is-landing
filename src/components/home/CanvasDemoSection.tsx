@@ -63,6 +63,11 @@ function NodeBody({
   const videoRef = useRef<HTMLVideoElement>(null);
   const settled = status === 'fresh' || status === 'cached';
 
+  /* A dropped asset must not fall back to the browser's broken-image glyph:
+     the alt text then reflows as body copy and blows the node apart. */
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [preset.id, node.id]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -78,24 +83,37 @@ function NodeBody({
 
   const busy = status === 'running' ? 'is-generating' : '';
 
+  const placeholder = (label: string, meta: string) => (
+    <>
+      <div className="cx-media cx-media--empty">
+        <span aria-hidden="true">{label}</span>
+      </div>
+      <p className="cx-meta">{meta}</p>
+    </>
+  );
+
   /* Generated nodes have nothing to show until the graph has run once. */
   if (!node.isInput && (status === 'idle' || status === 'queued')) {
-    return (
-      <>
-        <div className="cx-media cx-media--empty">
-          <span aria-hidden="true">{status === 'queued' ? 'queued' : 'no output yet'}</span>
-        </div>
-        <p className="cx-meta">{node.id === 'composer' ? 'awaiting upstream' : preset.imageModel.split(' · ')[0]}</p>
-      </>
+    return placeholder(
+      status === 'queued' ? 'queued' : 'no output yet',
+      node.id === 'composer' ? 'awaiting upstream' : preset.imageModel.split(' · ')[0],
     );
   }
+
+  if (failed) return placeholder('preview unavailable', node.id === 'reference' ? referenceFile : 'asset not loaded');
 
   switch (node.id) {
     case 'reference':
       return (
         <>
           <div className="cx-media cx-media--ref">
-            <img src={referenceImage} alt="Product packshot used as the campaign reference" loading="lazy" decoding="async" />
+            <img
+              src={referenceImage}
+              alt="Product packshot used as the campaign reference"
+              loading="lazy"
+              decoding="async"
+              onError={() => setFailed(true)}
+            />
           </div>
           <p className="cx-meta">{referenceFile}</p>
         </>
@@ -117,7 +135,14 @@ function NodeBody({
       return (
         <>
           <div className={`cx-media cx-media--gen ${busy}`}>
-            <img key={preset.keyframe} src={preset.keyframe} alt={preset.keyframeAlt} loading="lazy" decoding="async" />
+            <img
+              key={preset.keyframe}
+              src={preset.keyframe}
+              alt={preset.keyframeAlt}
+              loading="lazy"
+              decoding="async"
+              onError={() => setFailed(true)}
+            />
             {status === 'running' ? <span className="cx-scan" aria-hidden="true" /> : null}
           </div>
           <p className="cx-meta">{preset.imageModel}</p>
@@ -138,6 +163,7 @@ function NodeBody({
               playsInline
               preload="none"
               aria-hidden="true"
+              onError={() => setFailed(true)}
             />
             {status === 'running' ? <span className="cx-scan" aria-hidden="true" /> : null}
             {settled ? <span className="cx-badge">loop</span> : null}
@@ -394,6 +420,9 @@ export function CanvasDemoSection() {
   /* ---- final output video ------------------------------------------ */
 
   const outputRef = useRef<HTMLVideoElement>(null);
+  const [outputFailed, setOutputFailed] = useState(false);
+
+  useEffect(() => setOutputFailed(false), [renderedId]);
 
   useEffect(() => {
     const video = outputRef.current;
@@ -536,7 +565,7 @@ export function CanvasDemoSection() {
               </div>
 
               <div className="cx-player">
-                {hasOutput ? (
+                {hasOutput && !outputFailed ? (
                   <>
                     <video
                       ref={outputRef}
@@ -548,6 +577,7 @@ export function CanvasDemoSection() {
                       playsInline
                       preload="metadata"
                       aria-label={rendered.outputAlt}
+                      onError={() => setOutputFailed(true)}
                     />
                     <button
                       type="button"
@@ -558,6 +588,11 @@ export function CanvasDemoSection() {
                       {soundOn ? 'Sound on' : 'Sound off'}
                     </button>
                   </>
+                ) : hasOutput && outputFailed ? (
+                  <div className="cx-player__empty">
+                    <span aria-hidden="true">!</span>
+                    <p>Preview unavailable. Open Canvas in Studio to watch the render.</p>
+                  </div>
                 ) : (
                   <div className="cx-player__empty">
                     <span aria-hidden="true">▶</span>
