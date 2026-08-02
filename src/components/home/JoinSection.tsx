@@ -1,13 +1,43 @@
 import { FormEvent, useState } from 'react';
-import { trackCta } from '../../lib/track';
+import { trackCta, trackWaitlist } from '../../lib/track';
+import { joinWaitlist, WaitlistError } from '../../lib/waitlist';
+
+type Status = 'idle' | 'submitting' | 'joined' | 'error';
 
 export function JoinSection() {
   const [email, setEmail] = useState('');
+  /** Honeypot — hidden from humans, so a filled value means a bot. */
+  const [website, setWebsite] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (status === 'submitting') return;
+
     trackCta('join_section', 'request_access');
-    setEmail('');
+    setStatus('submitting');
+    setMessage('');
+
+    try {
+      const result = await joinWaitlist(email, 'join_section', website);
+      setMessage(
+        result.alreadyJoined
+          ? 'Already subscribed — we will email you about access.'
+          : 'Subscribed — we will email you about access.',
+      );
+      setStatus('joined');
+      setEmail('');
+      trackWaitlist('join_section', result.alreadyJoined ? 'already_joined' : 'joined');
+    } catch (error) {
+      setMessage(
+        error instanceof WaitlistError
+          ? error.message
+          : 'Something broke on our side. Email hello@shot.is and we will add you manually.',
+      );
+      setStatus('error');
+      trackWaitlist('join_section', 'error');
+    }
   };
 
   return (
@@ -32,16 +62,51 @@ export function JoinSection() {
             onChange={(event) => setEmail(event.target.value)}
             placeholder="YOUR_WORK_EMAIL"
             required
-            className="input-underlined mb-12 text-center font-black uppercase placeholder:text-white/20"
+            autoComplete="email"
+            disabled={status === 'submitting'}
+            aria-describedby="join-status"
+            className="input-underlined mb-12 text-center font-black uppercase placeholder:text-white/20 disabled:opacity-50"
           />
+
+          {/* Honeypot: off-screen, never announced, never tab-reachable. */}
+          <input
+            type="text"
+            name="website"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
+          />
+
           <button
             type="submit"
-            className="w-full bg-black py-6 text-base font-black uppercase tracking-[0.35em] transition-all hover:bg-white hover:text-black md:py-8 md:text-xl md:tracking-[0.5em]"
+            disabled={status === 'submitting'}
+            className="w-full bg-black py-6 text-base font-black uppercase tracking-[0.35em] transition-all hover:bg-white hover:text-black disabled:cursor-wait disabled:opacity-70 md:py-8 md:text-xl md:tracking-[0.5em]"
           >
-            Request Access
+            {status === 'submitting' ? 'Sending…' : status === 'joined' ? 'Subscribed' : 'Request Access'}
           </button>
-          <p className="mt-8 font-mono text-[11px] font-bold uppercase tracking-[0.28em] opacity-60">
+
+          <p
+            id="join-status"
+            role="status"
+            aria-live="polite"
+            className={`mt-8 min-h-[1.5rem] text-center font-mono text-[11px] font-bold uppercase tracking-[0.28em] ${
+              status === 'error' ? 'text-black' : 'opacity-80'
+            }`}
+          >
+            {message}
+          </p>
+
+          <p className="mt-2 text-center font-mono text-[11px] font-bold uppercase tracking-[0.28em] opacity-60">
             Typical first campaign: a few hundred dollars in finished variants, delivered in days.
+          </p>
+          <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.24em] opacity-45">
+            We will email you about SHOT.IS. Unsubscribe any time.{' '}
+            <a href="/privacy" className="underline underline-offset-4">
+              Privacy
+            </a>
           </p>
         </form>
       </div>

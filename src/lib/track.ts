@@ -66,3 +66,9 @@ export const trackCta = (location: CtaLocation, ctaLabel: string) =>
  *  via sendBeacon, so no navigation delay is needed. */
 export const trackStudioClick = (location: CtaLocation) =>
   track('studio_outbound_click', { location, ...pageContext() });
+
+/** The landing's other conversion: an email captured into the waitlist.
+ *  `status` separates a fresh lead from a repeat submit and from failures, so
+ *  the GA4 count matches the rows in the backend's waitlist table. */
+export const trackWaitlist = (location: CtaLocation, status: 'joined' | 'already_joined' | 'error') =>
+  track('waitlist_join', { location, status, ...pageContext() });
