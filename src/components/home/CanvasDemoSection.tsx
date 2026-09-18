@@ -477,7 +477,7 @@ export function CanvasDemoSection() {
         : 'Run workflow';
 
   return (
-    <section id="canvas" className="cx-section" data-testid="canvas-demo" ref={sectionRef}>
+    <section id="product" className="cx-section" data-testid="canvas-demo" ref={sectionRef}>
       <div className="cx-wrap">
         <header className="cx-intro">
           <div>

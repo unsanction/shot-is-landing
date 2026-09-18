@@ -3,6 +3,7 @@ import { CanvasDemoSection } from '../components/home/CanvasDemoSection';
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import { JoinSection } from '../components/home/JoinSection';
+import { PricingSection } from '../components/home/PricingSection';
 import { RosterSection } from '../components/home/RosterSection';
 import { SeoGrowthSection } from '../components/home/SeoGrowthSection';
 import { StatsSection } from '../components/home/StatsSection';
@@ -20,6 +21,7 @@ function HomePage() {
 
       <main className="bg-black">
         <HeroSection />
+        <PricingSection />
         <CanvasDemoSection />
         <RosterSection />
         <VisionSection />

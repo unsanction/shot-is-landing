@@ -2,16 +2,16 @@ import { homeAnswerBlocks, servicePages } from '../../data/seo';
 
 const workflowSteps = [
   {
-    title: 'Research the intent',
-    body: 'We define the audience, platform, product promise, search demand, and creative angles before generating assets.',
+    title: 'Brief the campaign',
+    body: 'Define the audience, offer, platform, product truth, and the creative hypothesis each variant is meant to test.',
   },
   {
-    title: 'Create the system',
-    body: 'Each sprint gets creator personas, scripts, visual rules, hooks, captions, and variants that can keep scaling.',
+    title: 'Generate with references',
+    body: 'Lock the creator, product, scene, and approved keyframes before spending on motion. Change only the branch that needs another take.',
   },
   {
-    title: 'Ship campaign assets',
-    body: 'The output is built for paid social testing, landing pages, social posts, launch moments, and localized creative.',
+    title: 'Ship named variants',
+    body: 'Export platform-ready videos with clear hook and angle names, then expand the concepts that earn a stronger signal.',
   },
 ];
 
@@ -22,10 +22,10 @@ export function SeoGrowthSection() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 max-w-4xl md:mb-20">
             <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
-              AI content services
+              Managed AI ad services
             </p>
-            <h2 className="text-4xl font-black uppercase leading-[0.92] tracking-tight sm:text-5xl md:text-[76px] lg:text-[96px]">
-              Start creating AI content that can rank, sell, and scale.
+            <h2 className="text-4xl font-black uppercase leading-[0.92] tracking-tight sm:text-5xl md:text-[64px] lg:text-[82px] xl:text-[96px]">
+              One production system. Three commercial jobs.
             </h2>
           </div>
 
@@ -62,14 +62,14 @@ export function SeoGrowthSection() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 xl:grid-cols-[0.9fr_1.1fr] xl:gap-20">
           <div data-reveal className="reveal-text">
             <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-accent">
-              AI SEO + creative workflow
+              AI ad production workflow
             </p>
             <h2 className="text-[2rem] font-black uppercase leading-[0.92] tracking-tight sm:text-5xl md:text-[72px]">
-              Built for search intent and ad testing.
+              Built for creative testing, not one-off renders.
             </h2>
             <p className="mt-8 max-w-xl text-base font-semibold leading-relaxed text-black/55 md:text-lg">
-              The same content system can support Google discovery, AI answer engines, short-form ads, social posts,
-              product explainers, and campaign landing pages.
+              References, prompts, models, QA, and final assembly stay connected, so a winning direction can become
+              more hooks, formats, and markets without rebuilding the campaign from zero.
             </p>
           </div>
 

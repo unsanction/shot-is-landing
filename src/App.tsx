@@ -15,6 +15,7 @@ import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { FaqPage } from './pages/FaqPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { PricingPage } from './pages/PricingPage';
 import { ServicePage } from './pages/ServicePage';
 import { TermsPage } from './pages/TermsPage';
 import {
@@ -37,6 +38,7 @@ const STATIC_PAGES: Record<string, () => JSX.Element> = {
   '/about': () => <AboutPage />,
   '/contact': () => <ContactPage />,
   '/faq': () => <FaqPage />,
+  '/pricing': () => <PricingPage />,
   '/privacy': () => <PrivacyPage />,
   '/terms': () => <TermsPage />,
 };

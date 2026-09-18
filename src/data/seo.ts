@@ -29,7 +29,7 @@ export type FounderInfo = {
 export const founder: FounderInfo | null = {
   name: 'Ivan Kapeykin',
   role: 'Founder',
-  bio: 'Ivan Kapeykin is the founder of SHOT.IS, an AI content studio for performance advertising. He runs the studio’s generation pipeline daily — keyframe-first workflows, multi-model routing across Veo 3, Grok Imagine, and Kling, and the QA discipline that keeps AI ad creative consistent — and writes the field notes on the SHOT.IS blog.',
+  bio: 'Ivan Kapeykin is the founder of SHOT.IS, a self-serve AI UGC ad generator and managed production studio. He runs the platform’s generation pipeline daily — keyframe-first workflows, multi-model routing across Veo 3, Grok Imagine, and Kling, and the QA discipline that keeps AI ad creative consistent — and writes the field notes on the SHOT.IS blog.',
   linkedIn: 'https://www.linkedin.com/in/ikapeykin/',
   photo: '/media/team/ivan-kapeykin.png',
 };
@@ -53,10 +53,10 @@ export const organizationKnowsAbout = [
 
 export const homeSeo = {
   path: '/',
-  dateModified: '2026-07-15',
-  title: 'SHOT.IS | AI UGC Ads, Virtual Influencers & AI Content Studio',
+  dateModified: '2026-08-25',
+  title: 'SHOT.IS — AI UGC Ad Generator & Production Studio',
   description:
-    'SHOT.IS helps brands start creating AI UGC videos, paid social ads, virtual influencers, product demos, and campaign creative without traditional shoots.',
+    'Create AI UGC videos from $4.99 in the self-serve SHOT.IS Studio, buy video packs for creative testing, or brief the managed production team for finished ad campaigns.',
 };
 
 export type ProofItem = { label: string; body: string };
@@ -102,7 +102,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/ai-ugc-ads',
     slug: 'ai-ugc-ads',
-    dateModified: '2026-05-06',
+    dateModified: '2026-08-25',
     navLabel: 'AI UGC Ads',
     title: 'AI UGC Ads Studio for Brands | SHOT.IS',
     description:
@@ -144,8 +144,8 @@ export const servicePages: ServicePageContent[] = [
         body: 'Brands that need more UGC-style ads than a traditional creator production pipeline can supply.',
       },
       {
-        label: 'Search intent',
-        body: 'AI UGC ads, AI UGC video generator, creator-style AI ads, product demo ad creative.',
+        label: 'Use it when',
+        body: 'Your team needs more creator-style hooks, product demos, and paid-social variants than a traditional shoot can supply.',
       },
       {
         label: 'Output quality',
@@ -175,7 +175,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/ai-video-ads',
     slug: 'ai-video-ads',
-    dateModified: '2026-05-06',
+    dateModified: '2026-08-25',
     navLabel: 'AI Video Ads',
     title: 'AI Video Ads for Paid Social Campaigns | SHOT.IS',
     description:
@@ -217,8 +217,8 @@ export const servicePages: ServicePageContent[] = [
         body: 'Teams that need an always-on creative pipeline without waiting for every shoot, location, or creator schedule.',
       },
       {
-        label: 'Search intent',
-        body: 'AI video ads, AI ad creative, AI ads for TikTok, AI video production for paid social.',
+        label: 'Use it when',
+        body: 'You need short-form ad concepts, finished scenes, and reusable variants across TikTok, Reels, Shorts, and paid social.',
       },
       {
         label: 'Output quality',
@@ -248,7 +248,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/virtual-influencers',
     slug: 'virtual-influencers',
-    dateModified: '2026-07-07',
+    dateModified: '2026-08-25',
     navLabel: 'Virtual Influencers',
     title: 'Create a Virtual Influencer for Your Brand | SHOT.IS',
     description:
@@ -290,8 +290,8 @@ export const servicePages: ServicePageContent[] = [
         body: 'Brands that want a controllable creator asset, not a single campaign dependent on one external influencer.',
       },
       {
-        label: 'Search intent',
-        body: 'Virtual influencer, AI influencer, AI creator campaign, virtual creator for brands.',
+        label: 'Use it when',
+        body: 'Your brand needs a controllable creator identity that can stay recognizable across posts, ads, markets, and launches.',
       },
       {
         label: 'Output quality',
@@ -356,15 +356,15 @@ export const servicePagesByPath = new Map(servicePages.map((page) => [page.path,
 
 export const homeAnswerBlocks = [
   {
-    title: 'What does SHOT.IS create?',
-    body: 'AI UGC ads, AI video ads, virtual influencer content, creator-style product demos, launch visuals, and short-form campaign assets for brands that need more creative volume.',
+    title: 'What is SHOT.IS?',
+    body: 'SHOT.IS is a self-serve AI UGC ad generator and a managed production studio. Generate a video yourself, buy a pack for testing volume, or hand the full campaign to the team.',
   },
   {
-    title: 'Who is it for?',
-    body: 'Mobile apps, ecommerce brands, SaaS products, agencies, and founders who want to test AI content before committing to larger production budgets.',
+    title: 'How much does it cost?',
+    body: 'The launch offer starts at $4.99 for one self-serve AI video. Video packs use live volume pricing in Studio, while managed production is scoped to the campaign brief.',
   },
   {
-    title: 'Why use AI content for ads?',
-    body: 'AI content speeds up creative exploration. Teams can test hooks, creator personas, visual worlds, and localized versions before scaling the best-performing direction.',
+    title: 'When should I choose managed?',
+    body: 'Choose managed production when you need creative direction, product and identity QA, editing, and campaign-ready variants — not only a generated clip.',
   },
 ];

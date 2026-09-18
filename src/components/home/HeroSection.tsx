@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { trackStudioClick, withUtm } from '../../lib/track';
+import { trackCta, trackStudioClick, withUtm } from '../../lib/track';
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -68,6 +68,9 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-accent md:text-xs">
+          Self-serve AI UGC ad generator + managed production
+        </p>
         <h1 className="mb-12 text-[clamp(2.05rem,9vw,8.75rem)] font-extrabold uppercase leading-[0.88] tracking-tight md:leading-[0.82]">
           AI UGC ADS <br />
           <span className="text-exclusion-fill italic">
@@ -76,16 +79,28 @@ export function HeroSection() {
           </span>
         </h1>
         <p className="mx-auto mb-16 max-w-3xl text-lg font-medium leading-tight text-white/65 sm:text-xl md:text-3xl">
-          SHOT.IS is an AI video studio for paid social — UGC-style ad variants, human-reviewed before they ship,
-          built in days instead of the weeks a traditional shoot takes.
+          Generate an AI video yourself from $4.99, buy a pack for creative testing, or hand the full campaign to
+          the SHOT.IS managed studio.
         </p>
-        <a
-          href={withUtm('https://studio.shot.is/', 'hero')}
-          onClick={() => trackStudioClick('hero')}
-          className="inline-block bg-white px-8 py-5 text-xs font-black uppercase tracking-[0.3em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 md:px-12 md:py-6 md:text-sm"
-        >
-          Start Creating AI Content
-        </a>
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+          <a
+            href={withUtm('https://studio.shot.is/', 'hero')}
+            onClick={() => trackStudioClick('hero')}
+            className="inline-flex min-h-16 w-full items-center justify-center bg-white px-7 py-5 text-center text-[11px] font-black uppercase tracking-[0.24em] text-black transition-all hover:-rotate-1 hover:bg-accent hover:text-white active:scale-95 sm:w-auto md:px-10 md:text-xs"
+          >
+            Create a $4.99 video
+          </a>
+          <a
+            href="/contact"
+            onClick={() => trackCta('hero', 'managed_production')}
+            className="inline-flex min-h-16 w-full items-center justify-center border border-white/25 bg-black/20 px-7 py-5 text-center text-[11px] font-black uppercase tracking-[0.24em] text-white transition-all hover:border-white hover:bg-white hover:text-black active:scale-95 sm:w-auto md:px-10 md:text-xs"
+          >
+            Managed production
+          </a>
+        </div>
+        <p className="mt-6 font-mono text-[9px] font-bold uppercase tracking-[0.24em] text-white/40">
+          Launch offer · Video packs available in Studio
+        </p>
       </div>
 
       <div className="absolute bottom-12 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-4 opacity-30">

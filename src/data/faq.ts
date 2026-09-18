@@ -17,11 +17,11 @@ export const faqPageMeta = {
   path: '/faq',
   title: 'SHOT.IS FAQ — AI UGC Ads, Pricing, Models & Policy',
   description:
-    'Answers about SHOT.IS: what the AI content studio does, how much AI UGC ads cost, which video models it uses, how consistency works, and platform disclosure rules.',
+    'Answers about SHOT.IS pricing, the $4.99 AI video launch offer, video packs, managed production, supported models, consistency, and platform disclosure rules.',
   eyebrow: 'FAQ',
   h1: 'QUESTIONS, ANSWERED STRAIGHT.',
   lede:
-    'What SHOT.IS is, what AI UGC ads cost, which models power the pipeline, and where the honest limits are.',
+    'What SHOT.IS is, what the $4.99 launch offer covers, when to buy a video pack, and when managed production is the better fit.',
 };
 
 export const faqGroups: FaqGroup[] = [
@@ -33,7 +33,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: 'What is SHOT.IS?',
         answer:
-          'SHOT.IS is an AI content studio that produces AI UGC ads, AI video ads, and virtual influencer campaigns for brands — without traditional shoots. It combines creative direction, multi-model AI video generation, and edit-stage polish to deliver campaign-ready, testable ad variants in days instead of weeks.',
+          'SHOT.IS is a self-serve AI UGC ad generator and a managed production studio. Teams can create one AI video from $4.99, buy video packs for testing volume, or brief the SHOT.IS team to deliver campaign-ready AI UGC ads, AI video ads, and virtual influencer content.',
       },
       {
         question: 'How does SHOT.IS produce an AI ad?',
@@ -43,7 +43,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: 'What is the difference between SHOT.IS and studio.shot.is?',
         answer:
-          'SHOT.IS is the studio: a team that takes a brief and delivers finished ad creative. studio.shot.is (Forge) is the self-serve app built on the same pipeline, where teams generate AI ad video themselves — creators, products, keyframes, and video shots under their own account.',
+          'SHOT.IS is the company and public product site. studio.shot.is is the self-serve app where teams generate AI video under their own account. Managed production uses the same pipeline but adds creative direction, human QA, editing, and campaign-ready delivery.',
       },
       {
         question: 'Who is SHOT.IS for?',
@@ -54,13 +54,18 @@ export const faqGroups: FaqGroup[] = [
   },
   {
     heading: 'Pricing and speed',
-    relatedPath: '/ai-ugc-ads',
-    relatedLabel: 'AI UGC ads service',
+    relatedPath: '/pricing',
+    relatedLabel: 'See SHOT.IS pricing',
     items: [
       {
-        question: 'How much do AI UGC ads cost?',
+        question: 'How much does SHOT.IS cost?',
         answer:
-          'AI UGC ads cost from a few dollars in raw model compute (fully DIY, counting only the API bill) to low hundreds of dollars per finished video through a studio or platform — versus the $150–$500+ that human UGC creators typically charge per video before usage rights. The honest number is always above the compute bill: real production burns 2–4 generation candidates per shot to keep one, plus QA, music licensing, and assembly.',
+          'The SHOT.IS launch offer starts at $4.99 for one self-serve AI video. Video packs are available in Studio with live volume pricing. Managed production is quoted per campaign brief because it includes creative direction, QA, editing, and finished variants rather than only a generated clip.',
+      },
+      {
+        question: 'Does SHOT.IS offer video packs?',
+        answer:
+          'Yes. Video packs are designed for teams producing several hooks, scenes, creator variants, or product angles. Current pack sizes and checkout prices are shown inside Studio so the published offer and the live purchase flow stay aligned.',
       },
       {
         question: 'Why does SHOT.IS talk about marginal cost per variant instead of cost per video?',
