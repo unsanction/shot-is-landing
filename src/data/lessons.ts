@@ -109,7 +109,7 @@ export const lessons: Lesson[] = [
     title: 'Your first AI video',
     metaTitle: 'Your First AI Video in SHOT.IS Studio | 3 min lesson',
     description:
-      'Build a working AI video in SHOT.IS Studio from four nodes: a prompt, a keyframe, a motion generation, and a download. A 72-second screencast of the real canvas.',
+      'Build a working AI video in SHOT.IS Studio from four nodes: a scene prompt, a keyframe, a camera-move prompt, and a motion generation. A 72-second screencast of the real canvas.',
     excerpt:
       'Four nodes, one finished clip. The minimum path through the canvas, with nothing skipped and nothing faked.',
     outcome: 'Generate a finished AI video clip from scratch without anyone setting the run up for you.',
@@ -125,7 +125,6 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    videoPending: true,
     steps: [
       {
         at: 0,
@@ -145,7 +144,7 @@ export const lessons: Lesson[] = [
       {
         at: 44,
         title: 'Put the keyframe in motion',
-        body: 'The generate video node takes a keyframe as its required input. Duration is the knob that matters most — four seconds is enough to judge a direction.',
+        body: 'The generate video node needs two things: the keyframe, which fixes what is in the shot, and a prompt, which describes only what moves. Five seconds is enough to judge a direction.',
       },
       {
         at: 59,
@@ -157,16 +156,16 @@ export const lessons: Lesson[] = [
       { at: 0, text: 'This is the SHOT.IS canvas. Every ad you make lives here as a graph.' },
       { at: 4, text: 'Start with New run — an empty canvas, no template.' },
       { at: 9, text: 'Add a prompt node. This is your direction, in plain English.' },
-      { at: 14, text: '"Energy drink can on wet concrete, neon rim light, slow orbit."' },
+      { at: 14, text: '"Coffee cup on wet concrete, neon rim light, slow orbit."' },
       { at: 19, text: 'Now a generate image node. This makes your keyframe.' },
       { at: 24, text: 'Pick a model. The credit cost shows before you commit.' },
       { at: 29, text: 'Wire the prompt into the image node and hit Run.' },
       { at: 34, text: 'Amber while it runs, green when it lands.' },
       { at: 39, text: "That's your keyframe — the frame the whole shot is built on." },
-      { at: 44, text: 'Add a generate video node and wire the keyframe in.' },
-      { at: 49, text: 'Set the duration. Four seconds is enough for a first test.' },
+      { at: 44, text: 'Add a generate video node. It needs the keyframe and a prompt.' },
+      { at: 49, text: 'The keyframe says what is in the shot; the prompt says what moves.' },
       { at: 54, text: 'Run it. Motion is the slow step, and the expensive one.' },
-      { at: 59, text: 'Green. Click the node to play the result full size.' },
+      { at: 59, text: 'Green. Press play — the clip runs right on the node.' },
       { at: 64, text: 'Download it, or keep it and build the ad around it.' },
       { at: 69, text: 'One video, four nodes. Everything else is a variation on this.' },
     ],
@@ -194,7 +193,7 @@ export const lessons: Lesson[] = [
     description:
       'A prompt gives you a generic product. A reference node gives you yours. Learn reference roles in SHOT.IS Studio so the label, shape, and colour survive into the finished video.',
     excerpt:
-      'The difference between an AI ad for a can and an AI ad for your can is one node and one role.',
+      'The difference between an AI ad for a cup and an AI ad for your cup is one node and one role.',
     outcome: 'Keep your actual product and creator recognizable across every shot in a run.',
     nodes: ['reference', 'generate_image', 'generate_video'],
     datePublished: '2026-09-18',
@@ -208,7 +207,6 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    videoPending: true,
     prerequisites: ['Finish "Your first AI video" — this lesson edits that same graph.'],
     steps: [
       {
@@ -243,7 +241,7 @@ export const lessons: Lesson[] = [
       },
     ],
     captions: [
-      { at: 0, text: 'A prompt alone gives you a generic can. This pins your real one.' },
+      { at: 0, text: 'A prompt alone gives you a generic cup. This pins your real one.' },
       { at: 5, text: 'Open the library and add your product once — name, packshot, done.' },
       { at: 10, text: 'Back on the canvas, add a reference node.' },
       { at: 15, text: "Pick the product. It resolves the packshot with role 'product'." },
@@ -252,7 +250,7 @@ export const lessons: Lesson[] = [
       { at: 30, text: "Wire the reference node's images output into generate image." },
       { at: 35, text: 'The references port takes several inputs, in order.' },
       { at: 40, text: 'Now the prompt describes the scene, not the product.' },
-      { at: 45, text: '"On a bar counter at golden hour, condensation, shallow depth."' },
+      { at: 45, text: '"On a cafe counter at golden hour, warm rim light, shallow depth."' },
       { at: 50, text: 'Run it. The label, the shape, the colour come from your packshot.' },
       { at: 55, text: 'Compare it against the prompt-only version from lesson one.' },
       { at: 60, text: "Same direction, but now it's your product, not a lookalike." },
@@ -301,7 +299,6 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    videoPending: true,
     prerequisites: ['A run with at least one finished generation — lessons one and two both leave you with one.'],
     steps: [
       {
@@ -366,11 +363,11 @@ export const lessons: Lesson[] = [
     title: 'Micro-case: a strobe product ad',
     metaTitle: 'Build a TikTok Strobe Product Ad in SHOT.IS Studio | 6 min lesson',
     description:
-      'Rebuild the flicker-background product ad: one anchored hero product, eight disposable locations, and a composer full of hard cuts. A 110-second screencast.',
+      'Rebuild the flicker-background product ad: one anchored hero product, six disposable locations, and a composer full of hard cuts. A 110-second screencast.',
     excerpt:
-      'One product that never moves, eight worlds that never stop. The cheapest high-energy format in short-form.',
-    outcome: 'Ship a fifteen-second strobe ad without generating a single second of video.',
-    nodes: ['reference', 'generate_image', 'composer', 'generate_music'],
+      'One product that never moves, six worlds that never stop. The cheapest high-energy format in short-form.',
+    outcome: 'Ship a fifteen-second strobe ad from one locked hero and a handful of disposable worlds.',
+    nodes: ['reference', 'generate_image', 'generate_video', 'composer'],
     datePublished: '2026-09-18',
     ogImageKey: 'lesson-strobe-product-ad',
     tags: ['micro-case', 'composer', 'product ads'],
@@ -397,13 +394,13 @@ export const lessons: Lesson[] = [
       },
       {
         at: 50,
-        title: 'Skip video generation entirely',
-        body: 'Each background is on screen for about seventy milliseconds. Motion inside a clip that short is invisible, so stills are not a compromise here — they are the correct tool.',
+        title: 'Turn each still into a clip',
+        body: 'The composer\'s clips port takes video, so every background gets a generate video node. Do not bother directing the motion — at seventy milliseconds a cut, none of it is legible.',
       },
       {
-        at: 55,
+        at: 60,
         title: 'Assemble in the composer with hard cuts',
-        body: 'Wire the stills into the composer\'s ordered clips port. Set the transition to cut: a fade of any length destroys the effect.',
+        body: 'Wire the clips into the composer\'s ordered clips port. Set the transition to cut: a fade of any length destroys the effect.',
       },
       {
         at: 65,
@@ -424,17 +421,17 @@ export const lessons: Lesson[] = [
       { at: 20, text: 'Generate the hero: dead-centre, fixed scale, plain background.' },
       { at: 25, text: 'Now the same product against a different location.' },
       { at: 30, text: 'Same framing prompt, different scene. One variable only.' },
-      { at: 35, text: 'Six to eight of these is plenty for a fifteen second ad.' },
+      { at: 35, text: 'Six of these is plenty for a fifteen second ad.' },
       { at: 40, text: 'Because the product is anchored, the eye reads it as one object.' },
       { at: 45, text: 'The backgrounds do all the motion.' },
-      { at: 50, text: 'You can skip video generation entirely. Stills are enough.' },
-      { at: 55, text: 'Feed the stills into a composer node as ordered clips.' },
-      { at: 60, text: 'Set the transition to cut. Fades kill the strobe.' },
-      { at: 65, text: 'Trim each clip short. Seventy milliseconds is the whole look.' },
-      { at: 70, text: 'clipTrims takes a start and end per clip, index aligned.' },
+      { at: 50, text: 'The composer takes video, so each still becomes a short clip.' },
+      { at: 55, text: "Don't direct the motion — you'll see seventy milliseconds of it." },
+      { at: 60, text: 'Wire the clips into a composer node, in order.' },
+      { at: 65, text: 'Set the transition to cut. Fades kill the strobe.' },
+      { at: 70, text: 'Then trim hard. clipTrims takes a start and end per clip.' },
       { at: 75, text: 'Add a music track and let the cuts land near the beat.' },
       { at: 80, text: 'Run the composer. It renders server-side.' },
-      { at: 85, text: 'Here it is — same can, eight worlds, fifteen seconds.' },
+      { at: 85, text: 'Here it is — same cup, six worlds, fifteen seconds.' },
       { at: 90, text: 'Feels slow? Trim shorter. Feels cheap? Add colour variety.' },
       { at: 95, text: "Promote it as the run's final video when you're happy." },
       { at: 100, text: 'The format is one locked hero plus disposable backgrounds.' },
@@ -442,9 +439,9 @@ export const lessons: Lesson[] = [
     ],
     faq: [
       {
-        question: 'Why does the strobe ad use stills instead of video clips?',
+        question: 'Does the motion in each strobe clip matter?',
         answer:
-          'Each background holds the screen for roughly seventy milliseconds, and no motion is legible in that window. Generating video for frames nobody can read spends the expensive step on an effect the cut is already producing.',
+          'No. The composer needs video on its clips port, so each still becomes a clip, but every background holds the screen for roughly seventy milliseconds and no motion is legible in that window. Spend the prompt on the framing constant instead — the cut is producing the energy, not the animation.',
       },
       {
         question: 'How many backgrounds does a strobe ad need?',

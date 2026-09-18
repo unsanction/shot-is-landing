@@ -20,17 +20,32 @@ export const waitForCanvas = async (page, { timeout = 45000 } = {}) => {
   await page.waitForTimeout(1200);
 };
 
+/**
+ * The node's on-screen box, fitting the graph first if it has been culled.
+ *
+ * React Flow drops nodes outside the viewport from the DOM, so panning from one
+ * end of a wide graph to the other cannot start from the node's box — there is
+ * no box. Fitting brings every node back before we measure.
+ */
 export const nodeBox = async (page, nodeId) => {
-  const box = await page.locator(NODE(nodeId)).first().boundingBox();
+  if ((await page.locator(NODE(nodeId)).count()) === 0) {
+    await fitView(page);
+  }
+  const box = await page.locator(NODE(nodeId)).first().boundingBox({ timeout: 8000 });
   if (!box) throw new Error(`node ${nodeId} is not on screen`);
   return box;
 };
 
-/** Fit the whole graph — the app's own `F` hotkey, so it animates as designed. */
+/**
+ * Fit the whole graph via the toolbar's own FIT control.
+ *
+ * The `f` hotkey works too, but only when focus is not inside a field or a
+ * media element — and a lesson that has just pressed play on a clip has focus
+ * in exactly such a place. The button has no such condition.
+ */
 export const fitView = async (page) => {
-  await page.locator('.react-flow__pane').first().click({ position: { x: 4, y: 4 } });
-  await page.keyboard.press('f');
-  await page.waitForTimeout(400);
+  await page.getByRole('button', { name: /^fit$/i }).first().click();
+  await page.waitForTimeout(550);
 };
 
 export const zoomIn = async (page, times = 1) => {
@@ -80,11 +95,42 @@ export const hoverNode = async (page, nodeId) => {
   await page.waitForTimeout(200);
 };
 
-/** Select a node, which is what opens its params in the studio. */
+/**
+ * Select a node by its title bar.
+ *
+ * Not the centre: once a generate node holds a result, its middle is the
+ * preview thumbnail, and clicking that opens a full-screen lightbox which then
+ * swallows every later click in the recording. The header is inert.
+ */
 export const selectNode = async (page, nodeId) => {
   await hoverNode(page, nodeId);
-  await page.locator(NODE(nodeId)).first().click();
-  await page.waitForTimeout(500);
+  const box = await nodeBox(page, nodeId);
+  await page.mouse.click(box.x + 70, box.y + 14);
+  await page.waitForTimeout(450);
+};
+
+/** Open a generated result full-screen — the deliberate version of the click
+ *  that selectNode avoids. */
+export const openPreview = async (page, nodeId) => {
+  const box = await nodeBox(page, nodeId);
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height * 0.6, { steps: 12 });
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.6);
+  await page.waitForSelector('[role="dialog"][aria-modal="true"]', { timeout: 4000 }).catch(() => {});
+  await page.waitForTimeout(400);
+};
+
+export const closePreview = async (page) => {
+  const dialog = page.locator('[role="dialog"][aria-modal="true"]');
+  if ((await dialog.count()) === 0) return;
+  await page.keyboard.press('Escape');
+  await dialog.first().waitFor({ state: 'detached', timeout: 4000 }).catch(() => {});
+  await page.waitForTimeout(250);
+};
+
+/** Press a video node's own PLAY control so the clip runs inside the graph. */
+export const playNode = async (page, nodeId) => {
+  await page.locator(NODE(nodeId)).first().getByRole('button', { name: /play/i }).first().click();
+  await page.waitForTimeout(300);
 };
 
 export const openAddNodePalette = async (page) => {

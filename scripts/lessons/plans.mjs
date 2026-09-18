@@ -18,10 +18,13 @@ import { fileURLToPath } from 'node:url';
 import { STUDIO_ORIGIN } from './config.mjs';
 import {
   closeMenus,
+  closePreview,
   fitView,
   hoverNode,
   openAddNodePalette,
+  openPreview,
   panToNode,
+  playNode,
   selectNode,
   traceGraph,
   waitForCanvas,
@@ -93,47 +96,56 @@ const plan = (slug, { spends = false, beats }) => ({
 export const lessonPlans = {
   'first-ai-video': plan('first-ai-video', {
     beats: [
-      {
-        at: 0,
-        label: 'fit the whole graph',
-        run: async (page) => fitView(page),
-      },
+      { at: 0, label: 'establish the whole graph', run: async (page) => fitView(page) },
       {
         at: 9,
-        label: 'focus the prompt node',
+        label: 'focus the direction prompt',
         run: async (page, { resolve }) => {
           const id = await resolve('prompt');
           await panToNode(page, id);
           await selectNode(page, id);
+          await zoomIn(page, 1);
         },
       },
       {
         at: 19,
         label: 'move to the keyframe node',
         run: async (page, { resolve }) => {
+          await zoomOut(page, 1);
           const id = await resolve('keyframe');
           await panToNode(page, id);
           await selectNode(page, id);
         },
       },
-      {
-        at: 24,
-        label: 'zoom into the model and cost',
-        run: async (page) => zoomIn(page, 2),
-      },
-      {
-        at: 34,
-        label: 'pull back to the wiring',
-        run: async (page) => zoomOut(page, 2),
-      },
+      { at: 24, label: 'zoom into the model and its cost', run: async (page) => zoomIn(page, 2) },
+      { at: 34, label: 'pull back to the wiring', run: async (page) => zoomOut(page, 2) },
       {
         at: 39,
-        label: 'hold on the finished keyframe',
-        run: async (page, { resolve }) => hoverNode(page, await resolve('keyframe')),
+        label: 'open the finished keyframe full screen',
+        run: async (page, { resolve }) => openPreview(page, await resolve('keyframe')),
       },
       {
         at: 44,
-        label: 'move to the motion node',
+        label: 'close it and move to the motion node',
+        run: async (page, { resolve }) => {
+          await closePreview(page);
+          const id = await resolve('motion');
+          await panToNode(page, id);
+          await selectNode(page, id);
+        },
+      },
+      {
+        at: 49,
+        label: 'show the camera-move prompt feeding it',
+        run: async (page, { resolve }) => {
+          const id = await resolve('motionPrompt');
+          await panToNode(page, id, { centerBias: 0.35 });
+          await hoverNode(page, id);
+        },
+      },
+      {
+        at: 54,
+        label: 'back to the motion node',
         run: async (page, { resolve }) => {
           const id = await resolve('motion');
           await panToNode(page, id);
@@ -142,18 +154,14 @@ export const lessonPlans = {
       },
       {
         at: 59,
-        label: 'open the finished clip',
-        run: async (page, { resolve }) => {
-          const id = await resolve('motion');
-          await selectNode(page, id);
-          await zoomIn(page, 2);
-        },
+        label: 'play the finished clip',
+        run: async (page, { resolve }) => playNode(page, await resolve('motion')),
       },
       {
         at: 69,
         label: 'fit the four nodes one last time',
         run: async (page) => {
-          await zoomOut(page, 2);
+          await closePreview(page);
           await fitView(page);
         },
       },

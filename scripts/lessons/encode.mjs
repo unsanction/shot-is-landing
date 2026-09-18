@@ -26,7 +26,17 @@ export const probeDuration = async (file) => {
  * `music` is optional and mixed in quietly — the lessons have no voice-over, so
  * the track only has to keep the clip from feeling like a dead screen capture.
  */
-export const encodeLesson = async ({ input, output, width, height, music, fps = 30, trimStart = 0, duration }) => {
+export const encodeLesson = async ({
+  input,
+  output,
+  width,
+  height,
+  music,
+  fps = 30,
+  trimStart = 0,
+  duration,
+  cropBottom = 20,
+}) => {
   const args = ['-y', '-i', input];
   if (music) args.push('-stream_loop', '-1', '-i', music);
 
@@ -36,9 +46,13 @@ export const encodeLesson = async ({ input, output, width, height, music, fps = 
   if (trimStart > 0) args.push('-ss', trimStart.toFixed(3));
   if (duration) args.push('-t', String(duration));
 
+  // Playwright's capture leaves a ~17px grey band along the bottom that is not
+  // in the page at all. Crop it off, then pad back to size in black, which is
+  // invisible against the studio's own background.
   args.push(
     '-vf',
-    `scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2:black,fps=${fps}`,
+    `crop=iw:ih-${cropBottom}:0:0,scale=${width}:${height}:force_original_aspect_ratio=decrease,` +
+      `pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2:black,fps=${fps}`,
     '-c:v',
     'libx264',
     '-preset',

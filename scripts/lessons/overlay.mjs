@@ -23,6 +23,9 @@ export const OVERLAY_INIT_SCRIPT = `
     const style = document.getElementById(ID + '_css') || document.createElement('style');
     style.id = ID + '_css';
     style.textContent = \`
+      /* --hide-scrollbars still leaves a gutter on some pages; a capture has
+         no reason to show one. */
+      ::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
       #\${ID} {
         position: fixed;
         left: 0; right: 0; bottom: 0;

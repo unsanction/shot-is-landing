@@ -49,7 +49,10 @@ const buildTimeline = (lesson, plan) => {
       run: action.run,
     })),
   ];
-  return cues.sort((a, b) => a.at - b.at || (a.kind === 'action' ? -1 : 1));
+  // Captions win ties. A cue's action can take a second to play out, and the
+  // page publishes these timestamps as a transcript — so the line has to land
+  // on its own `at`, with the camera move following it rather than delaying it.
+  return cues.sort((a, b) => a.at - b.at || (a.kind === 'caption' ? -1 : 1));
 };
 
 const sleepUntil = async (startedAt, offsetSec) => {
@@ -87,6 +90,11 @@ const main = async () => {
 
   console.log(`Recording "${lesson.title}" — ${lesson.videoSeconds}s, ${lesson.captions.length} captions`);
 
+  // Capture begins with the browser, not with the first cue: a persistent
+  // context already owns a page at launch, so the recorder is writing frames
+  // through startup and setup. Measure from here or the trim comes up short.
+  const captureStartedAt = Date.now();
+
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
     viewport: VIEWPORT,
@@ -97,9 +105,6 @@ const main = async () => {
   await context.addInitScript(OVERLAY_INIT_SCRIPT);
 
   const page = context.pages()[0] ?? (await context.newPage());
-  // Playwright starts writing frames as soon as the page exists; everything
-  // between here and the first cue is lead-in that gets trimmed off.
-  const captureStartedAt = Date.now();
   let leadInSec = 0;
 
   try {
