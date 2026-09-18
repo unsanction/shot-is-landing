@@ -48,7 +48,20 @@ export const fitView = async (page) => {
   await page.waitForTimeout(550);
 };
 
+/**
+ * Drop focus before sending a hotkey.
+ *
+ * Node titles are editable inputs, so a stray keystroke does not zoom — it
+ * types. That silently rewrote titles in the run (a node came back named
+ * "Referenced ==--keyfram") and left the graph looking stale. Blur first and
+ * the canvas hotkeys reach the canvas.
+ */
+const blur = async (page) => {
+  await page.evaluate(() => (document.activeElement instanceof HTMLElement ? document.activeElement.blur() : null));
+};
+
 export const zoomIn = async (page, times = 1) => {
+  await blur(page);
   for (let i = 0; i < times; i += 1) {
     await page.keyboard.press('=');
     await page.waitForTimeout(180);
@@ -56,6 +69,7 @@ export const zoomIn = async (page, times = 1) => {
 };
 
 export const zoomOut = async (page, times = 1) => {
+  await blur(page);
   for (let i = 0; i < times; i += 1) {
     await page.keyboard.press('-');
     await page.waitForTimeout(180);
@@ -105,7 +119,10 @@ export const hoverNode = async (page, nodeId) => {
 export const selectNode = async (page, nodeId) => {
   await hoverNode(page, nodeId);
   const box = await nodeBox(page, nodeId);
-  await page.mouse.click(box.x + 70, box.y + 14);
+  // The type icon at the far left of the header: not the title (an editable
+  // input) and not the body (previews and selects live there).
+  await page.mouse.click(box.x + 16, box.y + 14);
+  await blur(page);
   await page.waitForTimeout(450);
 };
 

@@ -168,14 +168,20 @@ const main = async () => {
   const existing = JSON.parse(await readFile(RUNS_FILE, 'utf8').catch(() => '{}'));
   const reusable = !process.argv.includes('--fresh') && existing[slug];
 
-  // Re-apply spec positions to an existing run. Only x/y move, never params —
-  // a param change restales the node and would throw away a good generation.
+  // Re-apply spec positions and titles to an existing run. Never params — a
+  // param change restales the node and would throw away a good generation.
+  // Titles are restored because a recording can corrupt them: the title is an
+  // editable input, so a canvas hotkey that lands while it holds focus types
+  // into it instead of zooming.
   if (process.argv.includes('--layout')) {
     if (!reusable) throw new Error(`no existing run for "${slug}" to re-layout`);
     for (const node of spec.nodes) {
       const id = reusable.nodes[node.key];
       if (!id) continue;
-      await api(`/graph/nodes/${id}`, { method: 'PATCH', body: { positionX: node.x, positionY: node.y } });
+      await api(`/graph/nodes/${id}`, {
+        method: 'PATCH',
+        body: { positionX: node.x, positionY: node.y, title: node.title },
+      });
     }
     console.log(`  re-laid out ${spec.nodes.length} nodes on ${reusable.runId}`);
     return;
