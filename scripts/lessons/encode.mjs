@@ -78,6 +78,68 @@ export const encodeLesson = async ({
 };
 
 /** A poster frame, taken far enough in that the canvas has drawn something. */
+/**
+ * Burn caption frames onto a finished master.
+ *
+ * One `overlay` per cue, each gated to its own time range. The chain is long
+ * (a lesson carries ~20 captions) but ffmpeg handles it fine, and it keeps the
+ * master untouched — re-burning in another language is a re-run of this step,
+ * not a re-shoot.
+ */
+export const burnCaptions = async ({ input, output, cues, fps = 30 }) => {
+  if (cues.length === 0) throw new Error('no caption cues to burn');
+
+  const args = ['-y', '-i', input];
+  for (const cue of cues) args.push('-i', cue.file);
+
+  const steps = cues.map((cue, i) => {
+    const prev = i === 0 ? '[0:v]' : `[v${i}]`;
+    const label = i === cues.length - 1 ? '[out]' : `[v${i + 1}]`;
+    // `between` is inclusive on both ends; shave the tail so two captions
+    // never occupy the same frame.
+    return `${prev}[${i + 1}:v]overlay=0:0:enable='between(t,${cue.from},${(cue.until - 0.04).toFixed(2)})'${label}`;
+  });
+
+  args.push(
+    '-filter_complex',
+    steps.join(';'),
+    '-map',
+    '[out]',
+    ...(await hasAudio(input) ? ['-map', '0:a?', '-c:a', 'copy'] : []),
+    '-c:v',
+    'libx264',
+    '-preset',
+    'slow',
+    '-crf',
+    '20',
+    '-pix_fmt',
+    'yuv420p',
+    '-r',
+    String(fps),
+    '-movflags',
+    '+faststart',
+    output,
+  );
+
+  await run('ffmpeg', args, { maxBuffer: 1024 * 1024 * 64 });
+  return probeDuration(output);
+};
+
+const hasAudio = async (file) => {
+  const { stdout } = await run('ffprobe', [
+    '-v',
+    'error',
+    '-select_streams',
+    'a',
+    '-show_entries',
+    'stream=index',
+    '-of',
+    'csv=p=0',
+    file,
+  ]);
+  return stdout.trim().length > 0;
+};
+
 export const posterFrame = async ({ input, output, atSec = 3 }) => {
   await run('ffmpeg', [
     '-y',
