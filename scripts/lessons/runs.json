@@ -1,0 +1,65 @@
+{
+  "first-ai-video": {
+    "runId": "run_01M2SW7DZSMSJNWHV284ZSDA0K",
+    "nodes": {
+      "prompt": "gn_01M2SW7E4MMTB464XVYC6TZHD6",
+      "motionPrompt": "gn_01M2SW7EHKBY04P6FA2HA8JS1M",
+      "keyframe": "gn_01M2SW7EQY7XMHY3ZWDC4EHVMW",
+      "motion": "gn_01M2SW7EW925V6SQ8THB317Y8B"
+    }
+  },
+  "lock-your-product": {
+    "runId": "run_01M2SWNENKKFB8XTBV9YGRRV6F",
+    "nodes": {
+      "promptLoose": "gn_01M2SWNEX50250R2QPCZC2BFRA",
+      "keyframeUnreferenced": "gn_01M2SWNFD07TG8VVHSCSVBBBDR",
+      "reference": "gn_01M2SWNFPGAV5ZWAXHCBRT402C",
+      "prompt": "gn_01M2SWNFXSMM5T67JAF5ZJP1DZ",
+      "keyframe": "gn_01M2SWNG2BA2GKA2G4CWPB1DKY",
+      "creatorReference": "gn_01M2SWNGF07R6H4RT7STDPH6J4",
+      "motionPrompt": "gn_01M2SWNGKTT6FVJ468T2VG6B4N",
+      "motion": "gn_01M2SWNGRK3X97G3X3K580ZZ9B"
+    }
+  },
+  "fix-one-shot": {
+    "runId": "run_01M2SWSTVSADKC6FY546FGA49E",
+    "nodes": {
+      "promptA": "gn_01M2SWSV0QQV0P6NSTH9P8RRSV",
+      "reference": "gn_01M2SWSVPQNA20GRZJFMM783MH",
+      "keyframeA": "gn_01M2SWSVV4X5SSB5ECXF5BK0YY",
+      "badShot": "gn_01M2SWSVZNTB9KX74ZGQDMY06Q",
+      "promptB": "gn_01M2SWSW6M9Q4RG108X7ACJ0KC",
+      "keyframeB": "gn_01M2SWSWAZC1BR5JV85NXSQX50",
+      "goodShot": "gn_01M2SWSWFF768QNFDN6P6R3SRE",
+      "motionPromptA": "gn_01M2SWSWKWE2C4REEGVBQT83W5",
+      "motionPromptB": "gn_01M2SWSWR7XN1066CSAN6ZQF2V",
+      "composer": "gn_01M2SWSWWTWZAC8GBDJZ581A4Y"
+    }
+  },
+  "strobe-product-ad": {
+    "runId": "run_01M2SX0D3TMTFB3Z28JEEZBCPN",
+    "nodes": {
+      "reference": "gn_01M2SX0DCZT2NW3D86TR1WR6SS",
+      "heroPrompt": "gn_01M2SX0DX0BAJ6E359MJSDV9S8",
+      "bg1Prompt": "gn_01M2SX0E4D2E498WHFCZZ266C5",
+      "bg2Prompt": "gn_01M2SX0E8ZKF5J7P2V8TEP1BGR",
+      "bg3Prompt": "gn_01M2SX0EDNG7A51NE698DDH3WQ",
+      "bg4Prompt": "gn_01M2SX0EMM2SMEPMVF5R4XV43H",
+      "bg5Prompt": "gn_01M2SX0ES1W4MFFJ6HWPP1Y3VT",
+      "hero": "gn_01M2SX0EXA74HY6J4B8CAC9MKF",
+      "bg1": "gn_01M2SX0F1RK8TXRE6YY0BBA67Q",
+      "bg2": "gn_01M2SX0F634CGR3KB1EDYPPMM3",
+      "bg3": "gn_01M2SX0FAKRV9Q4RNW3TBES0EW",
+      "bg4": "gn_01M2SX0FF00MMRN5D5S278866X",
+      "bg5": "gn_01M2SX0FNKE9GDZ9GHB9X54V2V",
+      "strobeMotionPrompt": "gn_01M2SX0FT1VNNCWWJEX6579950",
+      "heroClip": "gn_01M2SX0FYF6VSWH8YF4BEKVNQ9",
+      "bg1Clip": "gn_01M2SX0G2RQBMWWXGESMAK2Q6N",
+      "bg2Clip": "gn_01M2SX0G74NSEDAZ3BKM3K09PS",
+      "bg3Clip": "gn_01M2SX0GBD1TMB1439W1HXMZ9G",
+      "bg4Clip": "gn_01M2SX0GFS75YNZPT0SX2D28GF",
+      "bg5Clip": "gn_01M2SX0GPA5KB2PNEV9409PYKK",
+      "composer": "gn_01M2SX0GTS24GWJ5WY1G5XM44V"
+    }
+  }
+}
