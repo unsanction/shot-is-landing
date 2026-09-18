@@ -27,6 +27,23 @@ import {
   type BlogLang,
   type BlogPost,
 } from '../data/blog';
+import {
+  isoDuration,
+  learnIndexAlternates,
+  learnIndexPath,
+  learnPageMeta,
+  learnRoutes,
+  learnStrings,
+  learningMinutes,
+  lessonAlternates,
+  lessonByPath,
+  lessonPath,
+  lessonTranscript,
+  lessonsByLang,
+  pathMinutes,
+  type Lesson,
+  type LessonLang,
+} from '../data/lessons';
 import { allFaqItems, faqPageMeta } from '../data/faq';
 import { useCasePages, useCasePagesByPath } from '../data/useCases';
 import { comparisonPages, comparisonPagesByPath, type ComparisonPageContent } from '../data/comparisons';
@@ -493,6 +510,197 @@ export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
   };
 };
 
+// ── Learn (video lessons) SEO ────────────────────────────────────────────────
+
+const lessonMetaTitle = (lesson: Lesson) => lesson.metaTitle ?? `${lesson.title} | SHOT.IS`;
+
+/**
+ * VideoObject for a lesson — only once the screencast actually exists.
+ *
+ * A VideoObject whose contentUrl 404s is worse than no VideoObject at all:
+ * Search Console reports it as an invalid video item, so pending lessons ship
+ * the HowTo steps alone and gain the video node when the recording lands.
+ */
+const lessonVideoSchema = (lesson: Lesson) => {
+  if (lesson.videoPending) return [];
+  const url = absoluteUrl(lessonPath(lesson));
+  return [
+    {
+      '@type': 'VideoObject',
+      '@id': `${url}#video`,
+      name: lesson.title,
+      description: lesson.description,
+      thumbnailUrl: absoluteUrl(lesson.video.poster),
+      contentUrl: absoluteUrl(lesson.video.src),
+      embedUrl: url,
+      uploadDate: lesson.datePublished,
+      duration: isoDuration(lesson.videoSeconds),
+      inLanguage: lesson.lang,
+      isFamilyFriendly: true,
+      transcript: lessonTranscript(lesson),
+      publisher: { '@id': `${siteBaseUrl}/#organization` },
+      learningResourceType: 'Screencast',
+      hasPart: lesson.steps.map((step) => ({
+        '@type': 'Clip',
+        name: step.title,
+        startOffset: step.at,
+      })),
+    },
+  ];
+};
+
+export const buildLessonSchema = (lesson: Lesson) => {
+  const url = absoluteUrl(lessonPath(lesson));
+  const t = learnStrings[lesson.lang];
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema,
+      websiteSchema,
+      ...lessonVideoSchema(lesson),
+      {
+        '@type': 'HowTo',
+        '@id': `${url}#howto`,
+        name: lesson.title,
+        description: lesson.description,
+        inLanguage: lesson.lang,
+        totalTime: isoDuration(learningMinutes(lesson) * 60),
+        step: lesson.steps.map((step, index) => ({
+          '@type': 'HowToStep',
+          position: index + 1,
+          name: step.title,
+          text: step.body,
+          url: `${url}#step-${index + 1}`,
+        })),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: lessonMetaTitle(lesson),
+        description: lesson.description,
+        inLanguage: lesson.lang,
+        isPartOf: { '@id': `${siteBaseUrl}/#website` },
+        about: { '@id': 'https://studio.shot.is/#app' },
+        breadcrumb: { '@id': `${url}#breadcrumb` },
+        dateModified: lesson.dateModified ?? lesson.datePublished,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'SHOT.IS', item: siteBaseUrl },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: t.hubTitle,
+            item: absoluteUrl(learnIndexPath(lesson.lang)),
+          },
+          { '@type': 'ListItem', position: 3, name: lesson.title, item: url },
+        ],
+      },
+      ...(lesson.faq?.length ? [buildFaqSchema(url, lesson.faq)] : []),
+    ],
+  };
+};
+
+export const buildLearnIndexSchema = (lang: LessonLang) => {
+  const url = absoluteUrl(learnIndexPath(lang));
+  const lessons = lessonsByLang[lang];
+  const t = learnStrings[lang];
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema,
+      websiteSchema,
+      {
+        '@type': 'Course',
+        '@id': `${url}#course`,
+        name: t.hubTitle,
+        description: t.hubLede,
+        url,
+        inLanguage: lang,
+        isAccessibleForFree: true,
+        provider: { '@id': `${siteBaseUrl}/#organization` },
+        teaches: lessons.map((lesson) => lesson.outcome),
+        about: { '@id': 'https://studio.shot.is/#app' },
+        hasCourseInstance: {
+          '@type': 'CourseInstance',
+          courseMode: 'online',
+          courseWorkload: isoDuration(pathMinutes(lang) * 60),
+        },
+        syllabusSections: lessons.map((lesson, index) => ({
+          '@type': 'Syllabus',
+          position: index + 1,
+          name: lesson.title,
+          description: lesson.outcome,
+          url: absoluteUrl(lessonPath(lesson)),
+          timeRequired: isoDuration(learningMinutes(lesson) * 60),
+        })),
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${url}#list`,
+        name: t.hubTitle,
+        itemListElement: lessons.map((lesson, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: lesson.title,
+          url: absoluteUrl(lessonPath(lesson)),
+        })),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: t.hubTitle,
+        description: t.hubLede,
+        inLanguage: lang,
+        isPartOf: { '@id': `${siteBaseUrl}/#website` },
+        about: { '@id': 'https://studio.shot.is/#app' },
+        dateModified: learnPageMeta.dateModified,
+      },
+    ],
+  };
+};
+
+export const buildLessonSeo = (lesson: Lesson): PageSeo => {
+  const path = lessonPath(lesson);
+  return {
+    path,
+    title: lessonMetaTitle(lesson),
+    description: lesson.description,
+    ogImage: ogImageUrl(lesson.ogImageKey),
+    ogType: 'article',
+    canonical: absoluteUrl(path),
+    alternates: lessonAlternates(lesson),
+    structuredData: buildLessonSchema(lesson),
+    publishedTime: lesson.datePublished,
+    modifiedTime: lesson.dateModified ?? lesson.datePublished,
+  };
+};
+
+export const buildLearnIndexSeo = (lang: LessonLang): PageSeo => {
+  const path = learnIndexPath(lang);
+  const modifiedTime = lessonsByLang[lang]
+    .map((lesson) => lesson.dateModified ?? lesson.datePublished)
+    .sort()
+    .slice(-1)[0];
+  return {
+    path,
+    title: `${learnStrings[lang].hubTitle} — Short Screencast Lessons`,
+    description: learnStrings[lang].hubLede,
+    ogImage: ogImageUrl('learn-index'),
+    ogType: 'website',
+    canonical: absoluteUrl(path),
+    alternates: learnIndexAlternates(),
+    structuredData: buildLearnIndexSchema(lang),
+    modifiedTime: modifiedTime ?? learnPageMeta.dateModified,
+  };
+};
+
 const aboutModifiedTime = '2026-08-25';
 const faqModifiedTime = '2026-08-25';
 
@@ -757,6 +965,15 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
     return resolve(buildBlogIndexSeo(path === blogIndexPath('es') ? 'es' : 'en'));
   }
 
+  const lesson = lessonByPath.get(path);
+  if (lesson) {
+    return resolve(buildLessonSeo(lesson));
+  }
+
+  if (path === learnIndexPath('en') || path === learnIndexPath('es')) {
+    return resolve(buildLearnIndexSeo(path === learnIndexPath('es') ? 'es' : 'en'));
+  }
+
   const staticPage = STATIC_PAGES_BY_PATH.get(path);
   if (staticPage) {
     return resolve({
@@ -791,6 +1008,7 @@ export const getIndexableRoutes = (): string[] => [
   ...comparisonPages.map((p) => p.path),
   ...STATIC_PAGES.map((p) => p.path),
   ...blogRoutes(),
+  ...learnRoutes(),
 ];
 
 export type SitemapEntry = {

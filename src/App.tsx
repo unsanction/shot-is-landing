@@ -5,6 +5,7 @@ import { comparisonPagesByPath } from './data/comparisons';
 import { ComparisonPage } from './pages/ComparisonPage';
 import { giftPagesBySlug } from './data/gifts';
 import { blogIndexPath, blogPostByPath, blogPostsByLang } from './data/blog';
+import { learnIndexPath, learnLangs, lessonByPath, lessonsByLang } from './data/lessons';
 import { bespokeGiftPages } from './gifts/registry';
 import { GiftPage } from './pages/GiftPage';
 import HomePage from './pages/HomePage';
@@ -14,6 +15,8 @@ import { BlogIndexPage } from './pages/BlogIndexPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { FaqPage } from './pages/FaqPage';
+import { LearnIndexPage } from './pages/LearnIndexPage';
+import { LessonPage } from './pages/LessonPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { PricingPage } from './pages/PricingPage';
 import { ServicePage } from './pages/ServicePage';
@@ -22,6 +25,8 @@ import {
   applySeoMeta,
   buildBlogIndexSeo,
   buildBlogPostSeo,
+  buildLearnIndexSeo,
+  buildLessonSeo,
   buildServiceSchema,
   getPageSeo,
   homeStructuredData,
@@ -93,10 +98,22 @@ function App({ path }: AppProps = {}) {
       : pathname === blogIndexPath('es')
         ? 'es'
         : undefined;
+  const lesson = onGiftSurface ? undefined : lessonByPath.get(pathname);
+  const learnIndexLang = onGiftSurface
+    ? undefined
+    : learnLangs.find((lang) => learnIndexPath(lang) === pathname);
   const isHome = !onGiftSurface && HOME_PATHS.has(pathname);
   const staticPage = onGiftSurface ? undefined : STATIC_PAGES[pathname];
   const isNotFound =
-    !giftPage && !isHome && !servicePage && !comparisonPage && !staticPage && !blogPost && !blogIndexLang;
+    !giftPage &&
+    !isHome &&
+    !servicePage &&
+    !comparisonPage &&
+    !staticPage &&
+    !blogPost &&
+    !blogIndexLang &&
+    !lesson &&
+    !learnIndexLang;
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -144,6 +161,16 @@ function App({ path }: AppProps = {}) {
       return;
     }
 
+    if (lesson) {
+      applySeoMeta(buildLessonSeo(lesson));
+      return;
+    }
+
+    if (learnIndexLang) {
+      applySeoMeta(buildLearnIndexSeo(learnIndexLang));
+      return;
+    }
+
     if (staticPage) {
       applySeoMeta(getPageSeo(pathname));
       return;
@@ -155,7 +182,18 @@ function App({ path }: AppProps = {}) {
     }
 
     applySeoMeta({ ...homeSeo, structuredData: homeStructuredData });
-  }, [blogIndexLang, blogPost, comparisonPage, giftPage, isNotFound, pathname, servicePage, staticPage]);
+  }, [
+    blogIndexLang,
+    blogPost,
+    comparisonPage,
+    giftPage,
+    isNotFound,
+    learnIndexLang,
+    lesson,
+    pathname,
+    servicePage,
+    staticPage,
+  ]);
 
   if (giftPage) {
     const BespokeGiftPage = bespokeGiftPages[giftPage.slug];
@@ -176,6 +214,14 @@ function App({ path }: AppProps = {}) {
 
   if (blogIndexLang) {
     return <BlogIndexPage lang={blogIndexLang} posts={blogPostsByLang[blogIndexLang]} />;
+  }
+
+  if (lesson) {
+    return <LessonPage lesson={lesson} />;
+  }
+
+  if (learnIndexLang) {
+    return <LearnIndexPage lang={learnIndexLang} lessons={lessonsByLang[learnIndexLang]} />;
   }
 
   if (staticPage) {

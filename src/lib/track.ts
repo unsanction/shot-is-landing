@@ -31,6 +31,9 @@ export type CtaLocation =
   | 'join_section'
   | 'service_page'
   | 'blog_post'
+  | 'lessons_section'
+  | 'learn_hub'
+  | 'lesson'
   | 'faq_page'
   | 'comparison_page'
   | 'use_case_page';

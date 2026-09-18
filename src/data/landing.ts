@@ -4,7 +4,7 @@ export const navLinks: NavLink[] = [
   { href: '/#product', label: 'Product' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/ai-ugc-ads', label: 'Managed Studio' },
-  { href: '/blog', label: 'Learn' },
+  { href: '/learn', label: 'Learn' },
   { href: 'https://studio.shot.is/', label: 'Open Studio' },
 ];
 

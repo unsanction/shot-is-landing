@@ -13,6 +13,14 @@ import { siteBaseUrl } from './data/seo';
 import { comparisonPages } from './data/comparisons';
 import { useCasePages } from './data/useCases';
 import { faqGroups, faqPageMeta } from './data/faq';
+import {
+  formatMinutes,
+  formatTimestamp,
+  learnIndexPath,
+  learningMinutes,
+  lessonPath,
+  lessonsByLang,
+} from './data/lessons';
 
 export type RenderedRoute = {
   path: string;
@@ -118,6 +126,19 @@ export const llmsPageIndex = (): LlmsIndexEntry[] => [
     url: `${siteBaseUrl}${page.path}`,
     description: page.description,
   })),
+  {
+    section: 'Lessons',
+    title: 'Learn SHOT.IS Studio',
+    url: `${siteBaseUrl}${learnIndexPath('en')}`,
+    description:
+      'Hub for the short screencast lessons on operating the SHOT.IS Studio canvas, each labelled with its learning time.',
+  },
+  ...lessonsByLang.en.map((lesson) => ({
+    section: 'Lessons',
+    title: `${lesson.title} (${formatMinutes(learningMinutes(lesson))})`,
+    url: `${siteBaseUrl}${lessonPath(lesson)}`,
+    description: lesson.description,
+  })),
 ];
 
 const faqToMarkdown = (faqs: Array<{ question: string; answer: string }>) =>
@@ -162,6 +183,28 @@ export const llmsFullExtraSections = (): string[] => {
       );
     }
     parts.push(`## FAQ\n\n${faqToMarkdown(page.faq)}`);
+    sections.push(parts.join('\n\n'));
+  }
+
+  // Lessons flatten well for answer engines: an ordered procedure plus the
+  // full spoken transcript, which is the part a model can actually quote.
+  for (const lesson of lessonsByLang.en) {
+    const parts: string[] = [
+      `# ${lesson.title}`,
+      [
+        `URL: ${siteBaseUrl}${lessonPath(lesson)}`,
+        `Format: ${lesson.kind === 'basics' ? 'Basics' : 'Micro-case'} screencast lesson ${lesson.order}`,
+        `Watch time: ${lesson.videoSeconds}s · Learning time: ${formatMinutes(learningMinutes(lesson))}`,
+        `Nodes used: ${lesson.nodes.join(', ')}`,
+      ].join('\n'),
+      lesson.description,
+      `## What you can do after this\n\n${lesson.outcome}`,
+      `## Steps\n\n${lesson.steps
+        .map((step, i) => `${i + 1}. **${step.title}** — ${absolutizeLinks(step.body)}`)
+        .join('\n')}`,
+      `## Transcript\n\n${lesson.captions.map((c) => `${formatTimestamp(c.at)} ${c.text}`).join('\n')}`,
+    ];
+    if (lesson.faq?.length) parts.push(`## FAQ\n\n${faqToMarkdown(lesson.faq)}`);
     sections.push(parts.join('\n\n'));
   }
 
