@@ -24,6 +24,10 @@ const RUNS_FILE = join(__dirname, 'runs.json');
 /** Gap between generative node runs, and the wait before retrying failures. */
 const PACE_MS = Number(process.env.SHOTIS_LESSON_PACE_MS ?? 25000);
 const BACKOFF_MS = Number(process.env.SHOTIS_LESSON_BACKOFF_MS ?? 90000);
+/** grok's image-edit path rate-limits and times out under a burst, and a node
+ *  that trips it fails rather than queueing — so a lesson may need several
+ *  patient passes before every world lands. */
+const RETRIES = Number(process.env.SHOTIS_LESSON_RETRIES ?? 2);
 
 let token;
 const api = async (path, { method = 'GET', body } = {}) => {
@@ -208,7 +212,7 @@ const main = async () => {
   };
 
   let failed = await pass(order);
-  for (let attempt = 1; attempt <= 2 && failed.length > 0; attempt += 1) {
+  for (let attempt = 1; attempt <= RETRIES && failed.length > 0; attempt += 1) {
     console.log(`  retry ${attempt}: ${failed.join(', ')} (after a ${BACKOFF_MS / 1000}s backoff)`);
     await sleep(BACKOFF_MS);
     // Nodes that already completed are served from cache, so a retry only

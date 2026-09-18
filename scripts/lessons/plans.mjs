@@ -76,10 +76,12 @@ const node = (slug, name) => async () => {
  * lesson starts using it.
  */
 const runNode = async (page, nodeId) => {
+  // Straight for the Run control. Clicking the node body first would land on
+  // whichever select sits under the pointer and leave a dropdown hanging open
+  // over the canvas for the rest of the take.
   const nodeEl = page.locator(`.react-flow__node[data-id="${nodeId}"]`).first();
-  await nodeEl.click();
-  await nodeEl.getByRole('button', { name: /^run$/i }).click();
-  await page.waitForTimeout(600);
+  await nodeEl.getByRole('button', { name: /^run$/i }).first().click();
+  await page.waitForTimeout(700);
 };
 
 /** Each beat gets a `resolve(name)` bound to its own lesson's node map. */

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>SHOT.IS favicon</title>
+  <defs>
+    <linearGradient id="shotBg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7F452F" />
+      <stop offset=".46" stop-color="#311017" />
+      <stop offset="1" stop-color="#08070A" />
+    </linearGradient>
+    <radialGradient id="shotGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16 14) rotate(35) scale(44 35)">
+      <stop stop-color="#B75F3B" stop-opacity=".42" />
+      <stop offset="1" stop-color="#B75F3B" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#shotBg)" />
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#shotGlow)" />
+  <rect x="4.75" y="4.75" width="54.5" height="54.5" rx="17.25" stroke="#D5F9FF" stroke-opacity=".15" stroke-width="1.5" />
+  <g transform="translate(32 32)" stroke="#CFF8FF" stroke-linecap="round">
+    <line x1="-16" y1="0" x2="16" y2="0" stroke-width="4.5" />
+    <line x1="-8.5" y1="-14.72" x2="8.5" y2="14.72" stroke-width="4.5" />
+    <line x1="-8.5" y1="14.72" x2="8.5" y2="-14.72" stroke-width="4.5" />
+  </g>
+</svg>

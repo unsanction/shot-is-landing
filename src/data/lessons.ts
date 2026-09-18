@@ -285,7 +285,7 @@ export const lessons: Lesson[] = [
     description:
       'One bad generation should cost one generation. Learn how stale nodes work in SHOT.IS Studio so you can swap a model, re-run a single shot, and resync the ad.',
     excerpt:
-      'Generation is a lottery you can re-roll. The canvas exists so you can re-roll exactly one ticket.',
+      'One shot came back wrong. Fix that node, not the run — the canvas is built so you only redo what actually broke.',
     outcome: 'Repair a failed shot by re-running one node instead of rebuilding the whole run.',
     nodes: ['generate_image', 'generate_video', 'composer'],
     datePublished: '2026-09-18',
@@ -304,7 +304,7 @@ export const lessons: Lesson[] = [
       {
         at: 0,
         title: 'Find the node that failed, not the run',
-        body: 'A warped label or a broken hand is one node\'s problem. The instinct to start over is the expensive instinct.',
+        body: 'A warped label or a broken hand belongs to one node. The instinct to start the run over is the expensive one, and the canvas exists so you do not have to.',
       },
       {
         at: 15,
@@ -328,8 +328,8 @@ export const lessons: Lesson[] = [
       },
     ],
     captions: [
-      { at: 0, text: "Generation is a lottery you can re-roll. Here's how to re-roll once." },
-      { at: 5, text: 'This run has five nodes. One video came back with a warped label.' },
+      { at: 0, text: 'One shot came back wrong. You fix that node, not the whole run.' },
+      { at: 5, text: 'This run has ten nodes. One clip came back with a warped label.' },
       { at: 10, text: "You don't rebuild the run. You fix the node in place." },
       { at: 15, text: 'Click the bad node. Its params open on the side.' },
       { at: 20, text: 'Switch the model — different models fail in different ways.' },
@@ -341,7 +341,7 @@ export const lessons: Lesson[] = [
       { at: 50, text: 'Stale means: still showing the old result, marked out of date.' },
       { at: 55, text: 'Run the downstream nodes to bring the ad back in sync.' },
       { at: 60, text: 'The composer picks up the new clip automatically.' },
-      { at: 65, text: 'You just paid for one generation instead of five.' },
+      { at: 65, text: 'You just paid for one generation instead of the whole run.' },
       { at: 70, text: "Keep the failures on the canvas — they record what didn't work." },
       { at: 75, text: 'Clean them up later, or leave them as a reference.' },
       { at: 80, text: "Fix in place, re-run narrow. That's the studio habit." },
