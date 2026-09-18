@@ -71,7 +71,7 @@ export function LearnIndexPage({ lang, lessons }: LearnIndexPageProps) {
               {t.hubLede}
             </p>
             <p className="mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">
-              {lessons.length} · {t.pathTotal(formatMinutes(pathMinutes(lang)))}
+              {t.lessonCount(lessons.length)} · {t.pathTotal(formatMinutes(pathMinutes(lang)))}
             </p>
           </div>
         </section>

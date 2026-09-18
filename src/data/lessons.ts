@@ -12,6 +12,7 @@ export const learnStrings: Record<LessonLang, {
   learningTime: (label: string) => string;
   watchTime: (label: string) => string;
   pathTotal: (label: string) => string;
+  lessonCount: (n: number) => string;
   whatYouLearn: string;
   inThisLesson: string;
   transcript: string;
@@ -39,6 +40,7 @@ export const learnStrings: Record<LessonLang, {
     learningTime: (label) => `${label} to learn`,
     watchTime: (label) => `${label} to watch`,
     pathTotal: (label) => `${label} for the whole path`,
+    lessonCount: (n) => `${n} lessons`,
     whatYouLearn: 'What you can do after this',
     inThisLesson: 'In this lesson',
     transcript: 'Transcript',
@@ -66,6 +68,7 @@ export const learnStrings: Record<LessonLang, {
     learningTime: (label) => `${label} para aprender`,
     watchTime: (label) => `${label} de video`,
     pathTotal: (label) => `${label} para la ruta completa`,
+    lessonCount: (n) => `${n} lecciones`,
     whatYouLearn: 'Qué podrás hacer después',
     inThisLesson: 'En esta lección',
     transcript: 'Transcripción',
