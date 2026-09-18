@@ -49,8 +49,8 @@ export type { OgTarget };
  * one timeline, which is why a caption can never drift from the video: the
  * same `at` that positions the line on the page schedules it in the capture.
  */
-export const lessonRecordingPlans = () =>
-  lessonsByLang.en.map((lesson) => ({
+export const lessonRecordingPlans = (lang: 'en' | 'es' = 'en') =>
+  lessonsByLang[lang].map((lesson) => ({
     slug: lesson.slug,
     title: lesson.title,
     order: lesson.order,
