@@ -1,5 +1,6 @@
 import { blogPosts } from './blog';
 import { comparisonPages } from './comparisons';
+import { lessons } from './lessons';
 import { servicePages } from './seo';
 import { useCasePages } from './useCases';
 
@@ -42,6 +43,15 @@ export const ogTargets: OgTarget[] = [
     (page): OgTarget => ({ key: page.slug, title: page.navLabel, eyebrow: page.eyebrow, kind: 'page' }),
   ),
   { key: 'blog-index', title: 'SHOT.IS Blog', eyebrow: 'AI content, ads & creators', kind: 'page' },
+  { key: 'learn-index', title: 'Learn SHOT.IS Studio', eyebrow: 'Short screencast lessons', kind: 'page' },
+  ...lessons.map(
+    (lesson): OgTarget => ({
+      key: lesson.ogImageKey,
+      title: lesson.title,
+      eyebrow: `SHOT.IS Lesson ${lesson.order}`,
+      kind: 'article',
+    }),
+  ),
   ...staticPages,
   ...blogPosts.map(
     (post): OgTarget => ({ key: post.ogImageKey, title: post.title, eyebrow: 'SHOT.IS Blog', kind: 'article' }),

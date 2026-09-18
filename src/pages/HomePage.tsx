@@ -3,6 +3,7 @@ import { CanvasDemoSection } from '../components/home/CanvasDemoSection';
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import { JoinSection } from '../components/home/JoinSection';
+import { LessonsSection } from '../components/home/LessonsSection';
 import { PricingSection } from '../components/home/PricingSection';
 import { RosterSection } from '../components/home/RosterSection';
 import { SeoGrowthSection } from '../components/home/SeoGrowthSection';
@@ -23,6 +24,7 @@ function HomePage() {
         <HeroSection />
         <PricingSection />
         <CanvasDemoSection />
+        <LessonsSection />
         <RosterSection />
         <VisionSection />
         <SeoGrowthSection />
