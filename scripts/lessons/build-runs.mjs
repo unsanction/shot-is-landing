@@ -103,10 +103,29 @@ const topoOrder = (spec) => {
  */
 const runNode = async (runId, nodeId, label) => {
   process.stdout.write(`  ${label} … `);
+
+  // Already landed on an earlier pass: nothing to run, and nothing to pace for.
+  // Without this a retry pass spends its whole pacing budget re-confirming
+  // work that is already done.
+  const before = await api(`/studio/runs/${runId}/graph`);
+  if (before.nodes.find((n) => n.id === nodeId)?.status === 'completed') {
+    console.log('completed (cached)');
+    return 'cached';
+  }
+
   try {
     await api(`/graph/nodes/${nodeId}/run`, { method: 'POST', body: { force: false } });
   } catch (error) {
-    if (!/node_already_running/.test(error.message)) throw error;
+    if (/node_already_running/.test(error.message)) {
+      // Already in flight — fall through and poll it.
+    } else if (/upstream_not_ready/.test(error.message)) {
+      // An ancestor failed earlier in this pass. Soft-fail so the retry pass
+      // can pick this up once the upstream lands, instead of killing the build.
+      console.log('upstream not ready');
+      return false;
+    } else {
+      throw error;
+    }
   }
 
   const deadline = Date.now() + 15 * 60 * 1000;
@@ -201,12 +220,16 @@ const main = async () => {
   const pass = async (keys) => {
     const failed = [];
     for (const key of keys) {
-      const ok = await runNode(runId, ids[key], key);
-      if (!ok) failed.push(key);
-      // xAI rate-limits a burst of image edits (429), and a node that trips it
-      // fails outright rather than queueing. Pace the generative ones.
+      const result = await runNode(runId, ids[key], key);
+      if (result === false) failed.push(key);
+      if (result === 'cached') continue;
+
+      // xAI rate-limits a burst of image *edits* (429) and a node that trips it
+      // fails outright rather than queueing, so that path needs real spacing.
+      // The video path has been reliable back-to-back, so it pays a token gap.
       const type = spec.nodes.find((n) => n.key === key)?.type ?? '';
-      if (type.startsWith('generate_')) await sleep(PACE_MS);
+      if (type === 'generate_image') await sleep(PACE_MS);
+      else if (type.startsWith('generate_')) await sleep(Math.min(PACE_MS, 15000));
     }
     return failed;
   };

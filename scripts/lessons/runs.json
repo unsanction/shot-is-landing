@@ -61,5 +61,26 @@
       "bg5Clip": "gn_01M2SX0GPA5KB2PNEV9409PYKK",
       "composer": "gn_01M2SX0GTS24GWJ5WY1G5XM44V"
     }
+  },
+  "ugc-testimonial-one-scene": {
+    "runId": "run_01M2T1PJ6CTB287Z99CMYXFMTG",
+    "nodes": {
+      "creatorReference": "gn_01M2T1PJHQ9YQTTEREVYW5ET27",
+      "productReference": "gn_01M2T1PK3FW5E921384X95HZVR",
+      "hookPrompt": "gn_01M2T1PK7ZVVWS7PDDH3E8MK43",
+      "demoPrompt": "gn_01M2T1PKCPA6SBK66XGFHSMB4T",
+      "payoffPrompt": "gn_01M2T1PKHRWA9W4V7XQ4XG6R57",
+      "hookKeyframe": "gn_01M2T1PKT3BS7WF34X0F597AZD",
+      "demoKeyframe": "gn_01M2T1PKYWGF89XF2YAJR8B7FG",
+      "payoffKeyframe": "gn_01M2T1PM3KJW68XTX7PHG0MC4K",
+      "hookMotionPrompt": "gn_01M2T1PM8EM23NN81RYYXVQWQ0",
+      "demoMotionPrompt": "gn_01M2T1PMD1T1T301QFVFKF0FZT",
+      "payoffMotionPrompt": "gn_01M2T1PMHF3ZTMZTA0GZWWXGFK",
+      "hookMotion": "gn_01M2T1PMR2TVNHB0GCFHAGPD0T",
+      "demoMotion": "gn_01M2T1PMWG4J51X2ZE7KGS5H5H",
+      "payoffMotion": "gn_01M2T1PN213W0VMT7VQ609T81N",
+      "extractFrame": "gn_01M2T1PN9MHKN9XD29CPM41PX8",
+      "composer": "gn_01M2T1PNEB2CA7NAWBFYKEKHGZ"
+    }
   }
 }
