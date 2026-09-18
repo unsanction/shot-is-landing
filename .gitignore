@@ -6,6 +6,7 @@ firebase-debug.log
 *.tsbuildinfo
 artifacts
 captures/
+.lesson-capture/
 *.sqlite
 
 .DS_Store

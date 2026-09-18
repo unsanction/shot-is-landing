@@ -43,6 +43,23 @@ export const sitemapEntries = (): SitemapEntry[] => buildSitemapEntries();
 export { ogTargets };
 export type { OgTarget };
 
+/**
+ * Everything scripts/lessons/record.mjs needs, read straight off the lesson
+ * data. The recorder drives the studio UI and the subtitle overlay from this
+ * one timeline, which is why a caption can never drift from the video: the
+ * same `at` that positions the line on the page schedules it in the capture.
+ */
+export const lessonRecordingPlans = () =>
+  lessonsByLang.en.map((lesson) => ({
+    slug: lesson.slug,
+    title: lesson.title,
+    order: lesson.order,
+    videoSeconds: lesson.videoSeconds,
+    video: lesson.video,
+    steps: lesson.steps,
+    captions: lesson.captions,
+  }));
+
 // ── Feed + llms.txt data (consumed by scripts/prerender.mjs) ────────────────
 
 export type FeedItem = {
