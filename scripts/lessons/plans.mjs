@@ -336,8 +336,13 @@ export const lessonPlans = {
       },
       {
         at: 85,
-        label: 'play the finished strobe',
-        run: async (page, { resolve }) => selectNode(page, await resolve('composer')),
+        label: 'walk the six worlds the cut is made of',
+        run: async (page, { resolve }) => {
+          await zoomOut(page, 2);
+          await fitView(page);
+          const ids = await Promise.all(['hero', 'bg1', 'bg2', 'bg3', 'bg4', 'bg5'].map(resolve));
+          await traceGraph(page, ids, { dwell: 700 });
+        },
       },
       { at: 100, label: 'fit the whole format', run: async (page) => { await zoomOut(page, 2); await fitView(page); } },
     ],

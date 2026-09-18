@@ -379,7 +379,6 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    videoPending: true,
     prerequisites: ['Lesson two — the hero product has to be locked by a reference before any of this works.'],
     steps: [
       {
@@ -475,7 +474,6 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    videoPending: true,
     prerequisites: [
       'Lesson two, for references.',
       'Lesson three, because you will re-run at least one keyframe before this is right.',
