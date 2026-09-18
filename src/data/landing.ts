@@ -1,10 +1,10 @@
 import type { Creator, NavLink, ReelVideo, Stat } from '../types/content';
 
 export const navLinks: NavLink[] = [
-  { href: '/ai-ugc-ads', label: 'AI UGC Ads' },
-  { href: '/#services', label: 'Services' },
-  { href: '/#workflow', label: 'Workflow' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/#product', label: 'Product' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/ai-ugc-ads', label: 'Managed Studio' },
+  { href: '/blog', label: 'Learn' },
   { href: 'https://studio.shot.is/', label: 'Open Studio' },
 ];
 

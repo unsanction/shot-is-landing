@@ -53,7 +53,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Pricing model',
-        shotIs: 'Studio engagements scoped per brief; self-serve studio app with usage-based generation',
+        shotIs: 'Self-serve launch offer from $4.99/video; volume video packs in Studio; managed campaigns scoped per brief',
         competitor: 'Public plans from $29/mo (Creator) with credit metering; Avatar IV/V burns ~20 credits per minute',
       },
       {
@@ -63,7 +63,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Common complaints to check',
-        shotIs: 'Studio pricing is not published — you scope a brief first',
+        shotIs: 'Managed production is custom-quoted; self-serve and pack pricing stay public in Studio',
         competitor: 'Credit drain on failed renders and queue delays are the top user complaints (Trustpilot ~2.4/5 vs G2 4.8/5)',
       },
     ],
@@ -142,7 +142,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Pricing model',
-        shotIs: 'Studio engagements scoped per brief; self-serve app with usage-based generation',
+        shotIs: 'Self-serve launch offer from $4.99/video; volume video packs in Studio; managed campaigns scoped per brief',
         competitor: 'Not published — third-party reports put entry around $110/mo for ~10 videos; verify at signup',
       },
       {
@@ -152,7 +152,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Common complaints to check',
-        shotIs: 'Studio pricing is not published — you scope a brief first',
+        shotIs: 'Managed production is custom-quoted; self-serve and pack pricing stay public in Studio',
         competitor: 'Credits burned on unusable generations, most-realistic actors gated to custom Pro tiers, email-only cancellation',
       },
     ],
@@ -171,7 +171,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       {
         question: 'Is SHOT.IS a cheaper Arcads alternative?',
         answer:
-          'It is a different-shaped one. Arcads prices per rendered video (reported around $11+ per clip, unpublished); SHOT.IS prices studio engagements per brief and self-serve generation by usage. For high-volume testing, compare cost per campaign-ready variant including editing time — Arcads clips still need finishing, which is real cost that never appears on a pricing page.',
+          'Yes for self-serve generation: the SHOT.IS launch offer starts at $4.99 per video, while Arcads pricing is reported around $11+ per clip and remains unpublished. Managed SHOT.IS production is a different-shaped product because it also covers creative direction, QA, editing, and named testing variants.',
       },
       {
         question: 'Are Arcads’ AI actors more realistic than SHOT.IS creators?',
@@ -225,7 +225,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Pricing model',
-        shotIs: 'Studio engagements scoped per brief; self-serve app with usage-based generation',
+        shotIs: 'Self-serve launch offer from $4.99/video; volume video packs in Studio; managed campaigns scoped per brief',
         competitor: 'Public plans from $39/mo Starter, 100 credits; real avatar generations reportedly burn 50–90 credits each',
       },
       {
@@ -235,7 +235,7 @@ export const comparisonPages: ComparisonPageContent[] = [
       },
       {
         feature: 'Common complaints to check',
-        shotIs: 'Studio pricing is not published — you scope a brief first',
+        shotIs: 'Managed production is custom-quoted; self-serve and pack pricing stay public in Studio',
         competitor: 'Credit opacity (headline video counts vs real credit burn), lip-sync re-renders, billing disputes; Trustpilot rating currently suspended',
       },
     ],
@@ -373,7 +373,7 @@ export const comparisonPages: ComparisonPageContent[] = [
         url: '/',
         bestFor: 'scene-real AI UGC ads, produced end to end',
         summary:
-          'An AI ad studio (plus self-serve app at studio.shot.is) that generates full scenes — creator, location, product — keyframe-first with vision QA, then delivers beat-synced, campaign-ready variant packs. The alternative when avatar-over-background output is why you are leaving HeyGen. Studio pricing is scoped per brief rather than published.',
+          'A self-serve AI UGC ad generator plus managed studio that generates full scenes — creator, location, product — keyframe-first with vision QA. Self-serve video starts at a $4.99 launch price, volume packs are available in Studio, and managed campaign work is scoped per brief.',
       },
       {
         name: 'Arcads',
@@ -527,7 +527,7 @@ export const comparisonPages: ComparisonPageContent[] = [
         url: '/',
         bestFor: 'finished, scene-real UGC ads (studio + self-serve)',
         summary:
-          'Generates the whole ad rather than an actor clip: keyframe-first scenes with locked product references, vision QA at every stage, beat-synced edit, hook variants named for testing. Studio engagements scoped per brief; self-serve generation at studio.shot.is. The trade-off: no public studio price list, and it optimizes for variant quality over raw render volume.',
+          'Generates the whole ad rather than only an actor clip: keyframe-first scenes with locked product references, vision QA, beat-synced edits, and hook variants named for testing. Self-serve video starts at a $4.99 launch price, volume packs are available in Studio, and managed campaigns are scoped per brief.',
       },
       {
         name: 'Arcads',

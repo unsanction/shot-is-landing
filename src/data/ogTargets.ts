@@ -16,8 +16,9 @@ export type OgTarget = {
 };
 
 const staticPages: OgTarget[] = [
-  { key: 'about', title: 'About SHOT.IS', eyebrow: 'AI Content Studio', kind: 'page' },
+  { key: 'about', title: 'About SHOT.IS', eyebrow: 'AI UGC Platform + Studio', kind: 'page' },
   { key: 'contact', title: 'Start an AI content sprint', eyebrow: 'Contact', kind: 'page' },
+  { key: 'pricing', title: 'AI Videos from $4.99', eyebrow: 'SHOT.IS Pricing', kind: 'page' },
   { key: 'faq', title: 'Questions, answered straight', eyebrow: 'FAQ', kind: 'page' },
   { key: 'privacy', title: 'Privacy Policy', eyebrow: 'SHOT.IS', kind: 'page' },
   { key: 'terms', title: 'Terms of Service', eyebrow: 'SHOT.IS', kind: 'page' },
@@ -27,8 +28,8 @@ const staticPages: OgTarget[] = [
 export const ogTargets: OgTarget[] = [
   {
     key: 'home',
-    title: 'AI UGC Ads, AI Video Ads & Virtual Influencers',
-    eyebrow: 'AI Content Studio',
+    title: 'AI UGC Ad Generator & Production Studio',
+    eyebrow: 'Self-serve from $4.99',
     kind: 'home',
   },
   ...servicePages.map(

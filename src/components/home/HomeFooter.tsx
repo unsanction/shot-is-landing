@@ -1,6 +1,8 @@
-import { trackCta } from '../../lib/track';
+import { isStudioUrl, trackCta, trackStudioClick, withUtm } from '../../lib/track';
 
 const footerLinks = [
+  { label: 'Open Studio', href: 'https://studio.shot.is/' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'AI UGC Ads', href: '/ai-ugc-ads' },
   { label: 'AI Video Ads', href: '/ai-video-ads' },
   { label: 'Virtual Influencers', href: '/virtual-influencers' },
@@ -23,8 +25,10 @@ export function HomeFooter() {
           {footerLinks.map((link) => (
             <a
               key={link.href}
-              href={link.href}
-              onClick={() => trackCta('footer', link.label)}
+              href={isStudioUrl(link.href) ? withUtm(link.href, 'footer') : link.href}
+              onClick={() =>
+                isStudioUrl(link.href) ? trackStudioClick('footer') : trackCta('footer', link.label)
+              }
               className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/55 transition-colors hover:text-accent"
             >
               {link.label}

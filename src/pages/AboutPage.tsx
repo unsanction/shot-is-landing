@@ -33,13 +33,12 @@ export function AboutPage() {
               About SHOT.IS
             </p>
             <h1 className="text-[clamp(2rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
-              An AI content studio built for performance teams.
+              An AI ad platform with a managed production team.
             </h1>
             <p className="mt-10 max-w-3xl text-lg font-medium leading-relaxed text-white/55 md:text-xl">
-              SHOT.IS is a remote-first AI content studio. We help mobile apps, ecommerce brands, SaaS products,
-              agencies, and growth teams turn briefs into UGC-style ads, AI video ads, virtual influencer systems, and
-              campaign creative. The studio combines creative direction, prompt design, model orchestration, and
-              edit-stage polish to ship assets that are testable in real ad accounts.
+              SHOT.IS combines a self-serve AI UGC ad generator with a remote-first managed studio. Teams can generate
+              one video from $4.99, buy packs for creative testing, or hand over a campaign brief for creative
+              direction, multi-model generation, human QA, and finished edits.
             </p>
           </div>
         </section>
@@ -118,9 +117,9 @@ export function AboutPage() {
               A small team, a deep stack.
             </h2>
             <p className="text-lg font-medium leading-relaxed text-white/55 md:text-xl">
-              SHOT.IS pairs creative direction, AI generation pipelines, and post-production into one delivery system.
-              Brands get one studio responsible for the brief, the creator persona, the generation, the edit, and the
-              campaign-ready files. To start a project or scope a creative sprint, see{' '}
+              SHOT.IS pairs a self-serve generation product with creative direction and post-production when a team
+              needs more than a tool. Generate directly in Studio, or get one managed team responsible for the brief,
+              creator persona, generation, edit, and campaign-ready files. To scope a managed sprint, see{' '}
               <a href="/contact" className="text-accent underline-offset-4 hover:underline">
                 contact
               </a>

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { trackCta, trackWaitlist } from '../../lib/track';
+import { trackCta, trackStudioClick, trackWaitlist, withUtm } from '../../lib/track';
 import { joinWaitlist, WaitlistError } from '../../lib/waitlist';
 
 type Status = 'idle' | 'submitting' | 'joined' | 'error';
@@ -15,7 +15,7 @@ export function JoinSection() {
     event.preventDefault();
     if (status === 'submitting') return;
 
-    trackCta('join_section', 'request_access');
+    trackCta('join_section', 'request_managed_quote');
     setStatus('submitting');
     setMessage('');
 
@@ -23,8 +23,8 @@ export function JoinSection() {
       const result = await joinWaitlist(email, 'join_section', website);
       setMessage(
         result.alreadyJoined
-          ? 'Already subscribed — we will email you about access.'
-          : 'Subscribed — we will email you about access.',
+          ? 'We already have this email — we will follow up about managed production.'
+          : 'Request received — we will follow up about managed production.',
       );
       setStatus('joined');
       setEmail('');
@@ -47,13 +47,25 @@ export function JoinSection() {
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="mb-20 text-center md:mb-24">
           <h2 className="mb-8 text-5xl font-black uppercase leading-[0.85] tracking-tight sm:text-6xl md:text-[88px] lg:text-[120px]">
-            GET YOUR FIRST <br />
-            <span className="mix-blend-difference">AD MADE.</span>
+            MAKE ONE. <br />
+            <span className="mix-blend-difference">THEN SCALE IT.</span>
           </h2>
           <p className="text-lg font-bold uppercase italic tracking-[0.35em] opacity-80 md:text-2xl">
-            We onboard a limited number of brands directly each month.
+            Start self-serve today, or ask the managed studio to deliver the campaign.
           </p>
         </div>
+
+        <a
+          href={withUtm('https://studio.shot.is/', 'join_section')}
+          onClick={() => trackStudioClick('join_section')}
+          className="mx-auto mb-16 flex min-h-16 max-w-2xl items-center justify-center bg-white px-8 py-5 text-center text-sm font-black uppercase tracking-[0.28em] text-black transition-all hover:-rotate-1 hover:bg-black hover:text-white md:text-base"
+        >
+          Create a $4.99 video
+        </a>
+
+        <p className="mb-8 text-center font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-white/70">
+          Need finished variants? Request managed production.
+        </p>
 
         <form onSubmit={handleSubmit} className="mx-auto flex max-w-2xl flex-col items-center">
           <input
@@ -85,7 +97,7 @@ export function JoinSection() {
             disabled={status === 'submitting'}
             className="w-full bg-black py-6 text-base font-black uppercase tracking-[0.35em] transition-all hover:bg-white hover:text-black disabled:cursor-wait disabled:opacity-70 md:py-8 md:text-xl md:tracking-[0.5em]"
           >
-            {status === 'submitting' ? 'Sending…' : status === 'joined' ? 'Subscribed' : 'Request Access'}
+            {status === 'submitting' ? 'Sending…' : status === 'joined' ? 'Request received' : 'Request managed quote'}
           </button>
 
           <p
@@ -100,7 +112,7 @@ export function JoinSection() {
           </p>
 
           <p className="mt-2 text-center font-mono text-[11px] font-bold uppercase tracking-[0.28em] opacity-60">
-            Typical first campaign: a few hundred dollars in finished variants, delivered in days.
+            Managed work is scoped per brief. Self-serve video packs are priced live in Studio.
           </p>
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.24em] opacity-45">
             We will email you about SHOT.IS. Unsubscribe any time.{' '}
