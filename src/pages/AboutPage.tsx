@@ -6,15 +6,15 @@ import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 const principles = [
   {
     title: 'Performance creative first',
-    body: 'Every output exists to be tested. We design AI content for paid social testing, hook iteration, and reusable creator systems — not one-off vanity assets.',
+    body: 'Every output exists to be tested. We design AI content for paid social testing, hook iteration, and reusable creator systems, rather than one-off vanity assets.',
   },
   {
     title: 'Repeatable creator identity',
-    body: 'A face, voice, and visual lane that can ship weekly. We treat virtual creators like brand assets that compound, not single-use generations.',
+    body: 'A face, a voice, and a visual lane that ship weekly. We treat virtual creators as brand assets that compound instead of single-use generations.',
   },
   {
     title: 'Transparent with AI',
-    body: 'AI content is labelled where platforms require it. We do not impersonate real people, claim AI footage is human-sourced, or fabricate testimonials.',
+    body: 'We label AI content where platforms require it. We never impersonate real people, never claim AI footage is human-sourced, and never fabricate testimonials.',
   },
 ];
 
@@ -36,9 +36,9 @@ export function AboutPage() {
               An AI ad platform with a managed production team.
             </h1>
             <p className="mt-10 max-w-3xl text-lg font-medium leading-relaxed text-white/55 md:text-xl">
-              SHOT.IS combines a self-serve AI UGC ad generator with a remote-first managed studio. Teams can generate
-              one video from $4.99, buy packs for creative testing, or hand over a campaign brief for creative
-              direction, multi-model generation, human QA, and finished edits.
+              SHOT.IS combines a self-serve AI UGC ad generator with a remote-first managed studio. Generate one video
+              from $4.99, buy packs for creative testing, or hand over a campaign brief for creative direction,
+              multi-model generation, human QA, and finished edits.
             </p>
           </div>
         </section>
@@ -117,9 +117,9 @@ export function AboutPage() {
               A small team, a deep stack.
             </h2>
             <p className="text-lg font-medium leading-relaxed text-white/55 md:text-xl">
-              SHOT.IS pairs a self-serve generation product with creative direction and post-production when a team
-              needs more than a tool. Generate directly in Studio, or get one managed team responsible for the brief,
-              creator persona, generation, edit, and campaign-ready files. To scope a managed sprint, see{' '}
+              SHOT.IS pairs a self-serve generation product with creative direction and post-production for teams that
+              need more than a tool. Generate directly in Studio, or get one managed team accountable for the brief,
+              the creator persona, generation, edit, and campaign-ready files. To scope a managed sprint, see{' '}
               <a href="/contact" className="text-accent underline-offset-4 hover:underline">
                 contact
               </a>

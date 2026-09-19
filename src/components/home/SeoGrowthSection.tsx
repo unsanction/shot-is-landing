@@ -3,11 +3,11 @@ import { homeAnswerBlocks, servicePages } from '../../data/seo';
 const workflowSteps = [
   {
     title: 'Brief the campaign',
-    body: 'Define the audience, offer, platform, product truth, and the creative hypothesis each variant is meant to test.',
+    body: 'Define the audience, the offer, the platform, the product truth, and the creative hypothesis each variant tests.',
   },
   {
     title: 'Generate with references',
-    body: 'Lock the creator, product, scene, and approved keyframes before spending on motion. Change only the branch that needs another take.',
+    body: 'Lock the creator, product, scene, and approved keyframes before you spend on motion. Change only the branch that needs another take.',
   },
   {
     title: 'Ship named variants',
@@ -68,7 +68,7 @@ export function SeoGrowthSection() {
               Built for creative testing, not one-off renders.
             </h2>
             <p className="mt-8 max-w-xl text-base font-semibold leading-relaxed text-black/55 md:text-lg">
-              References, prompts, models, QA, and final assembly stay connected, so a winning direction can become
+              References, prompts, models, QA, and final assembly stay connected, so a winning direction turns into
               more hooks, formats, and markets without rebuilding the campaign from zero.
             </p>
           </div>

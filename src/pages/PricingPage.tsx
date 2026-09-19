@@ -7,15 +7,15 @@ import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 const pricingFacts = [
   {
     title: 'What the $4.99 offer means',
-    body: 'It is the limited-time entry price for one self-serve AI video generation in SHOT.IS Studio. The selected model, duration, and credit cost remain visible before the run starts.',
+    body: 'This is the limited-time entry price for one self-serve AI video generation in SHOT.IS Studio. Studio keeps the selected model, duration, and credit cost visible before the run starts.',
   },
   {
     title: 'Why video packs exist',
-    body: 'Paid social rarely needs one render. Packs are for teams testing several hooks, creators, shots, or product angles. Current sizes and prices live in Studio so checkout and this page never disagree.',
+    body: 'Paid social rarely needs one render. Packs suit teams testing several hooks, creators, shots, or product angles. Sizes and prices live in Studio, so checkout and this page never disagree.',
   },
   {
     title: 'When managed production wins',
-    body: 'Choose managed production when the job includes creative strategy, reference preparation, continuity QA, editing, and campaign-ready variant naming — not just generating a clip.',
+    body: 'Choose managed production when the job includes creative strategy, reference preparation, continuity QA, editing, and campaign-ready variant naming, rather than generating a single clip.',
   },
 ];
 
@@ -37,7 +37,7 @@ export function PricingPage() {
               AI videos from {launchOffer.price}. No mystery math.
             </h1>
             <p className="mt-10 max-w-3xl text-lg font-medium leading-relaxed text-white/60 md:text-xl">
-              Generate one video self-serve, buy a pack for creative testing, or brief SHOT.IS to deliver the full
+              Generate one video self-serve, buy a pack for creative testing, or brief SHOT.IS to deliver the whole
               campaign. The production mode changes; the price boundary stays explicit.
             </p>
           </div>

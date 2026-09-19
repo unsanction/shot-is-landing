@@ -23,8 +23,8 @@ export function JoinSection() {
       const result = await joinWaitlist(email, 'join_section', website);
       setMessage(
         result.alreadyJoined
-          ? 'We already have this email — we will follow up about managed production.'
-          : 'Request received — we will follow up about managed production.',
+          ? 'We already have this email. We will follow up about managed production.'
+          : 'Request received. We will follow up about managed production.',
       );
       setStatus('joined');
       setEmail('');
@@ -51,7 +51,7 @@ export function JoinSection() {
             <span className="mix-blend-difference">THEN SCALE IT.</span>
           </h2>
           <p className="text-lg font-bold uppercase italic tracking-[0.35em] opacity-80 md:text-2xl">
-            Start self-serve today, or ask the managed studio to deliver the campaign.
+            Start self-serve today, or ask the managed studio to ship the campaign for you.
           </p>
         </div>
 

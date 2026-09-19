@@ -87,7 +87,7 @@ export function ComparisonPage({ page }: ComparisonPageProps) {
                   </table>
                 </div>
                 <p className="mt-6 max-w-3xl text-sm font-medium leading-relaxed text-white/40">
-                  {page.competitor.name}: {page.competitor.oneLiner} Features and pricing change — verify current
+                  {page.competitor.name}: {page.competitor.oneLiner} Features and pricing change, so verify current
                   details at{' '}
                   <a
                     href={page.competitor.url}

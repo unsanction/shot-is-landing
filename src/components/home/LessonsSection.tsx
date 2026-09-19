@@ -31,8 +31,8 @@ export function LessonsSection() {
             </h2>
           </div>
           <p className="max-w-xl text-base font-medium leading-relaxed text-white/60 md:text-lg lg:justify-self-end">
-            Real screencasts of the canvas — no slides, no talking head. Each one rebuilds a single thing end to end and
-            says up front how long it takes: {formatMinutes(pathMinutes('en'))} for the whole path.
+            Real screencasts of the canvas, with no slides and no talking head. Each one rebuilds a single thing end to
+            end and says up front how long it takes: {formatMinutes(pathMinutes('en'))} for the whole path.
           </p>
         </div>
 

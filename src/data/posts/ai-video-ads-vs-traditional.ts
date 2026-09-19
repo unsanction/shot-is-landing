@@ -5,10 +5,11 @@ export const post: BlogPost = {
   lang: 'en',
   translationKey: 'ai-video-ads-vs-traditional',
   title: 'AI Video Ads vs. Traditional Production: Cost, Speed, and Quality',
+  metaTitle: 'AI Video Ads vs Traditional Production | SHOT.IS',
   description:
-    'How AI video ads compare to traditional production on cost, turnaround, and quality — and a practical way to combine both for short-form performance marketing.',
+    'How AI video ads compare to traditional production on cost, turnaround, and quality, plus a practical way to combine both for short-form.',
   excerpt:
-    'Faster and cheaper is the easy headline. The real question is where each approach actually wins. A practical comparison.',
+    'Faster and cheaper is the easy headline. The real question is where each approach wins. A practical comparison.',
   datePublished: '2026-06-02',
   dateModified: '2026-06-10',
   author: defaultAuthor,
@@ -18,7 +19,7 @@ export const post: BlogPost = {
     'AI video ads win on cost and turnaround: many concepts in days instead of one polished shoot in weeks.',
     'Traditional production still wins on hero assets, real people, and footage where physical authenticity is the point.',
     'The strongest setup is hybrid: AI for volume testing and localization, traditional for the few flagship assets that carry the brand.',
-    'Compare on the job to be done — testing velocity vs. flagship polish — not on a single cost-per-video number.',
+    'Compare on the job to be done, testing velocity against flagship polish, rather than on a single cost-per-video number.',
   ],
   blocks: [
     {
@@ -32,7 +33,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'A traditional shoot front-loads cost — crew, talent, location, and edit — into a small number of finished videos. AI video ads spread a much lower marginal cost across many variants, so the economics flip from “one expensive video” to “many cheap tests.” For creative testing, where most variants are meant to be discarded, that difference is the whole point.',
+      text: 'A traditional shoot front-loads cost into a small number of finished videos: crew, talent, location, and edit. AI video ads spread a much lower marginal cost across many variants, so the economics flip from “one expensive video” to “many cheap tests.” For creative testing, where you discard most variants by design, that difference is the whole point.',
     },
     {
       type: 'h2',
@@ -46,7 +47,7 @@ export const post: BlogPost = {
     {
       type: 'callout',
       title: 'Speed compounds',
-      body: 'Faster turnaround is not just convenient — it means more test cycles per month, and more test cycles is how you find winning creative sooner.',
+      body: 'Faster turnaround buys you more test cycles per month, and more test cycles is how you find winning creative sooner.',
     },
     {
       type: 'h2',
@@ -55,7 +56,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Quality is the most nuanced axis. AI video has closed much of the gap for feed-native, casual formats, but physical authenticity — a real person handling a real product, a specific location, a genuine reaction — is still where traditional production leads. The right question is not “which looks better in the abstract” but “what does this specific placement need.”',
+      text: 'Quality is the most nuanced axis. AI video has closed much of the gap for feed-native, casual formats. Traditional production still leads on physical authenticity: a real person handling a real product, a specific location, an unscripted reaction. Ask what this specific placement needs rather than which approach looks better in the abstract.',
     },
     {
       type: 'h2',
@@ -79,7 +80,7 @@ export const post: BlogPost = {
     {
       question: 'Are AI video ads cheaper than traditional production?',
       answer:
-        'Per variant, yes — AI video ads have a much lower marginal cost, which is why they suit volume testing. Traditional production concentrates higher cost into a few finished assets, which suits flagship brand work.',
+        'Per variant, yes. AI video ads carry a much lower marginal cost, which is why they suit volume testing. Traditional production concentrates higher cost into a few finished assets, which suits flagship brand work.',
     },
     {
       question: 'Is AI video quality good enough for ads?',

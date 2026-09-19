@@ -9,8 +9,8 @@ export function VisionSection() {
             Feed-Native <span className="text-exclusion-fill">AI Content.</span>
           </h2>
           <p className="text-lg font-medium italic text-white/55 md:text-xl">
-            &quot;We build AI visuals and videos that feel native to social platforms, clear enough for ads, and
-            distinctive enough for brands.&quot;
+            &quot;We build AI visuals and videos that read native on social, stay clear enough to sell, and look
+            distinctive enough to belong to one brand.&quot;
           </p>
         </div>
       </div>

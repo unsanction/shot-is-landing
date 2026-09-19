@@ -499,7 +499,7 @@ export const buildBlogIndexSeo = (lang: BlogLang): PageSeo => {
     .slice(-1)[0];
   return {
     path,
-    title: `${blogStrings[lang].blogTitle} — AI UGC Ads, AI Video Ads & Virtual Influencers`,
+    title: `${blogStrings[lang].blogTitle}: AI UGC Ads & Virtual Influencers`,
     description: blogStrings[lang].blogLede,
     ogImage: ogImageUrl('blog-index'),
     ogType: 'website',
@@ -690,7 +690,7 @@ export const buildLearnIndexSeo = (lang: LessonLang): PageSeo => {
     .slice(-1)[0];
   return {
     path,
-    title: `${learnStrings[lang].hubTitle} — Short Screencast Lessons`,
+    title: `${learnStrings[lang].hubTitle}: Short Screencast Lessons`,
     description: learnStrings[lang].hubLede,
     ogImage: ogImageUrl('learn-index'),
     ogType: 'website',
@@ -714,7 +714,7 @@ const buildAboutSchema = () => ({
       '@type': 'AboutPage',
       '@id': `${siteBaseUrl}/about#webpage`,
       url: `${siteBaseUrl}/about`,
-      name: 'About SHOT.IS — AI UGC Ad Platform & Managed Studio',
+      name: 'About SHOT.IS: AI Ad Platform & Managed Studio',
       description:
         'SHOT.IS combines a self-serve AI UGC ad generator with managed production for performance marketing teams.',
       isPartOf: { '@id': `${siteBaseUrl}/#website` },
@@ -728,7 +728,7 @@ const buildAboutSchema = () => ({
 export const aboutSeo: PageSeo = {
   path: '/about',
   modifiedTime: aboutModifiedTime,
-  title: 'About SHOT.IS — AI UGC Ad Platform & Managed Studio',
+  title: 'About SHOT.IS: AI Ad Platform & Managed Studio',
   description:
     'SHOT.IS combines a self-serve AI UGC ad generator with managed production for performance marketing teams.',
   structuredData: buildAboutSchema(),
@@ -737,7 +737,7 @@ export const aboutSeo: PageSeo = {
 export const contactSeo: PageSeo = {
   path: '/contact',
   modifiedTime: '2026-06-10',
-  title: 'Contact SHOT.IS — Start an AI Content Sprint',
+  title: 'Contact SHOT.IS: Start an AI Content Sprint',
   description:
     'Reach SHOT.IS to scope AI UGC ads, AI video ads, virtual influencer campaigns, or a creative testing pipeline.',
 };
