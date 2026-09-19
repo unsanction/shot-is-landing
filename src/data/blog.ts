@@ -25,7 +25,7 @@ export const blogStrings: Record<BlogLang, {
   en: {
     blogTitle: 'SHOT.IS Blog',
     blogLede:
-      'Field notes on AI UGC ads, AI video ads, and virtual influencers — what is working in short-form performance creative, and how brands ship more of it.',
+      'Field notes on AI UGC ads, AI video ads, and virtual influencers: what works in short-form performance creative, and how brands ship more of it.',
     keyTakeaways: 'Key takeaways',
     readTime: (n) => `${n} min read`,
     onThisPage: 'On this page',

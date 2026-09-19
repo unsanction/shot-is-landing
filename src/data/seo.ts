@@ -29,7 +29,7 @@ export type FounderInfo = {
 export const founder: FounderInfo | null = {
   name: 'Ivan Kapeykin',
   role: 'Founder',
-  bio: 'Ivan Kapeykin is the founder of SHOT.IS, a self-serve AI UGC ad generator and managed production studio. He runs the platform’s generation pipeline daily — keyframe-first workflows, multi-model routing across Veo 3, Grok Imagine, and Kling, and the QA discipline that keeps AI ad creative consistent — and writes the field notes on the SHOT.IS blog.',
+  bio: 'Ivan Kapeykin founded SHOT.IS, a self-serve AI UGC ad generator and managed production studio. He runs the generation pipeline himself: keyframe-first workflows, model routing across Veo 3, Grok Imagine, and Kling, and the QA passes that keep a face and a product label identical across forty shots. He writes the field notes on the SHOT.IS blog.',
   linkedIn: 'https://www.linkedin.com/in/ikapeykin/',
   photo: '/media/team/ivan-kapeykin.png',
 };
@@ -54,9 +54,9 @@ export const organizationKnowsAbout = [
 export const homeSeo = {
   path: '/',
   dateModified: '2026-08-25',
-  title: 'SHOT.IS — AI UGC Ad Generator & Production Studio',
+  title: 'AI UGC Ad Generator & Video Studio | SHOT.IS',
   description:
-    'Create AI UGC videos from $4.99 in the self-serve SHOT.IS Studio, buy video packs for creative testing, or brief the managed production team for finished ad campaigns.',
+    'Make AI UGC ads from $4.99 in the self-serve SHOT.IS Studio, buy video packs for creative testing, or brief our team for finished campaigns.',
 };
 
 export type ProofItem = { label: string; body: string };
@@ -106,50 +106,50 @@ export const servicePages: ServicePageContent[] = [
     navLabel: 'AI UGC Ads',
     title: 'AI UGC Ads Studio for Brands | SHOT.IS',
     description:
-      'Create AI UGC ads with virtual creators, product demos, testimonials, hooks, and paid social variations for TikTok, Reels, Shorts, and performance campaigns.',
+      'Create AI UGC ads with virtual creators: product demos, testimonials, hooks, and paid social variants for TikTok, Reels, and Shorts.',
     eyebrow: 'AI UGC ADS STUDIO',
     h1: 'AI UGC ADS WITHOUT THE SHOOT.',
     lede:
-      'SHOT.IS turns product briefs into creator-style AI UGC videos: scroll-stopping hooks, product demos, testimonial formats, voiceover concepts, and variant packs ready for creative testing.',
+      'Send SHOT.IS a product brief and get creator-style AI UGC videos back: hooks that stop the scroll, product demos, testimonial formats, voiceover concepts, and variant packs sized for a real creative test.',
     primaryCta: 'Start an AI UGC sprint',
     secondaryCta: 'See the workflow',
     ogImage: `${siteBaseUrl}/media/hero/shot-hero-poster.webp`,
     outputs: [
       'UGC-style product demo videos for TikTok, Reels, Shorts, and paid social placements.',
       'Hook libraries, creator scripts, captions, thumbnails, and visual directions for each concept.',
-      'Reusable AI creator systems that keep the same face, tone, and style across campaigns.',
-      'Creative testing packs with multiple angles for acquisition, retargeting, launches, and seasonal offers.',
+      'Reusable AI creator systems that hold the same face, tone, and style across campaigns.',
+      'Creative testing packs with several angles for acquisition, retargeting, launches, and seasonal offers.',
     ],
     workflow: [
       {
         title: 'Brief the offer',
-        body: 'We map the product, buyer pain, objection, proof, format, and target platform before anything is generated.',
+        body: 'We map the product, the buyer pain, the objection, the proof, the format, and the target platform before we generate anything.',
       },
       {
         title: 'Build the creator angle',
-        body: 'Each ad gets a creator persona, hook, visual treatment, script, and performance hypothesis.',
+        body: 'Each ad gets a creator persona, a hook, a visual treatment, a script, and a performance hypothesis you can test.',
       },
       {
         title: 'Generate and refine',
-        body: 'The strongest concepts move into AI video production, edit polish, captions, and variant expansion.',
+        body: 'The strongest concepts go into AI video production, then edit polish, captions, and variant expansion.',
       },
       {
         title: 'Prepare for testing',
-        body: 'Deliverables are packaged as campaign-ready assets with clear angle names and iteration notes.',
+        body: 'You receive campaign-ready assets with clear angle names and iteration notes.',
       },
     ],
     proof: [
       {
         label: 'Best for',
-        body: 'Brands that need more UGC-style ads than a traditional creator production pipeline can supply.',
+        body: 'Brands that need more UGC-style ads than a creator production pipeline can supply.',
       },
       {
         label: 'Use it when',
-        body: 'Your team needs more creator-style hooks, product demos, and paid-social variants than a traditional shoot can supply.',
+        body: 'Your team wants more creator-style hooks, product demos, and paid-social variants than a shoot can deliver.',
       },
       {
         label: 'Output quality',
-        body: 'The focus is believable creator footage, clear product messaging, and fast variant generation.',
+        body: 'We optimize for believable creator footage, clear product messaging, and fast variant generation.',
       },
     ],
     caseStudy: {
@@ -163,12 +163,12 @@ export const servicePages: ServicePageContent[] = [
       {
         question: 'Can AI UGC replace human creator ads?',
         answer:
-          'It can replace part of the testing workload. Human creators are still useful for real testimonials and influencer trust, while AI UGC is strongest for fast concept volume, visual variation, localization, and pre-testing hooks before larger spend.',
+          'It replaces part of the testing workload. Human creators still win real testimonials and influencer trust. AI UGC wins concept volume, visual variation, localization, and hook pre-testing before you commit larger spend.',
       },
       {
         question: 'What brands should start with AI UGC ads?',
         answer:
-          'Startups, mobile apps, ecommerce brands, SaaS tools, creator-led products, and agencies benefit when they need frequent ad variants but do not want every test to require casting, filming, and reshoots.',
+          'Startups, mobile apps, ecommerce brands, SaaS tools, creator-led products, and agencies. The fit is strongest when you need frequent ad variants and do not want every test to require casting, filming, and reshoots.',
       },
     ],
   },
@@ -179,11 +179,11 @@ export const servicePages: ServicePageContent[] = [
     navLabel: 'AI Video Ads',
     title: 'AI Video Ads for Paid Social Campaigns | SHOT.IS',
     description:
-      'Produce AI video ads for launches, paid social testing, app campaigns, ecommerce offers, and creator-style ad funnels with SHOT.IS.',
+      'Produce AI video ads for launches, paid social testing, app campaigns, ecommerce offers, and creator-style funnels with SHOT.IS.',
     eyebrow: 'AI VIDEO ADS',
     h1: 'AI VIDEO ADS BUILT FOR THE FEED.',
     lede:
-      'SHOT.IS creates AI video ad systems for brands that need more concepts, more formats, and more testing velocity across short-form platforms.',
+      'SHOT.IS builds AI video ad systems for brands that want more concepts, more formats, and faster testing across short-form platforms.',
     primaryCta: 'Plan AI video ads',
     secondaryCta: 'Review outputs',
     ogImage: `${siteBaseUrl}/media/hero/shot-hero-poster.webp`,
@@ -196,11 +196,11 @@ export const servicePages: ServicePageContent[] = [
     workflow: [
       {
         title: 'Define the campaign job',
-        body: 'Each concept starts with the funnel stage, buyer awareness level, message hierarchy, and target platform.',
+        body: 'Every concept starts from the funnel stage, the buyer awareness level, the message hierarchy, and the target platform.',
       },
       {
         title: 'Create the visual system',
-        body: 'We shape the scene, creator, rhythm, product moment, and edit language so the ad feels native to the placement.',
+        body: 'We shape the scene, the creator, the rhythm, the product moment, and the edit language so the ad reads native to its placement.',
       },
       {
         title: 'Generate video assets',
@@ -208,13 +208,13 @@ export const servicePages: ServicePageContent[] = [
       },
       {
         title: 'Iterate by signal',
-        body: 'Winning hooks and scenes can be expanded into new versions, languages, offers, and creator styles.',
+        body: 'You can expand winning hooks and scenes into new versions, languages, offers, and creator styles.',
       },
     ],
     proof: [
       {
         label: 'Best for',
-        body: 'Teams that need an always-on creative pipeline without waiting for every shoot, location, or creator schedule.',
+        body: 'Teams that want an always-on creative pipeline instead of waiting on the next shoot, location, or creator schedule.',
       },
       {
         label: 'Use it when',
@@ -222,7 +222,7 @@ export const servicePages: ServicePageContent[] = [
       },
       {
         label: 'Output quality',
-        body: 'The system prioritizes clear hooks, product context, quick comprehension, and modular creative testing.',
+        body: 'We prioritize clear hooks, product context, quick comprehension, and modular creative testing.',
       },
     ],
     caseStudy: {
@@ -236,12 +236,12 @@ export const servicePages: ServicePageContent[] = [
       {
         question: 'What makes a good AI video ad?',
         answer:
-          'A good AI video ad is not just a realistic clip. It has a clear hook, a specific buyer problem, a visible product moment, a believable creator or scene, and a format that matches the platform where it will run.',
+          'A realistic clip is the floor, not the ad. A good AI video ad carries a clear hook, a specific buyer problem, a visible product moment, a believable creator or scene, and a format matched to the platform it runs on.',
       },
       {
         question: 'Can one AI video concept become many ads?',
         answer:
-          'Yes. A strong concept can be turned into hook variants, creator variants, language variants, cutdowns, static frames, caption tests, and retargeting versions.',
+          'Yes. One strong concept turns into hook variants, creator variants, language variants, cutdowns, static frames, caption tests, and retargeting versions.',
       },
     ],
   },
@@ -256,7 +256,7 @@ export const servicePages: ServicePageContent[] = [
     eyebrow: 'VIRTUAL INFLUENCERS',
     h1: 'CREATE A VIRTUAL INFLUENCER FOR YOUR BRAND.',
     lede:
-      'SHOT.IS designs virtual influencers and AI creators as repeatable brand assets, not one-off images. Each character ships with a locked identity, wardrobe logic, brand lore, and a content system that can carry campaigns week after week.',
+      'SHOT.IS designs virtual influencers as repeatable brand assets rather than one-off images. Every character ships with a locked identity, wardrobe logic, brand lore, and a content system that carries campaigns week after week.',
     primaryCta: 'Build a virtual creator',
     secondaryCta: 'Explore creator systems',
     ogImage: `${siteBaseUrl}/media/hero/shot-hero-poster.webp`,
@@ -269,11 +269,11 @@ export const servicePages: ServicePageContent[] = [
     workflow: [
       {
         title: 'Position the creator',
-        body: 'We define the audience, genre, brand fit, visual lane, and campaign purpose before designing the character.',
+        body: 'We define the audience, the genre, the brand fit, the visual lane, and the campaign purpose before we design the character.',
       },
       {
         title: 'Lock the identity',
-        body: 'The creator gets a repeatable face, wardrobe logic, world, tone, and content behavior.',
+        body: 'The creator gets a repeatable face, wardrobe logic, a world, a tone, and rules for how they behave on camera.',
       },
       {
         title: 'Create campaign assets',
@@ -281,21 +281,21 @@ export const servicePages: ServicePageContent[] = [
       },
       {
         title: 'Scale the world',
-        body: 'Strong creator systems can support launches, collabs, seasonal drops, and localized market versions.',
+        body: 'A strong creator system supports launches, collabs, seasonal drops, and localized market versions.',
       },
     ],
     proof: [
       {
         label: 'Best for',
-        body: 'Brands that want a controllable creator asset, not a single campaign dependent on one external influencer.',
+        body: 'Brands that want a controllable creator asset instead of a campaign that depends on one external influencer.',
       },
       {
         label: 'Use it when',
-        body: 'Your brand needs a controllable creator identity that can stay recognizable across posts, ads, markets, and launches.',
+        body: 'Your brand needs a creator identity that stays recognizable across posts, ads, markets, and launches.',
       },
       {
         label: 'Output quality',
-        body: 'The emphasis is consistency, recognizability, lore, and content formats that can repeat over time.',
+        body: 'We emphasize consistency, recognizability, lore, and content formats that repeat over time.',
       },
     ],
     caseStudy: {
@@ -309,44 +309,44 @@ export const servicePages: ServicePageContent[] = [
       {
         question: 'What is a virtual influencer?',
         answer:
-          'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling — characters like Lil Miquela or Shudu, but scoped to your brand. For performance marketing, the useful part is not only the character design but the ability to create repeatable content quickly.',
+          'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling. Think Lil Miquela or Shudu, scoped to your brand. For performance marketing, the character design matters less than the ability to produce repeatable content quickly.',
       },
       {
         question: 'Why use a virtual influencer instead of a human influencer?',
         answer:
-          'Virtual influencers give brands more control over timing, format, visuals, localization, and campaign continuity. Human influencers can still provide audience trust; virtual creators are strongest when consistency and production speed matter. Many brands run both: a human creator for reach, a virtual one for always-on content.',
+          'You control timing, format, visuals, localization, and campaign continuity. Human influencers still bring audience trust. Virtual creators win when consistency and production speed decide the outcome, and many brands run both: a human creator for reach, a virtual one for always-on content.',
       },
       {
         question: 'How do you create a virtual influencer?',
         answer:
-          'Our process has four steps: position the creator (audience, genre, brand fit), lock the identity (a canonical face set, wardrobe logic, world, and tone), generate campaign assets with reference-anchored AI production, and QA every output against the identity so the character stays recognizable. The result is a system, not a folder of images.',
+          'Four steps. Position the creator against an audience, genre, and brand fit. Lock the identity with a canonical face set, wardrobe logic, world, and tone. Generate campaign assets with reference-anchored AI production. QA every output against the identity so the character stays recognizable. You end up with a system rather than a folder of images.',
       },
       {
         question: 'How much does a virtual influencer cost?',
         answer:
-          'Far less than the celebrity-grade CGI characters that made the format famous — those are run by full studios. A brand-scoped virtual creator is a one-time identity build plus per-campaign content production, so the comparison that matters is against your ongoing creator sourcing and reshoot costs. Pricing depends on how many formats and markets the character needs to cover; brief us and we will scope it.',
+          'Far less than the celebrity-grade CGI characters that made the format famous, since full studios run those. A brand-scoped virtual creator is a one-time identity build plus per-campaign content production, so compare it against your ongoing creator sourcing and reshoot costs. Price depends on how many formats and markets the character covers. Brief us and we will scope it.',
       },
       {
         question: 'How long does it take to launch one?',
         answer:
-          'A locked identity typically takes days, not months, and the first campaign content pack follows within one to two weeks. After that the character is reusable: new drops, seasonal offers, and localized versions start from the existing identity instead of from zero.',
+          'A locked identity takes days rather than months, and the first campaign content pack follows within one to two weeks. After that, new drops, seasonal offers, and localized versions start from the existing identity instead of from zero.',
       },
       {
-        question: 'Can the character actually stay consistent across hundreds of shots?',
+        question: 'Can the character stay consistent across hundreds of shots?',
         answer:
-          'Yes — this is the hard engineering part and the reason one-off image generation fails as an influencer strategy. We use canonical reference sets, reference-anchored generation, and machine-graded identity QA so the same face, styling, and world survive across posts, ads, formats, and weeks.',
+          'Yes, and this is the hard engineering part that sinks one-off image generation as an influencer strategy. We use canonical reference sets, reference-anchored generation, and machine-graded identity QA so the same face, styling, and world survive across posts, ads, formats, and weeks.',
       },
       {
         question: 'Do virtual influencers need to be disclosed as AI?',
         answer:
-          'In several markets, yes: sponsored content must be labeled as advertising everywhere, and jurisdictions like the US and India require disclosing that the character is not a real person. Platforms are adding their own AI-content labels too. Every SHOT.IS character ships with brand-safety guidelines that include disclosure rules for each market it runs in.',
+          'In several markets, yes. Sponsored content must be labeled as advertising everywhere, and jurisdictions like the US and India require you to disclose that the character is not a real person. Platforms add their own AI-content labels. Every SHOT.IS character ships with brand-safety guidelines covering disclosure rules for each market it runs in.',
       },
     ],
     showRoster: true,
     reading: [
-      { label: 'What is a virtual influencer — the complete guide', href: '/blog/what-is-a-virtual-influencer' },
+      { label: 'What is a virtual influencer: the complete guide', href: '/blog/what-is-a-virtual-influencer' },
       { label: 'How to create a virtual influencer, step by step', href: '/blog/how-to-create-a-virtual-influencer' },
-      { label: 'Virtual influencer cost: what brands actually pay', href: '/blog/virtual-influencer-cost' },
+      { label: 'Virtual influencer cost: what brands pay', href: '/blog/virtual-influencer-cost' },
       { label: 'AI character consistency: how one face stays one face', href: '/blog/ai-character-consistency' },
     ],
   },
@@ -357,14 +357,14 @@ export const servicePagesByPath = new Map(servicePages.map((page) => [page.path,
 export const homeAnswerBlocks = [
   {
     title: 'What is SHOT.IS?',
-    body: 'SHOT.IS is a self-serve AI UGC ad generator and a managed production studio. Generate a video yourself, buy a pack for testing volume, or hand the full campaign to the team.',
+    body: 'SHOT.IS is a self-serve AI UGC ad generator and a managed production studio. Generate a video yourself, buy a pack for testing volume, or hand the whole campaign to our team.',
   },
   {
     title: 'How much does it cost?',
-    body: 'The launch offer starts at $4.99 for one self-serve AI video. Video packs use live volume pricing in Studio, while managed production is scoped to the campaign brief.',
+    body: 'The launch offer starts at $4.99 for one self-serve AI video. Video packs use live volume pricing in Studio, and managed production is scoped to your campaign brief.',
   },
   {
     title: 'When should I choose managed?',
-    body: 'Choose managed production when you need creative direction, product and identity QA, editing, and campaign-ready variants — not only a generated clip.',
+    body: 'Choose managed production when you need creative direction, product and identity QA, editing, and campaign-ready variants rather than a single generated clip.',
   },
 ];

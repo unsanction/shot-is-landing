@@ -79,7 +79,7 @@ export function HeroSection() {
           </span>
         </h1>
         <p className="mx-auto mb-16 max-w-3xl text-lg font-medium leading-tight text-white/65 sm:text-xl md:text-3xl">
-          Generate an AI video yourself from $4.99, buy a pack for creative testing, or hand the full campaign to
+          Generate an AI video yourself from $4.99, buy a pack for creative testing, or hand the whole campaign to
           the SHOT.IS managed studio.
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">

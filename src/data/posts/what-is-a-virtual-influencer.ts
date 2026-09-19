@@ -5,17 +5,18 @@ export const post: BlogPost = {
   lang: 'en',
   translationKey: 'virtual-influencers-explained',
   title: 'What Is a Virtual Influencer? The Complete Guide for Brands',
+  metaTitle: 'What Is a Virtual Influencer? Complete Guide | SHOT.IS',
   description:
-    'A virtual influencer is a digital creator identity used in social content and campaigns. Types, famous examples, market numbers, how they are built, costs, and disclosure rules.',
+    'A virtual influencer is a digital creator identity used in social campaigns. Types, examples, market numbers, how they are built, and disclosure rules.',
   excerpt:
-    'Not a single image — a reusable creator asset with a face, a voice, and a campaign job. The complete guide: types, examples, economics, production, and the rules.',
+    'A reusable creator asset with a face, a voice, and a campaign job. The complete guide: types, examples, economics, production, and the rules.',
   datePublished: '2026-05-27',
   dateModified: '2026-07-07',
   author: founderAuthor,
   ogImageKey: 'blog-what-is-a-virtual-influencer',
   tags: ['virtual influencers', 'AI creators', 'brand', 'social'],
   tldr: [
-    'A virtual influencer is a digital creator identity — a consistent face, tone, and style — used across social content, ads, and campaigns.',
+    'A virtual influencer is a digital creator identity with a consistent face, tone, and style, used across social content, ads, and campaigns.',
     'The format spans three types: CGI avatars built by studios, AI-native creators generated with modern image and video models, and VTubers performed live by humans.',
     'Virtual influencers reportedly earn around 5.9% Instagram engagement versus 1.9% for human influencers, and 58% of people in the US follow at least one.',
     'For brands the real value is not the character design but the ability to produce repeatable, on-brand content quickly and on your own schedule.',
@@ -25,7 +26,7 @@ export const post: BlogPost = {
   blocks: [
     {
       type: 'p',
-      text: 'A virtual influencer is a digital creator identity used in social content, advertising, and brand storytelling. Unlike a one-off AI image, a virtual influencer is designed to be reused — the same recognizable character appears across posts, ads, and campaigns, carrying a consistent face, voice, and personality. Brands treat the character the way they would treat a human creator on retainer: it has an audience, a content calendar, and a commercial job.',
+      text: 'A virtual influencer is a digital creator identity used in social content, advertising, and brand storytelling. Unlike a one-off AI image, a virtual influencer is designed for reuse: the same recognizable character appears across posts, ads, and campaigns, carrying a consistent face, voice, and personality. Brands treat the character the way they would treat a human creator on retainer: it has an audience, a content calendar, and a commercial job.',
     },
     {
       type: 'h2',
@@ -34,7 +35,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Virtual influencers predate modern AI by decades. The lineage usually starts with Japan’s virtual idol culture — Lynn Minmay, a fictional singer from the 1982 anime Super Dimension Fortress Macross, is often cited as the first virtual idol. The retail brand Magalu created Lu of Magalu in Brazil in 2009, one of the first brand-owned virtual personas. The modern wave began around 2016 with Lil Miquela, and generative AI has since collapsed the production cost from studio-CGI budgets to something a growth team can run.',
+      text: 'Virtual influencers predate modern AI by decades. The lineage usually starts with Japan’s virtual idol culture, where Lynn Minmay, a fictional singer from the 1982 anime Super Dimension Fortress Macross, is often cited as the first virtual idol. The retail brand Magalu created Lu of Magalu in Brazil in 2009, one of the first brand-owned virtual personas. The modern wave began around 2016 with Lil Miquela, and generative AI has since collapsed the production cost from studio-CGI budgets to something a growth team can run.',
     },
     {
       type: 'h2',
@@ -72,7 +73,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'This guide focuses on the first two — characters a brand owns and operates. VTubers are better understood as human creators wearing a digital costume.',
+      text: 'This guide focuses on the first two, the characters a brand owns and operates. VTubers work better as a description of human creators wearing a digital costume.',
     },
     {
       type: 'h2',
@@ -86,9 +87,9 @@ export const post: BlogPost = {
     {
       type: 'ul',
       items: [
-        '**Lil Miquela** — the character that mainstreamed the format: Calvin Klein and Prada campaigns, millions of followers, and reported earnings around $10M a year at peak.',
-        '**Lu of Magalu** — created by Brazilian retailer Magalu in 2009 and now one of the most-followed virtual influencers in the world with over 7 million Instagram followers.',
-        '**Shudu** — the world’s first virtual supermodel, created by fashion photographer Cameron-James Wilson in 2017, known for luxury fashion collaborations.',
+        '**Lil Miquela**, the character that mainstreamed the format: Calvin Klein and Prada campaigns, millions of followers, and reported earnings around $10M a year at peak.',
+        '**Lu of Magalu**, created by Brazilian retailer Magalu in 2009 and now one of the most-followed virtual influencers in the world with over 7 million Instagram followers.',
+        '**Shudu**, the world’s first virtual supermodel, created by fashion photographer Cameron-James Wilson in 2017 and known for luxury fashion collaborations.',
       ],
     },
     {
@@ -110,18 +111,18 @@ export const post: BlogPost = {
     {
       type: 'stat',
       value: '5.9% vs 1.9%',
-      label: 'reported average Instagram engagement rate — virtual influencers vs human influencers',
+      label: 'reported average Instagram engagement rate, virtual influencers vs human influencers',
       source: 'YouScan',
       sourceUrl: 'https://youscan.io/blog/virtual-influencers/',
     },
     {
       type: 'ul',
       items: [
-        'Timing — content can be produced whenever a campaign needs it, not when a creator is available.',
-        'Continuity — the same character can anchor launches across many months and markets.',
-        'Localization — the identity can speak multiple languages while staying recognizable.',
-        'Brand safety — what the character says and endorses stays under the brand’s control; there is no off-script scandal risk.',
-        'Compounding value — every campaign adds to the character’s recognition instead of renting someone else’s.',
+        'Timing: you produce content whenever the campaign needs it rather than when a creator is free.',
+        'Continuity: the same character anchors launches across many months and markets.',
+        'Localization: the identity speaks multiple languages while staying recognizable.',
+        'Brand safety: you control what the character says and endorses, with no off-script scandal risk.',
+        'Compounding value: every campaign builds recognition you own instead of renting someone else’s.',
       ],
     },
     {
@@ -137,7 +138,7 @@ export const post: BlogPost = {
       type: 'ol',
       items: [
         'Position the creator: define the audience, genre, brand fit, and the campaign purpose before designing the character.',
-        'Lock the identity: a canonical set of reference images, wardrobe logic, world, tone, and content behavior — the source of truth every future asset is generated against.',
+        'Lock the identity: a canonical set of reference images, wardrobe logic, world, tone, and content behavior. This becomes the source of truth you generate every future asset against.',
         'Create campaign assets: videos, stills, scripts, captions, and paid social versions built from the same identity with reference-anchored generation.',
         'QA every output: each generated shot is checked against the canonical identity, because a character that drifts is a character that stops existing.',
         'Scale the world: launches, collaborations, seasonal drops, and localized versions for new markets.',
@@ -172,12 +173,12 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Sponsored content from a virtual character must be labeled as advertising everywhere, and some jurisdictions — including the US and India — additionally require disclosing that the influencer is not a real person. Platforms are rolling out their own AI-content labels on top of that. Beyond compliance, scholars have criticized the format for entrenching unrealistic beauty standards while diffusing accountability, which is a reputational risk brands should design against rather than ignore.',
+      text: 'Sponsored content from a virtual character must be labeled as advertising everywhere, and some jurisdictions, including the US and India, also require you to disclose that the influencer is not a real person. Platforms are rolling out their own AI-content labels on top of that. Beyond compliance, scholars have criticized the format for entrenching unrealistic beauty standards while diffusing accountability, which is a reputational risk brands should design against rather than ignore.',
     },
     {
       type: 'callout',
       title: 'Virtual does not mean trustless',
-      body: 'Audiences can connect with a virtual creator, but the brand has to be clear that it is AI. Transparency protects trust; pretending otherwise erodes it — and in several markets, breaks the law.',
+      body: 'Audiences connect with a virtual creator, but you have to be clear that it is AI. Transparency protects trust. Pretending otherwise erodes it, and in several markets it breaks the law.',
     },
     {
       type: 'h2',
@@ -203,14 +204,14 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Many brands use both — a human creator for reach and trust, a virtual creator for always-on, controllable content. You can read how SHOT.IS builds these as reusable assets on the [virtual influencers](/virtual-influencers) page, and see how a persona moves through production in the [AI ad pipeline walkthrough](/blog/ai-ad-production-pipeline).',
+      text: 'Many brands use both: a human creator for reach and trust, a virtual creator for always-on, controllable content. Read how SHOT.IS builds these as reusable assets on the [virtual influencers](/virtual-influencers) page, and see how a persona moves through production in the [AI ad pipeline walkthrough](/blog/ai-ad-production-pipeline).',
     },
   ],
   faq: [
     {
       question: 'What is a virtual influencer?',
       answer:
-        'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling. For performance marketing, the useful part is not only the character design but the ability to create repeatable content quickly and consistently.',
+        'A virtual influencer is a digital creator identity used in social content, campaigns, and brand storytelling. For performance marketing, the character design matters less than the ability to produce repeatable content quickly.',
     },
     {
       question: 'Who are the most famous virtual influencers?',
@@ -230,12 +231,12 @@ export const post: BlogPost = {
     {
       question: 'How much does a virtual influencer cost?',
       answer:
-        'Celebrity-grade CGI characters are operated by full studios and cost accordingly. An AI-native brand creator is a one-time identity build plus per-campaign content production — the relevant comparison is against ongoing creator sourcing and reshoot costs, not against Lil Miquela.',
+        'Full studios operate celebrity-grade CGI characters, and they cost accordingly. An AI-native brand creator is a one-time identity build plus per-campaign content production, so compare it against your ongoing creator sourcing and reshoot costs rather than against Lil Miquela.',
     },
     {
       question: 'Do you have to disclose that an influencer is AI?',
       answer:
-        'Yes. Sponsored content must be labeled as advertising everywhere, and several markets — including the US and India — require disclosing that the character is not a real person. Platform-level AI labels are also becoming standard.',
+        'Yes. Sponsored content must be labeled as advertising everywhere, and several markets, including the US and India, require you to disclose that the character is not a real person. Platform-level AI labels are becoming standard too.',
     },
   ],
 };

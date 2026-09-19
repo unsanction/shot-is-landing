@@ -13,7 +13,7 @@ function NotFoundPage() {
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-accent md:text-xs">
-            Error 404 — Frame not found
+            Error 404 · Frame not found
           </p>
           <h1 className="mb-12 text-[clamp(2.05rem,9vw,8.75rem)] font-extrabold uppercase leading-[0.88] tracking-tight md:leading-[0.82]">
             The shot <br />

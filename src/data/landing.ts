@@ -43,7 +43,7 @@ export const reelVideos: ReelVideo[] = [
 ];
 
 export const stats: Stat[] = [
-  { value: '8 DAYS', label: '18 ad concepts delivered', sub: 'DTC ecommerce launch — vs. a 4-week traditional shoot quote' },
+  { value: '8 DAYS', label: '18 ad concepts delivered', sub: 'DTC ecommerce launch, against a 4-week traditional shoot quote' },
   { value: '31%', label: 'Lower CPI', sub: 'Mobile gaming studio, 6 AI hook variants shipped per week' },
   { value: '1.7x', label: 'ROAS lift', sub: 'Best-performing AI variant vs. baseline, DTC ecommerce brand' },
   { value: '6/WK', label: 'Hook variants shipped', sub: 'Typical ongoing cadence per creator persona' },

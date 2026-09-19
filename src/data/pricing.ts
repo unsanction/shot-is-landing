@@ -6,7 +6,7 @@ export const launchOffer = {
   priceValue: '4.99',
   currency: 'USD',
   unit: 'per video',
-  note: 'Limited-time self-serve price. The model, duration, and credit cost are shown in Studio before you generate.',
+  note: 'Limited-time self-serve price. Studio shows the model, duration, and credit cost before you generate.',
 };
 
 export type PricingOption = {
@@ -31,7 +31,7 @@ export const pricingOptions: PricingOption[] = [
     price: launchOffer.price,
     unit: launchOffer.unit,
     description:
-      'Start with one real generation instead of a subscription. Bring a prompt or reference, choose the model, and see the cost before the run starts.',
+      'Start with one real generation instead of a subscription. Bring a prompt or a reference, pick the model, and see the cost before the run starts.',
     features: [
       'No monthly plan required for the launch offer',
       'Reference-aware image-to-video workflows',
@@ -49,7 +49,7 @@ export const pricingOptions: PricingOption[] = [
     price: 'Volume pricing',
     unit: 'live in Studio',
     description:
-      'Buy a video pack when one concept needs several hooks, scenes, or creator variants. Current pack sizes and checkout pricing stay visible inside Studio.',
+      'Buy a video pack when one concept needs several hooks, scenes, or creator variants. Pack sizes and checkout pricing stay visible inside Studio.',
     features: [
       'Built for multi-variant creative testing',
       'Credits can be routed across supported models',
@@ -66,7 +66,7 @@ export const pricingOptions: PricingOption[] = [
     price: 'Custom',
     unit: 'per campaign brief',
     description:
-      'SHOT.IS plans, generates, reviews, and assembles the campaign for teams that want finished ad variants rather than another production tool to operate.',
+      'SHOT.IS plans, generates, reviews, and assembles your campaign when you want finished ad variants instead of another production tool to operate.',
     features: [
       'Creative direction and shot planning',
       'Human QA for faces, products, and continuity',
@@ -81,7 +81,7 @@ export const pricingOptions: PricingOption[] = [
 export const pricingPageMeta = {
   path: '/pricing',
   dateModified: '2026-08-25',
-  title: 'SHOT.IS Pricing — AI Videos from $4.99',
+  title: 'SHOT.IS Pricing: AI Videos from $4.99',
   description:
-    'Create one AI video for $4.99 during the SHOT.IS launch offer, choose volume video packs in Studio, or brief the managed production team for campaign-ready ad variants.',
+    'Make one AI video for $4.99 during the SHOT.IS launch offer, choose volume video packs in Studio, or brief our team for campaign-ready ad variants.',
 };

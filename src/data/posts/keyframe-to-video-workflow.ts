@@ -9,7 +9,7 @@ export const post: BlogPost = {
   description:
     'An image to video AI workflow that holds up in production: generate still keyframes with reference-aware models, QA them, then animate with i2v.',
   excerpt:
-    'Text-to-video from a prompt is a lottery for brand work. Generating a keyframe first — then animating it — is how you get control back.',
+    'Text-to-video from a prompt is a lottery for brand work. Generate a keyframe first, animate it second, and you get control back.',
   datePublished: '2026-06-15',
   dateModified: '2026-06-15',
   author: founderAuthor,
@@ -17,7 +17,7 @@ export const post: BlogPost = {
   tags: ['keyframe to video', 'i2v', 'image to video', 'AI workflow', 'consistency'],
   tldr: [
     'Keyframe-to-video means generating a still image first with a reference-aware image model, approving it, then animating it with an image-to-video (i2v) model.',
-    'Rejecting a bad still costs seconds and cents; rejecting a bad video costs minutes and multiples of that — so the QA gate belongs between keyframe and video.',
+    'Rejecting a bad still costs seconds and cents while rejecting a bad video costs minutes and multiples of that, so the QA gate belongs between keyframe and video.',
     'i2v identity drift is real: faces, logos, and product labels wander from the reference over a clip, which is why production clips stay in the 4–8 second range.',
     'For multi-shot ads, each shot is re-anchored on a fresh keyframe (or the last frame of the previous clip) so identity resets instead of compounding drift.',
     'Expect to generate 2–4 keyframe candidates per shot to keep one; that ratio is normal, not a sign the workflow is failing.',
@@ -25,7 +25,7 @@ export const post: BlogPost = {
   blocks: [
     {
       type: 'p',
-      text: 'The keyframe-to-video workflow is simple to state: instead of asking a video model to invent a shot from a text prompt, you first generate a still keyframe with a reference-aware image model — your product shots and creator identity images attached as references — approve that still, and only then animate it with an image-to-video (i2v) model. The still becomes a contract: composition, identity, props, and framing are locked before a single second of video is rendered. For brand work, this is the difference between gambling and directing.',
+      text: 'The keyframe-to-video workflow is simple to state. Instead of asking a video model to invent a shot from a text prompt, you generate a still keyframe with a reference-aware image model, attaching your product shots and creator identity images as references. You approve that still, then animate it with an image-to-video (i2v) model. The still becomes a contract that locks composition, identity, props, and framing before a single second of video renders. For brand work, that is the difference between gambling and directing.',
     },
     {
       type: 'h2',
@@ -34,7 +34,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Text-to-video is genuinely impressive for open-ended creative shots. But an ad is not open-ended. It needs a specific product with a specific label, a creator whose face matches the last shot, a composition that leaves room for a text overlay. A text prompt under-specifies all of that, so the model fills the gaps with its own ideas — a different bottle shape, a logo that almost reads correctly, a face that belongs to nobody in particular.',
+      text: 'Text-to-video impresses on open-ended creative shots. An ad is not open-ended. It needs a specific product with a specific label, a creator whose face matches the last shot, and a composition that leaves room for a text overlay. A text prompt under-specifies all of that, so the model fills the gaps with its own ideas: a different bottle shape, a logo that almost reads correctly, a face that belongs to nobody in particular.',
     },
     {
       type: 'p',
@@ -42,7 +42,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Keyframe-first inverts the economics. Stills render in seconds, cost a fraction of a video, and expose almost every brand-critical failure — wrong label, wrong face, wrong framing — before you commit to motion. Cheap rejection is the core idea: kill bad shots while they’re still cheap to kill.',
+      text: 'Keyframe-first inverts the economics. Stills render in seconds, cost a fraction of a video, and expose almost every brand-critical failure before you commit to motion: wrong label, wrong face, wrong framing. Cheap rejection is the core idea. Kill bad shots while killing them is still cheap.',
     },
     {
       type: 'h2',
@@ -54,7 +54,7 @@ export const post: BlogPost = {
       items: [
         'Cheap rejection: a bad still is discarded in seconds for cents; a bad video wastes minutes and a meaningfully larger generation cost.',
         'Identity anchoring per shot: reference-aware image models accept your product photos and creator images directly, so each keyframe starts from the right face and the right label instead of an approximation.',
-        'Deliberate composition: you choose where the product sits, where the eyeline goes, and where overlay text will land — at the still stage, where changing it is trivial.',
+        'Deliberate composition: you choose where the product sits, where the eyeline goes, and where overlay text lands, all at the still stage where changing it is trivial.',
         'A reviewable artifact: a grid of keyframes is something a human or a vision model can grade in one pass; a folder of half-wrong videos is not.',
       ],
     },
@@ -65,24 +65,24 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'This is the process our studio runs daily, in the same order we run it. It sits inside a larger pipeline — brief, shot plan, assembly — covered in our [AI ad production pipeline](/blog/ai-ad-production-pipeline) post, but these are the steps from shot plan to usable clip.',
+      text: 'This is the process our studio runs daily, in the order we run it. It sits inside a larger pipeline of brief, shot plan, and assembly, covered in our [AI ad production pipeline](/blog/ai-ad-production-pipeline) post. These are the steps from shot plan to usable clip.',
     },
     {
       type: 'ol',
       items: [
         'Lock the references. Collect clean product shots (label readable, neutral background) and creator identity images. These get attached to every keyframe generation, not pasted into the prompt as a description.',
-        'Lock the look constants. One location, one outfit, a short palette-and-lighting note shared across all shots — so six shots read as one world, not six worlds.',
+        'Lock the look constants: one location, one outfit, and a short palette-and-lighting note shared across all shots, so six shots read as one world instead of six.',
         'Generate keyframe candidates. For each shot in the plan, generate 2–4 stills with a reference-aware image model, references attached, composition described per shot.',
-        'Grade the stills. Check brand fidelity (label, colors, product geometry), identity match against the creator references, continuity with neighboring shots, and artifacts. Reject and regenerate until one candidate passes. This is the QA gate — nothing animates without passing it.',
-        'Animate with i2v. Feed the approved keyframe to an image-to-video model with a motion prompt that describes what moves — and, just as important, what stays still. Keep clips in the 4–8 second range.',
-        'Grade the clips. Identity and label fidelity are re-checked across the clip’s duration, not just the first frame, because drift accumulates over time. Weak clips get regenerated from the same approved keyframe.',
+        'Grade the stills. Check brand fidelity across label, colors, and product geometry, identity match against the creator references, continuity with neighboring shots, and artifacts. Reject and regenerate until one candidate passes. This is the QA gate, and nothing animates without passing it.',
+        'Animate with i2v. Feed the approved keyframe to an image-to-video model with a motion prompt that describes what moves and, just as importantly, what stays still. Keep clips in the 4–8 second range.',
+        'Grade the clips. Re-check identity and label fidelity across the clip’s full duration rather than the first frame alone, because drift accumulates over time. Weak clips get regenerated from the same approved keyframe.',
         'Anchor the next shot. Start shot N+1 from a fresh keyframe generated against the same references, or from the last frame of clip N when you need direct visual continuity.',
       ],
     },
     {
       type: 'callout',
       title: 'Field note: the 2–4× rule',
-      body: 'In our pipeline, roughly 2–4 keyframe candidates are generated for every still that survives grading, and a similar ratio holds for the i2v step on identity-critical shots. Early on we treated that as waste to engineer away. It isn’t — it’s the budget. The workflow works because rejection is cheap at the still stage, so pricing in 2–4 attempts per shot up front is what keeps the expensive video stage mostly first-take.',
+      body: 'In our pipeline we generate roughly 2–4 keyframe candidates for every still that survives grading, and a similar ratio holds for the i2v step on identity-critical shots. Early on we treated that as waste to engineer away. It is the budget. The workflow works because rejection is cheap at the still stage, so pricing in 2–4 attempts per shot up front keeps the expensive video stage mostly first-take.',
     },
     {
       type: 'h2',
@@ -91,7 +91,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'The gate is a checklist, applied to every still before it earns an i2v render. Ours is machine-graded — a vision model scores each candidate against the checklist and the references — but the checklist works manually too:',
+      text: 'The gate is a checklist you apply to every still before it earns an i2v render. Ours is machine-graded, with a vision model scoring each candidate against the checklist and the references, and the checklist works manually too:',
     },
     {
       type: 'ul',
@@ -100,12 +100,12 @@ export const post: BlogPost = {
         'Identity match: does the face actually match the creator reference, or just the general demographic? Compare side by side; squint tests fail here.',
         'Continuity: same outfit, same location, same lighting direction as the adjacent shots in the plan.',
         'Composition for purpose: subject placed mid-frame if the shot is identity-critical, headroom or negative space reserved if an overlay is planned.',
-        'Artifacts: extra fingers, melted text, impossible reflections — anything that reads as obviously synthetic at feed scroll speed.',
+        'Artifacts: extra fingers, melted text, impossible reflections, or anything that reads as obviously synthetic at feed scroll speed.',
       ],
     },
     {
       type: 'p',
-      text: 'The discipline that matters most: the gate is binary. A still that “mostly” passes does not get animated on the theory that motion will hide the flaw. Motion amplifies flaws — a slightly-off label in a still becomes a visibly morphing label in a clip.',
+      text: 'One discipline matters most: keep the gate binary. A still that “mostly” passes does not get animated on the theory that motion will hide the flaw. Motion amplifies flaws, and a slightly-off label in a still becomes a visibly morphing label in a clip.',
     },
     {
       type: 'h2',
@@ -132,7 +132,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'You ask for “she lifts the cup slightly” and get a toast, a head turn, and a camera orbit. i2v models tend to maximize motion unless told otherwise. The fix is in the motion prompt: state explicitly what stays still (“camera locked, background static”), describe one motion per clip, and scale adjectives down — models read “slowly” as normal speed and “slightly” as a full gesture.',
+      text: 'You ask for “she lifts the cup slightly” and get a toast, a head turn, and a camera orbit. i2v models maximize motion unless told otherwise. Fix it in the motion prompt: state what stays still (“camera locked, background static”), describe one motion per clip, and scale your adjectives down, because models read “slowly” as normal speed and “slightly” as a full gesture.',
     },
     {
       type: 'h3',
@@ -141,7 +141,7 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'Hands passing in front of a product, a cup being set down, a bag being opened — interaction moments are where props change shape, labels rewrite themselves, and objects merge. Mitigations: minimize occlusion of the product in the keyframe composition, keep hand–product contact brief, and when an interaction is essential, generate extra candidates for that shot specifically. Some models hold props better than others; we run several in production and route shots accordingly — our [comparison of AI video generators for ads](/blog/best-ai-video-generator-for-ads) covers which model wins which shot type.',
+      text: 'Interaction moments break props: hands passing in front of a product, a cup being set down, a bag being opened. That is where props change shape, labels rewrite themselves, and objects merge. Mitigate it by minimizing occlusion of the product in the keyframe composition, keeping hand-to-product contact brief, and generating extra candidates for any shot where interaction is essential. Some models hold props better than others, so we run several in production and route shots accordingly. Our [comparison of AI video generators for ads](/blog/best-ai-video-generator-for-ads) covers which model wins which shot type.',
     },
     {
       type: 'h2',
@@ -150,22 +150,22 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'A 30–40 second ad is typically 6–12 shots. The naive approach — extend one generation, or feed each clip’s output into the next — compounds drift: shot three is anchored on shot two’s already-drifted final frame, and by shot six the creator is a stranger. Two anchoring strategies fix this:',
+      text: 'A 30–40 second ad runs 6–12 shots. The naive approach of extending one generation, or feeding each clip’s output into the next, compounds drift: shot three anchors on shot two’s already-drifted final frame, and by shot six the creator is a stranger. Two anchoring strategies fix this:',
     },
     {
       type: 'ul',
       items: [
         'Fresh-keyframe anchoring (our default): every shot starts from a newly generated keyframe, built against the original product and creator references plus the shared look constants. Drift resets to zero at every cut. Cuts hide the seams; this is how most real ads are edited anyway.',
-        'Last-frame anchoring (the exception): shot N+1 is animated from the final frame of clip N. Use it only when two shots must connect continuously — a match cut, a continued gesture. Accept that you’re inheriting whatever drift clip N accumulated, so grade that last frame as strictly as a fresh keyframe before animating from it.',
+        'Last-frame anchoring (the exception): animate shot N+1 from the final frame of clip N. Use it only when two shots must connect continuously, as in a match cut or a continued gesture. You inherit whatever drift clip N accumulated, so grade that last frame as strictly as a fresh keyframe before animating from it.',
       ],
     },
     {
       type: 'p',
-      text: 'In practice we mix them: fresh keyframes for nearly every cut, last-frame anchoring for the one or two transitions per ad that need continuous motion. Because every fresh keyframe is generated against the same references and look constants, the shots still read as one continuous world — that consistency comes from the references, not from chaining the video frames.',
+      text: 'In practice we mix them: fresh keyframes for nearly every cut, last-frame anchoring for the one or two transitions per ad that need continuous motion. Because every fresh keyframe generates against the same references and look constants, the shots still read as one continuous world. That consistency comes from the references rather than from chaining the video frames.',
     },
     {
       type: 'p',
-      text: 'Model choice interacts with chaining too. Models with strong physics and native audio are worth spending on hero shots — see our notes on [Veo 3 for ad creative](/blog/veo-3-for-ad-creative) — while faster, cheaper models handle the high-volume keyframe iteration and B-roll shots where you’re burning most of your 2–4 candidates.',
+      text: 'Model choice interacts with chaining too. Spend models with strong physics and native audio on hero shots, as we describe in our notes on [Veo 3 for ad creative](/blog/veo-3-for-ad-creative). Let faster, cheaper models handle high-volume keyframe iteration and the B-roll shots where you burn most of your 2–4 candidates.',
     },
     {
       type: 'h2',
@@ -174,38 +174,38 @@ export const post: BlogPost = {
     },
     {
       type: 'p',
-      text: 'If you’re starting from zero, don’t start by generating videos. Start by generating stills. Take your three best product photos and two clean images of your creator (or spokesperson, or mascot), and spend a session generating keyframes only: one location, one outfit, six compositions from a simple shot list. Grade them hard against the checklist above. Only when you have six stills you’d actually approve as photographs should you animate anything — and when you do, animate with short clips, one motion each, camera locked.',
+      text: 'Starting from zero? Generate stills rather than videos. Take your three best product photos and two clean images of your creator, spokesperson, or mascot, and spend a session on keyframes only: one location, one outfit, six compositions from a simple shot list. Grade them hard against the checklist above. Animate nothing until you have six stills you would approve as photographs, and when you do, use short clips with one motion each and the camera locked.',
     },
     {
       type: 'p',
-      text: 'That single discipline — never animate an unapproved still — carries most of the value of this workflow. The rest is volume and routing: more candidates per shot, the right model per shot type, a QA pass on every output. That’s the part that stops scaling gracefully by hand, and it’s the part our studio automates end to end, from references to a beat-cut vertical ad. If you’d rather skip building the pipeline and just get the output, that’s what [AI video ads at SHOT.IS](/ai-video-ads) are: the keyframe-to-video workflow, run for you, with the QA gates already in place.',
+      text: 'One discipline carries most of the value here: never animate an unapproved still. The rest is volume and routing, meaning more candidates per shot, the right model per shot type, and a QA pass on every output. That part stops scaling gracefully by hand, and our studio automates it end to end, from references to a beat-cut vertical ad. If you would rather skip building the pipeline and get the output, [AI video ads at SHOT.IS](/ai-video-ads) run the keyframe-to-video workflow for you with the QA gates already in place.',
     },
   ],
   faq: [
     {
       question: 'What is the keyframe-to-video workflow?',
       answer:
-        'It’s an AI video production method where you first generate a still keyframe with a reference-aware image model — product and creator reference images attached — approve that still against a QA checklist, and only then animate it with an image-to-video (i2v) model. The still locks composition and identity before any video is rendered.',
+        'It is an AI video production method where you generate a still keyframe with a reference-aware image model, attaching product and creator reference images, approve that still against a QA checklist, and only then animate it with an image-to-video (i2v) model. The still locks composition and identity before any video renders.',
     },
     {
       question: 'Why use image-to-video instead of text-to-video for ads?',
       answer:
-        'Text-to-video under-specifies brand-critical details — labels, faces, framing — so each attempt is a slow, expensive gamble. With image-to-video, those details are locked in an approved still first. Rejecting a bad still takes seconds and costs cents; rejecting a bad video takes minutes and costs several times more.',
+        'Text-to-video under-specifies brand-critical details like labels, faces, and framing, so each attempt becomes a slow, expensive gamble. With image-to-video, you lock those details in an approved still first. Rejecting a bad still takes seconds and costs cents; rejecting a bad video takes minutes and costs several times more.',
     },
     {
       question: 'How do you stop AI video identity drift?',
       answer:
-        'Identity drift — faces, logos, and labels wandering from the reference during a clip — is mitigated by keeping clips short (4–8 seconds), re-anchoring every shot on a fresh keyframe generated from the original references, keeping the subject mid-frame, and avoiding fast camera moves on identity-critical shots.',
+        'Identity drift means faces, logos, and labels wandering from the reference during a clip. Mitigate it by keeping clips short at 4–8 seconds, re-anchoring every shot on a fresh keyframe generated from the original references, keeping the subject mid-frame, and avoiding fast camera moves on identity-critical shots.',
     },
     {
       question: 'How many keyframes should I generate per shot?',
       answer:
-        'Plan for 2–4 candidates per shot to keep one — that rejection rate is normal in production, not a failure of the workflow. Generating and discarding stills is cheap; the whole point of keyframe-first is concentrating iteration at the still stage so the expensive i2v stage is mostly first-take.',
+        'Plan for 2–4 candidates per shot to keep one, because that rejection rate is normal in production rather than a failure of the workflow. Generating and discarding stills costs little, and keyframe-first exists to concentrate iteration at the still stage so the expensive i2v stage stays mostly first-take.',
     },
     {
       question: 'How do you keep a multi-shot AI ad consistent?',
       answer:
-        'Anchor every shot on a fresh keyframe generated against the same product and creator references, with one locked location, outfit, and lighting style shared across shots. Reserve last-frame anchoring — animating shot N+1 from clip N’s final frame — for the rare transitions that need continuous motion.',
+        'Anchor every shot on a fresh keyframe generated against the same product and creator references, with one locked location, outfit, and lighting style shared across shots. Reserve last-frame anchoring, where you animate shot N+1 from clip N’s final frame, for the rare transitions that need continuous motion.',
     },
   ],
 };

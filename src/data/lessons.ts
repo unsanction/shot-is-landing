@@ -36,7 +36,7 @@ export const learnStrings: Record<LessonLang, {
   en: {
     hubTitle: 'Learn SHOT.IS Studio',
     hubLede:
-      'Short screencasts of the real canvas — no slides, no talking head. Each lesson rebuilds one thing end to end, and tells you up front how long it takes to learn.',
+      'Short screencasts of the real canvas: no slides, no talking head. Each lesson rebuilds one thing end to end and says up front how long it takes.',
     learningTime: (label) => `${label} to learn`,
     watchTime: (label) => `${label} to watch`,
     pathTotal: (label) => `${label} for the whole path`,
@@ -57,8 +57,8 @@ export const learnStrings: Record<LessonLang, {
     ctaBody: 'Every lesson is recorded in the same Studio you get when you sign in. Start a run and rebuild it as you watch.',
     ctaButton: 'Open SHOT.IS Studio',
     recordingLabel: 'Recording',
-    noVideoNote: 'Screencast is being recorded — the written steps below are complete.',
-    blogBridge: 'Looking for the longer written version — strategy, costs, and what actually performs?',
+    noVideoNote: 'Screencast is being recorded. The written steps below are complete.',
+    blogBridge: 'Looking for the longer written version, with strategy, costs, and what performs?',
     blogBridgeCta: 'Read the blog',
   },
   es: {
@@ -85,7 +85,7 @@ export const learnStrings: Record<LessonLang, {
     ctaBody: 'Cada lección está grabada en el mismo Studio al que entras al iniciar sesión. Crea un run y reconstrúyelo mientras miras.',
     ctaButton: 'Abrir SHOT.IS Studio',
     recordingLabel: 'Grabando',
-    noVideoNote: 'El screencast se está grabando — los pasos escritos de abajo están completos.',
+    noVideoNote: 'El screencast se está grabando. Los pasos escritos de abajo están completos.',
     blogBridge: '¿Buscas la versión escrita más larga: estrategia, costes y lo que de verdad funciona?',
     blogBridgeCta: 'Leer el blog',
   },
@@ -109,7 +109,7 @@ export const lessons: Lesson[] = [
     title: 'Your first AI video',
     metaTitle: 'Your First AI Video in SHOT.IS Studio | 3 min lesson',
     description:
-      'Build a working AI video in SHOT.IS Studio from four nodes: a scene prompt, a keyframe, a camera-move prompt, and a motion generation. A 72-second screencast of the real canvas.',
+      'Build a working AI video in SHOT.IS Studio from four nodes: scene prompt, keyframe, camera-move prompt, and motion generation. A 72-second screencast.',
     excerpt:
       'Four nodes, one finished clip. The minimum path through the canvas, with nothing skipped and nothing faked.',
     outcome: 'Generate a finished AI video clip from scratch without anyone setting the run up for you.',
@@ -129,7 +129,7 @@ export const lessons: Lesson[] = [
       {
         at: 0,
         title: 'Start an empty run',
-        body: 'Every ad in SHOT.IS lives on a canvas as a graph of nodes. A new run gives you a blank one — there is no template to fight with.',
+        body: 'Every ad in SHOT.IS lives on a canvas as a graph of nodes. A new run gives you a blank one, with no template to fight.',
       },
       {
         at: 9,
@@ -189,9 +189,9 @@ export const lessons: Lesson[] = [
     order: 2,
     kind: 'basics',
     title: 'Lock your product with references',
-    metaTitle: 'Lock Your Real Product in AI Ads with References | 4.5 min lesson',
+    metaTitle: 'Lock Your Real Product in AI Ads | 4.5 min lesson',
     description:
-      'A prompt gives you a generic product. A reference node gives you yours. Learn reference roles in SHOT.IS Studio so the label, shape, and colour survive into the finished video.',
+      'A prompt gives you a generic product; a reference node gives you yours. Learn reference roles in SHOT.IS Studio so your label and shape survive.',
     excerpt:
       'The difference between an AI ad for a cup and an AI ad for your cup is one node and one role.',
     outcome: 'Keep your actual product and creator recognizable across every shot in a run.',
@@ -207,7 +207,7 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    prerequisites: ['Finish "Your first AI video" — this lesson edits that same graph.'],
+    prerequisites: ['Finish "Your first AI video", because this lesson edits that same graph.'],
     steps: [
       {
         at: 0,
@@ -265,7 +265,7 @@ export const lessons: Lesson[] = [
       {
         question: 'How many references can one keyframe use?',
         answer:
-          'The references port is a multi-input, so you can wire in several — typically a creator identity plus a product, and sometimes a scene plate. Their edge order is the order referenceRoles is applied in, so keep identity first when a face is involved.',
+          'The references port is a multi-input, so you can wire in several: typically a creator identity plus a product, and sometimes a scene plate. Their edge order is the order referenceRoles is applied in, so keep identity first when a face is involved.',
       },
       {
         question: 'Why does my product still drift after adding a reference?',
@@ -281,11 +281,11 @@ export const lessons: Lesson[] = [
     order: 3,
     kind: 'basics',
     title: 'Fix one shot without re-running the ad',
-    metaTitle: 'Re-run a Single Node Instead of the Whole Ad | 3.5 min lesson',
+    metaTitle: 'Re-run One Node, Not the Whole Ad | 3.5 min lesson',
     description:
-      'One bad generation should cost one generation. Learn how stale nodes work in SHOT.IS Studio so you can swap a model, re-run a single shot, and resync the ad.',
+      'One bad generation should cost one generation. Learn how stale nodes work in SHOT.IS Studio: swap a model, re-run one shot, resync the ad.',
     excerpt:
-      'One shot came back wrong. Fix that node, not the run — the canvas is built so you only redo what actually broke.',
+      'One shot came back wrong. Fix that node instead of the run, because the canvas lets you redo only what broke.',
     outcome: 'Repair a failed shot by re-running one node instead of rebuilding the whole run.',
     nodes: ['generate_image', 'generate_video', 'composer'],
     datePublished: '2026-09-18',
@@ -299,7 +299,7 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    prerequisites: ['A run with at least one finished generation — lessons one and two both leave you with one.'],
+    prerequisites: ['A run with at least one finished generation. Lessons one and two both leave you with one.'],
     steps: [
       {
         at: 0,
@@ -314,7 +314,7 @@ export const lessons: Lesson[] = [
       {
         at: 30,
         title: 'Re-run that node alone',
-        body: 'Inputs — your prompts and references — are hand-authored and never regenerate. Running one node re-bills one generation.',
+        body: 'Your prompts and references are inputs: hand-authored, and they never regenerate. Running one node re-bills one generation.',
       },
       {
         at: 45,
@@ -350,7 +350,7 @@ export const lessons: Lesson[] = [
       {
         question: 'Does re-running a node charge me again?',
         answer:
-          'Running a generation node bills that generation, which is exactly why the canvas lets you run one node instead of the graph. Input nodes — prompt, import, reference — are hand-authored and free to change as often as you like.',
+          'Running a generation node bills that generation, which is why the canvas lets you run one node instead of the graph. Input nodes such as prompt, import, and reference are hand-authored and free to change as often as you like.',
       },
     ],
   },
@@ -361,9 +361,9 @@ export const lessons: Lesson[] = [
     order: 4,
     kind: 'micro-case',
     title: 'Micro-case: a strobe product ad',
-    metaTitle: 'Build a TikTok Strobe Product Ad in SHOT.IS Studio | 6 min lesson',
+    metaTitle: 'Build a TikTok Strobe Product Ad | 6 min lesson',
     description:
-      'Rebuild the flicker-background product ad: one anchored hero product, six disposable locations, and a composer full of hard cuts. A 110-second screencast.',
+      'Rebuild the flicker-background product ad: one anchored hero product, six disposable locations, and a composer of hard cuts. A 110-second screencast.',
     excerpt:
       'One product that never moves, six worlds that never stop. The cheapest high-energy format in short-form.',
     outcome: 'Ship a fifteen-second strobe ad from one locked hero and a handful of disposable worlds.',
@@ -379,7 +379,7 @@ export const lessons: Lesson[] = [
       width: 1440,
       height: 900,
     },
-    prerequisites: ['Lesson two — the hero product has to be locked by a reference before any of this works.'],
+    prerequisites: ['Lesson two, because a reference has to lock the hero product before any of this works.'],
     steps: [
       {
         at: 0,
@@ -394,7 +394,7 @@ export const lessons: Lesson[] = [
       {
         at: 50,
         title: 'Turn each still into a clip',
-        body: 'The composer\'s clips port takes video, so every background gets a generate video node. Do not bother directing the motion — at seventy milliseconds a cut, none of it is legible.',
+        body: 'The composer\'s clips port takes video, so every background gets a generate video node. Skip directing the motion, because at seventy milliseconds a cut none of it is legible.',
       },
       {
         at: 60,
@@ -404,7 +404,7 @@ export const lessons: Lesson[] = [
       {
         at: 65,
         title: 'Trim to the strobe',
-        body: 'clipTrims takes a start and end per clip, index-aligned with the wiring order. Short trims are the entire look — if it feels sluggish, trim shorter before you change anything else.',
+        body: 'clipTrims takes a start and end per clip, index-aligned with the wiring order. Short trims are the entire look, so if it feels sluggish, trim shorter before you change anything else.',
       },
       {
         at: 75,
@@ -440,7 +440,7 @@ export const lessons: Lesson[] = [
       {
         question: 'Does the motion in each strobe clip matter?',
         answer:
-          'No. The composer needs video on its clips port, so each still becomes a clip, but every background holds the screen for roughly seventy milliseconds and no motion is legible in that window. Spend the prompt on the framing constant instead — the cut is producing the energy, not the animation.',
+          'No. The composer needs video on its clips port, so each still becomes a clip, but every background holds the screen for roughly seventy milliseconds and no motion is legible in that window. Spend the prompt on the framing constant instead, because the cut produces the energy rather than the animation.',
       },
       {
         question: 'How many backgrounds does a strobe ad need?',
@@ -458,7 +458,7 @@ export const lessons: Lesson[] = [
     title: 'Micro-case: a UGC testimonial in one scene',
     metaTitle: 'Build a 3-Shot AI UGC Testimonial Ad | 6 min lesson',
     description:
-      'Hook, demo, payoff — three shots that have to look like one person in one room. Learn the scene bible discipline that keeps an AI UGC testimonial from falling apart.',
+      'Hook, demo, payoff: three shots that must look like one person in one room. Learn the scene bible discipline that holds an AI UGC testimonial together.',
     excerpt:
       'The format that still outperforms polish, and the one constraint that decides whether it survives three shots.',
     outcome: 'Produce a three-shot UGC testimonial where the creator, room, and product stay continuous.',
@@ -482,7 +482,7 @@ export const lessons: Lesson[] = [
       {
         at: 0,
         title: 'Name the failure before you start',
-        body: 'The way UGC ads break is not bad rendering — it is three shots that read as three different people in three different rooms.',
+        body: 'UGC ads break on three shots that read as three different people in three different rooms, rather than on bad rendering.',
       },
       {
         at: 10,
@@ -497,7 +497,7 @@ export const lessons: Lesson[] = [
       {
         at: 40,
         title: 'Generate all three keyframes before any motion',
-        body: 'Hook, demo, payoff — as stills, side by side. This is the review gate, and it is the cheap one.',
+        body: 'Hook, demo, payoff, as stills side by side. This is the review gate, and it is the cheap one.',
       },
       {
         at: 65,
@@ -512,7 +512,7 @@ export const lessons: Lesson[] = [
       {
         at: 95,
         title: 'Assemble with cuts',
-        body: 'Three clips into the composer in order, transition set to cut. UGC does not dissolve — a dissolve is the tell that a shoot was never there.',
+        body: 'Three clips into the composer in order, transition set to cut. UGC does not dissolve, and a dissolve is the tell that a shoot was never there.',
       },
     ],
     captions: [
@@ -544,7 +544,7 @@ export const lessons: Lesson[] = [
       {
         question: 'What is a scene bible?',
         answer:
-          'A scene bible is the short list of constants every prompt in a run must repeat — the location, the outfit, the time of day, the camera treatment. It exists because models re-invent anything you leave unstated, and re-invention between shots is exactly what makes an AI UGC ad look assembled.',
+          'A scene bible is the short list of constants every prompt in a run must repeat: the location, the outfit, the time of day, the camera treatment. It exists because models re-invent anything you leave unstated, and re-invention between shots is what makes an AI UGC ad look assembled.',
       },
       {
         question: 'Do I have to disclose that a testimonial is AI-generated?',

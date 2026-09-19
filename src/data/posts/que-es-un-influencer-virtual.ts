@@ -15,7 +15,7 @@ export const post: BlogPost = {
   ogImageKey: 'blog-que-es-un-influencer-virtual',
   tags: ['influencers virtuales', 'creadores con IA', 'marca', 'social'],
   tldr: [
-    'Un influencer virtual es una identidad de creador digital —un rostro, tono y estilo consistentes— usada en contenido social, anuncios y campañas.',
+    'Un influencer virtual es una identidad de creador digital, con un rostro, tono y estilo consistentes, usada en contenido social, anuncios y campañas.',
     'Para las marcas, el valor real no es el diseño del personaje sino la capacidad de producir contenido de marca repetible, rápido y según tu propia agenda.',
     'Dan a las marcas control sobre tiempos, formato, localización y continuidad que depender de un solo creador humano no permite.',
     'La consistencia es lo difícil: un influencer virtual solo funciona como activo de marca si el rostro, la voz y el comportamiento se mantienen reconocibles con el tiempo.',

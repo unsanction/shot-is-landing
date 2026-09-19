@@ -491,7 +491,7 @@ export function CanvasDemoSection() {
           <div className="cx-intro__aside">
             <p>
               References, prompts, image and video models wired into one re-runnable graph. Swap a creative direction
-              and Canvas keeps every approved result that is still valid.
+              and Canvas keeps every approved result that still holds.
             </p>
             <a href="/blog/canvas-mode-node-based-ai-video-workflow">How Canvas works ↗</a>
           </div>
@@ -645,7 +645,7 @@ export function CanvasDemoSection() {
 
               {isDirty ? (
                 <p className="cx-saving">
-                  Re-running {generatedNodeIds.length} of {demoNodes.length} nodes —{' '}
+                  Re-running {generatedNodeIds.length} of {demoNodes.length} nodes.{' '}
                   <b>~{cachedCount * MANUAL_SECONDS_PER_NODE}s of work reused.</b>
                 </p>
               ) : null}
@@ -710,7 +710,7 @@ export function CanvasDemoSection() {
 
         <div className="cx-foot">
           <p>
-            <strong>One graph.</strong> Every reference, model, branch and final render — visible, cached and reusable.
+            <strong>One graph.</strong> Every reference, model, branch and final render stays visible, cached and reusable.
           </p>
           <a href={withUtm('https://studio.shot.is/', 'canvas_demo')} onClick={() => trackStudioClick('canvas_demo')}>
             Open Canvas in Studio <span aria-hidden="true">↗</span>

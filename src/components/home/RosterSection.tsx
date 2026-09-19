@@ -35,8 +35,8 @@ export function RosterSection() {
             <span className="italic text-accent">SHIP.</span>
           </h2>
           <p className="max-w-md text-base font-bold uppercase leading-tight md:text-lg xl:text-right">
-            Product heroes, character-led spots, and virtual influencer personas — built as systems, so a brand looks
-            identical across every variant. Frames below are from shipped campaigns.
+            Product heroes, character-led spots, and virtual influencer personas, built as systems so your brand looks
+            identical across every variant. The frames below come from shipped campaigns.
           </p>
         </div>
 

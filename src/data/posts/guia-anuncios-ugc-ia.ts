@@ -15,7 +15,7 @@ export const post: BlogPost = {
   ogImageKey: 'blog-guia-anuncios-ugc-ia',
   tags: ['anuncios UGC con IA', 'UGC', 'paid social', 'testing creativo'],
   tldr: [
-    'Los anuncios UGC con IA son videos estilo creador generados con IA —un hook, un rostro, un momento de producto y un guion— en lugar de grabados con una persona real.',
+    'Los anuncios UGC con IA son videos estilo creador generados con IA, con un hook, un rostro, un momento de producto y un guion, en lugar de grabados con una persona real.',
     'Su mayor ventaja es el volumen y la velocidad: puedes producir muchas variantes de hooks y ángulos para hacer testing sin casting, rodaje ni regrabaciones.',
     'Funcionan mejor para testing de parte superior del embudo, localización y validar conceptos antes de invertir más; los creadores reales siguen siendo clave para testimonios auténticos.',
     'Un buen anuncio UGC con IA necesita lo mismo que cualquier anuncio: un hook claro, un problema concreto, un momento de producto visible y una entrega creíble.',
