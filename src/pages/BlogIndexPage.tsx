@@ -9,6 +9,8 @@ import {
   type BlogLang,
   type BlogPost,
 } from '../data/blog';
+import { hubStrings } from '../data/learnHub';
+import { learnIndexPath } from '../data/lessons';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 
 type BlogIndexPageProps = {
@@ -20,6 +22,7 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
   useRevealOnScroll();
 
   const t = blogStrings[lang];
+  const h = hubStrings[lang];
   const otherLang: BlogLang = lang === 'en' ? 'es' : 'en';
 
   return (
@@ -30,8 +33,18 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
       <main>
         <section className="relative w-full overflow-hidden px-5 pb-16 pt-36 md:px-8 md:pb-20 md:pt-44">
           <div className="relative z-10 mx-auto max-w-7xl">
+            {/* This page is now the date-ordered archive under the Learn hub. The URL
+                and the feed stay exactly where they were; only the framing changed. */}
             <div className="mb-6 flex items-center justify-between gap-4">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-accent">SHOT.IS · Blog</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
+                <a href={learnIndexPath(lang)} className="transition-colors hover:text-white">
+                  SHOT.IS · {h.backToHub}
+                </a>
+                <span aria-hidden="true" className="mx-2 text-white/30">
+                  /
+                </span>
+                <span className="text-white/45">{t.blogTitle}</span>
+              </p>
               <a
                 href={blogIndexPath(otherLang)}
                 className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-accent"
@@ -40,9 +53,15 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
               </a>
             </div>
             <h1 className="max-w-5xl text-[clamp(2rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.9] tracking-tight">
-              {t.blogTitle}
+              {h.archiveTitle}
             </h1>
             <p className="mt-8 max-w-3xl text-lg font-medium leading-tight text-white/50 md:text-2xl">{t.blogLede}</p>
+            <a
+              href={learnIndexPath(lang)}
+              className="mt-8 inline-block font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-accent transition-colors hover:text-white"
+            >
+              ← {h.groupedByTopic}
+            </a>
           </div>
         </section>
 

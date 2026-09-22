@@ -34,9 +34,9 @@ export const learnStrings: Record<LessonLang, {
   blogBridgeCta: string;
 }> = {
   en: {
-    hubTitle: 'Learn SHOT.IS Studio',
+    hubTitle: 'Learn SHOT.IS',
     hubLede:
-      'Short screencasts of the real canvas: no slides, no talking head. Each lesson rebuilds one thing end to end and says up front how long it takes.',
+      'Screencasts of the real canvas and the written field notes behind them, grouped by what you are trying to get done. Every item says up front how long it takes.',
     learningTime: (label) => `${label} to learn`,
     watchTime: (label) => `${label} to watch`,
     pathTotal: (label) => `${label} for the whole path`,
@@ -49,7 +49,7 @@ export const learnStrings: Record<LessonLang, {
     nodesUsed: 'Nodes used',
     faqTitle: 'Frequently asked questions',
     nextLesson: 'Next lesson',
-    backToHub: 'All lessons',
+    backToHub: 'All of Learn',
     switchLabel: 'Ver en español',
     basicsLabel: 'Basics',
     microCaseLabel: 'Micro-case',
@@ -62,9 +62,9 @@ export const learnStrings: Record<LessonLang, {
     blogBridgeCta: 'Read the blog',
   },
   es: {
-    hubTitle: 'Aprende SHOT.IS Studio',
+    hubTitle: 'Aprende SHOT.IS',
     hubLede:
-      'Screencasts cortos del lienzo real: sin diapositivas, sin presentador. Cada lección reconstruye una cosa de principio a fin y dice de antemano cuánto tarda en aprenderse.',
+      'Screencasts del lienzo real y las notas de campo que hay detrás, agrupadas por lo que intentas conseguir. Cada pieza dice de antemano cuánto tarda.',
     learningTime: (label) => `${label} para aprender`,
     watchTime: (label) => `${label} de video`,
     pathTotal: (label) => `${label} para la ruta completa`,
@@ -77,7 +77,7 @@ export const learnStrings: Record<LessonLang, {
     nodesUsed: 'Nodos utilizados',
     faqTitle: 'Preguntas frecuentes',
     nextLesson: 'Siguiente lección',
-    backToHub: 'Todas las lecciones',
+    backToHub: 'Todo Learn',
     switchLabel: 'View in English',
     basicsLabel: 'Fundamentos',
     microCaseLabel: 'Micro-caso',
@@ -664,11 +664,12 @@ export const isoDuration = (seconds: number): string => {
 export const lessonTranscript = (lesson: Lesson): string =>
   lesson.captions.map((c) => c.text).join(' ');
 
-/** All indexable learn routes: the hub per language plus every lesson. */
-export const learnRoutes = (): string[] => [
-  ...learnLangs.map((lang) => learnIndexPath(lang)),
-  ...lessons.map(lessonPath),
-];
+/**
+ * Every lesson page. The hub index routes are not here on purpose: the hub now
+ * exists in languages that have articles but no lessons, so `hubRoutes()` in
+ * data/learnHub.ts owns that list.
+ */
+export const learnRoutes = (): string[] => lessons.map(lessonPath);
 
 export const learnPageMeta = {
   dateModified: '2026-09-18',

@@ -4,7 +4,11 @@ export const navLinks: NavLink[] = [
   { href: '/#product', label: 'Product' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/ai-ugc-ads', label: 'Managed Studio' },
+  // One entry, not two: /learn is the hub over both screencasts and articles.
+  // The article archive still lives at /blog and is linked from the hub and footer.
   { href: '/learn', label: 'Learn' },
+  // Keep the studio last: HomeNav pulls it off the end as the CTA and renders the
+  // rest as the menu, so inserting after this would drop a link from both.
   { href: 'https://studio.shot.is/', label: 'Open Studio' },
 ];
 

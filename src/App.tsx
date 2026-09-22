@@ -5,7 +5,8 @@ import { comparisonPagesByPath } from './data/comparisons';
 import { ComparisonPage } from './pages/ComparisonPage';
 import { giftPagesBySlug } from './data/gifts';
 import { blogIndexPath, blogPostByPath, blogPostsByLang } from './data/blog';
-import { learnIndexPath, learnLangs, lessonByPath, lessonsByLang } from './data/lessons';
+import { learnIndexPath, lessonByPath } from './data/lessons';
+import { hubLangs } from './data/learnHub';
 import { bespokeGiftPages } from './gifts/registry';
 import { GiftPage } from './pages/GiftPage';
 import HomePage from './pages/HomePage';
@@ -101,7 +102,7 @@ function App({ path }: AppProps = {}) {
   const lesson = onGiftSurface ? undefined : lessonByPath.get(pathname);
   const learnIndexLang = onGiftSurface
     ? undefined
-    : learnLangs.find((lang) => learnIndexPath(lang) === pathname);
+    : hubLangs.find((lang) => learnIndexPath(lang) === pathname);
   const isHome = !onGiftSurface && HOME_PATHS.has(pathname);
   const staticPage = onGiftSurface ? undefined : STATIC_PAGES[pathname];
   const isNotFound =
@@ -221,7 +222,7 @@ function App({ path }: AppProps = {}) {
   }
 
   if (learnIndexLang) {
-    return <LearnIndexPage lang={learnIndexLang} lessons={lessonsByLang[learnIndexLang]} />;
+    return <LearnIndexPage lang={learnIndexLang} />;
   }
 
   if (staticPage) {
