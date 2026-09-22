@@ -76,6 +76,67 @@ export const post: BlogPost = {
       ],
     },
   ],
+  scenes: [
+    {
+      anchor: 'cost',
+      label: 'Cost per variant',
+      visual: {
+        kind: 'curve',
+        points: [0.12, 0.2, 0.27, 0.33, 0.38, 0.42, 0.46],
+        baseline: [0.14, 0.32, 0.5, 0.66, 0.8, 0.92, 1],
+        xLabels: ['1 VARIANT', '20 VARIANTS'],
+        yLabel: 'CUMULATIVE SPEND',
+        seriesLabel: 'AI',
+        baselineLabel: 'TRADITIONAL',
+        markers: [{ at: 3, label: 'where testing lives' }],
+      },
+      caption:
+        'The shape, not a quote. Traditional production front-loads cost into a few finished videos; AI spreads a much lower marginal cost across many variants.',
+    },
+    {
+      anchor: 'speed',
+      label: 'Brief to delivered',
+      visual: {
+        kind: 'bars',
+        unit: 'BRIEF → DELIVERED, ONE CONCEPT',
+        note: 'MORE CYCLES PER MONTH',
+        series: [
+          { label: 'Traditional', value: 21, display: '~3 weeks', tone: 'ink', note: 'Scheduling and reshoots included' },
+          { label: 'AI video ad', value: 3, display: '~3 days', tone: 'accent', note: 'Creative keeps pace with the ad account' },
+        ],
+      },
+      caption: 'Turnaround is where the gap is widest, and it compounds: faster delivery buys more test cycles per month.',
+    },
+    {
+      anchor: 'quality',
+      label: 'Which job, which tool',
+      visual: {
+        kind: 'matrix',
+        cols: ['Feed-native casual', 'Physical authenticity', 'Volume & variants', 'Hero brand film'],
+        rows: [
+          { label: 'AI video ads', cells: [3, 1, 3, 1] },
+          { label: 'Traditional', cells: [2, 3, 1, 3] },
+        ],
+        legend: 'ASK WHAT THIS PLACEMENT NEEDS, NOT WHICH LOOKS BETTER IN THE ABSTRACT',
+      },
+      caption: 'Quality is not one axis. Each approach leads on a different job, and the ring marks where each one earns its budget.',
+    },
+    {
+      anchor: 'hybrid',
+      label: 'The hybrid loop',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'kill',
+        steps: [
+          { label: 'Test angles and hooks with AI', note: 'Many variants, low marginal cost' },
+          { label: 'Read performance', note: 'Most variants are discarded by design', gate: true },
+          { label: 'Pick the proven concept', note: 'Validated before it gets expensive' },
+          { label: 'Produce it traditionally', note: 'Polish only what has earned it' },
+        ],
+      },
+      caption: 'Treat AI as the testing engine and reserve traditional production budget for the winners it finds.',
+    },
+  ],
   faq: [
     {
       question: 'Are AI video ads cheaper than traditional production?',

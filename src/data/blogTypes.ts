@@ -1,4 +1,7 @@
 import { founder, siteBaseUrl } from './seo';
+import type { BlogScene } from './blogVisuals';
+
+export type { BlogScene, BlogVisual, VisualTone } from './blogVisuals';
 
 export type BlogLang = 'en' | 'es';
 
@@ -58,6 +61,13 @@ export type BlogPost = {
   tldr: string[];
   blocks: BlogBlock[];
   faq?: BlogFaq[];
+  /**
+   * Opts the post into the scrollytelling layout: prose in a narrow column with a
+   * sticky visual stage that morphs as you pass each section. Every `anchor` must
+   * match an h2 id in `blocks`; sections without a scene keep the previous visual
+   * on stage. Omit entirely and the post renders the classic single-column read.
+   */
+  scenes?: BlogScene[];
 };
 
 export const defaultAuthor: BlogAuthor = {

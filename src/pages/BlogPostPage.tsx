@@ -1,6 +1,8 @@
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import { formatDate, renderBlock, renderInline } from '../components/blog/BlogProse';
+import { ReadingProgress } from '../components/blog/ReadingProgress';
+import { ScrollyArticle } from '../components/blog/ScrollyArticle';
 import {
   blogIndexPath,
   blogPostPath,
@@ -26,11 +28,30 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
   const sibling = blogSibling(post);
   const sections = post.blocks.filter((b) => b.type === 'h2') as Array<{ type: 'h2'; text: string; id: string }>;
   const related = blogPostsByLang[post.lang].filter((p) => p.slug !== post.slug).slice(0, 2);
+  // Posts that declare scenes read as scrollytelling; the rest keep the classic column.
+  const scrolly = Boolean(post.scenes?.length);
+
+  const faqSection = post.faq?.length ? (
+    <section aria-label={t.faqTitle} className="pt-8">
+      <h2 className="font-body text-[1.55rem] font-extrabold leading-[1.12] tracking-tight text-ink md:text-[1.9rem]">
+        {t.faqTitle}
+      </h2>
+      <div className="mt-6 space-y-4">
+        {post.faq.map((item) => (
+          <article key={item.question} className="rounded-[4px] border border-ink/15 bg-white/70 p-6 md:p-7">
+            <h3 className="font-body text-lg font-bold leading-snug tracking-tight text-ink">{item.question}</h3>
+            <p className="mt-3 font-serif text-[1.08rem] leading-[1.7] text-ink/80">{renderInline(item.answer)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  ) : null;
 
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
       <HomeNav />
+      <ReadingProgress />
 
       <main>
         <article>
@@ -131,30 +152,22 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
               ) : null}
             </div>
 
-            <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 pt-10 md:px-8 md:pb-20 md:pt-12">
-              {post.blocks.map((block, index) => renderBlock(block, index))}
-
-              {/* FAQ — rendered visibly so the FAQPage schema on this page stays legitimate */}
-              {post.faq?.length ? (
-                <section aria-label={t.faqTitle} className="pt-8">
-                  <h2 className="font-body text-[1.55rem] font-extrabold leading-[1.12] tracking-tight text-ink md:text-[1.9rem]">
-                    {t.faqTitle}
-                  </h2>
-                  <div className="mt-6 space-y-4">
-                    {post.faq.map((item) => (
-                      <article key={item.question} className="rounded-[4px] border border-ink/15 bg-white/70 p-6 md:p-7">
-                        <h3 className="font-body text-lg font-bold leading-snug tracking-tight text-ink">
-                          {item.question}
-                        </h3>
-                        <p className="mt-3 font-serif text-[1.08rem] leading-[1.7] text-ink/80">
-                          {renderInline(item.answer)}
-                        </p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-              ) : null}
-            </div>
+            {scrolly ? (
+              <>
+                <div className="pt-10 md:pt-14">
+                  <ScrollyArticle post={post} sceneLabel={t.onThisPage} />
+                </div>
+                {/* FAQ — rendered visibly so the FAQPage schema on this page stays legitimate */}
+                {faqSection ? (
+                  <div className="mx-auto max-w-[44rem] px-5 pb-16 md:px-8 md:pb-20">{faqSection}</div>
+                ) : null}
+              </>
+            ) : (
+              <div className="mx-auto max-w-[44rem] space-y-6 px-5 pb-16 pt-10 md:px-8 md:pb-20 md:pt-12">
+                {post.blocks.map((block, index) => renderBlock(block, index))}
+                {faqSection}
+              </div>
+            )}
           </div>
         </article>
 
