@@ -52,10 +52,16 @@ export function BlogIndexPage({ lang, posts }: BlogIndexPageProps) {
                 {t.switchLabel}
               </a>
             </div>
+            {/* The h1 stays the topical title. Moving the hub's "archive" framing into
+                it stripped the keywords off this page's most prominent element, which
+                is not a trade worth making on an indexed page. It sits below instead. */}
             <h1 className="max-w-5xl text-[clamp(2rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.9] tracking-tight">
-              {h.archiveTitle}
+              {t.blogTitle}
             </h1>
-            <p className="mt-8 max-w-3xl text-lg font-medium leading-tight text-white/50 md:text-2xl">{t.blogLede}</p>
+            <p className="mt-6 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/45">
+              {h.archiveTitle}
+            </p>
+            <p className="mt-6 max-w-3xl text-lg font-medium leading-tight text-white/50 md:text-2xl">{t.blogLede}</p>
             <a
               href={learnIndexPath(lang)}
               className="mt-8 inline-block font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-accent transition-colors hover:text-white"
