@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Faster and cheaper is the easy headline. The real question is where each approach wins. A practical comparison.',
   datePublished: '2026-06-02',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-22',
   author: defaultAuthor,
   ogImageKey: 'blog-ai-video-ads-vs-traditional',
   tags: ['AI video ads', 'production', 'cost', 'paid social'],

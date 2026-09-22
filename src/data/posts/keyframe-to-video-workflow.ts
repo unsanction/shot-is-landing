@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Text-to-video from a prompt is a lottery for brand work. Generate a keyframe first, animate it second, and you get control back.',
   datePublished: '2026-06-15',
-  dateModified: '2026-06-15',
+  dateModified: '2026-09-22',
   author: founderAuthor,
   ogImageKey: 'blog-keyframe-to-video-workflow',
   tags: ['keyframe to video', 'i2v', 'image to video', 'AI workflow', 'consistency'],
