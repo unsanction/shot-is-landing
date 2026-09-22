@@ -14,6 +14,7 @@ import {
   termsLastUpdated,
   type ServicePageContent,
 } from '../data/seo';
+import { hubIndexAlternates, hubLangs, hubRoutes, hubSectionsForLang, hubStrings } from '../data/learnHub';
 import {
   blogAlternates,
   blogIndexAlternates,
@@ -29,7 +30,6 @@ import {
 } from '../data/blog';
 import {
   isoDuration,
-  learnIndexAlternates,
   learnIndexPath,
   learnPageMeta,
   learnRoutes,
@@ -609,13 +609,18 @@ export const buildLearnIndexSchema = (lang: LessonLang) => {
   const url = absoluteUrl(learnIndexPath(lang));
   const lessons = lessonsByLang[lang];
   const t = learnStrings[lang];
+  const hubItems = hubSectionsForLang(lang).flatMap((section) => section.items);
 
   return {
     '@context': 'https://schema.org',
     '@graph': [
       organizationSchema,
       websiteSchema,
-      {
+      // The Course node describes the screencast path, so it is only emitted where
+      // screencasts exist. The Spanish hub has articles but no lessons yet, and an
+      // empty Course with no syllabus would be a claim the page does not support.
+      ...(lessons.length
+        ? [{
         '@type': 'Course',
         '@id': `${url}#course`,
         name: t.hubTitle,
@@ -639,16 +644,20 @@ export const buildLearnIndexSchema = (lang: LessonLang) => {
           url: absoluteUrl(lessonPath(lesson)),
           timeRequired: isoDuration(learningMinutes(lesson) * 60),
         })),
-      },
+          }]
+        : []),
       {
+        // Lists what the hub actually lists: screencasts and articles together,
+        // in the curated section order rather than by date.
         '@type': 'ItemList',
         '@id': `${url}#list`,
         name: t.hubTitle,
-        itemListElement: lessons.map((lesson, index) => ({
+        numberOfItems: hubItems.length,
+        itemListElement: hubItems.map((item, index) => ({
           '@type': 'ListItem',
           position: index + 1,
-          name: lesson.title,
-          url: absoluteUrl(lessonPath(lesson)),
+          name: item.title,
+          url: absoluteUrl(item.href),
         })),
       },
       {
@@ -684,18 +693,23 @@ export const buildLessonSeo = (lesson: Lesson): PageSeo => {
 
 export const buildLearnIndexSeo = (lang: LessonLang): PageSeo => {
   const path = learnIndexPath(lang);
-  const modifiedTime = lessonsByLang[lang]
-    .map((lesson) => lesson.dateModified ?? lesson.datePublished)
+  const modifiedTime = hubSectionsForLang(lang)
+    .flatMap((section) => section.items)
+    .map((item) => {
+      const source = item.lesson ?? item.post;
+      return source?.dateModified ?? source?.datePublished ?? '';
+    })
+    .filter(Boolean)
     .sort()
     .slice(-1)[0];
   return {
     path,
-    title: `${learnStrings[lang].hubTitle}: Short Screencast Lessons`,
+    title: hubStrings[lang].seoTitle,
     description: learnStrings[lang].hubLede,
     ogImage: ogImageUrl('learn-index'),
     ogType: 'website',
     canonical: absoluteUrl(path),
-    alternates: learnIndexAlternates(),
+    alternates: hubIndexAlternates(),
     structuredData: buildLearnIndexSchema(lang),
     modifiedTime: modifiedTime ?? learnPageMeta.dateModified,
   };
@@ -970,8 +984,9 @@ export const getPageSeo = (rawPath: string): ResolvedPageSeo => {
     return resolve(buildLessonSeo(lesson));
   }
 
-  if (path === learnIndexPath('en') || path === learnIndexPath('es')) {
-    return resolve(buildLearnIndexSeo(path === learnIndexPath('es') ? 'es' : 'en'));
+  const hubLang = hubLangs.find((lang) => learnIndexPath(lang) === path);
+  if (hubLang) {
+    return resolve(buildLearnIndexSeo(hubLang));
   }
 
   const staticPage = STATIC_PAGES_BY_PATH.get(path);
@@ -1008,6 +1023,7 @@ export const getIndexableRoutes = (): string[] => [
   ...comparisonPages.map((p) => p.path),
   ...STATIC_PAGES.map((p) => p.path),
   ...blogRoutes(),
+  ...hubRoutes(),
   ...learnRoutes(),
 ];
 

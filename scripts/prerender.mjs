@@ -227,8 +227,19 @@ const main = async () => {
   const template = await fs.readFile(join(distDir, 'index.html'), 'utf8');
 
   const ssrEntry = await import(join(ssrDir, 'entry-server.js'));
-  const { render, routesToPrerender, sitemapEntries, feedItems, llmsFullSections, llmsFullExtraSections, llmsPageIndex } =
+  const { render, routesToPrerender, sitemapEntries, feedItems, llmsFullSections, llmsFullExtraSections, llmsPageIndex, learnHubCoverage } =
     ssrEntry;
+
+  // Fail the build rather than ship a hub that silently omits published content.
+  const coverage = learnHubCoverage();
+  const coverageProblems = [
+    ...coverage.orphaned.map((id) => `not placed in any Learn hub section: ${id}`),
+    ...coverage.duplicated.map((id) => `placed in more than one Learn hub section: ${id}`),
+    ...coverage.unknown.map((id) => `Learn hub section references something that does not exist: ${id}`),
+  ];
+  if (coverageProblems.length) {
+    throw new Error(`Learn hub coverage failed:\n  - ${coverageProblems.join('\n  - ')}`);
+  }
 
   const routes = routesToPrerender();
   const cleanTemplate = stripStaleHead(template);

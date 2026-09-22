@@ -11,6 +11,7 @@ import { ogTargets, type OgTarget } from './data/ogTargets';
 import { blogPostPath, blogPosts, type BlogBlock, type BlogPost } from './data/blog';
 import { siteBaseUrl } from './data/seo';
 import { comparisonPages } from './data/comparisons';
+import { hubCoverage } from './data/learnHub';
 import { useCasePages } from './data/useCases';
 import { faqGroups, faqPageMeta } from './data/faq';
 import {
@@ -35,6 +36,16 @@ export const render = (path: string): RenderedRoute => {
 };
 
 export const routesToPrerender = (): string[] => getIndexableRoutes();
+
+/**
+ * Learn-hub placement check, run by scripts/prerender.mjs.
+ *
+ * The hub is the only nav entry into both lessons and articles, so an article
+ * that nobody placed in a section is an article no reader can find. Surfacing it
+ * as a build failure is the difference between noticing on publish day and
+ * noticing in six months.
+ */
+export const learnHubCoverage = () => hubCoverage();
 
 /** Sitemap rows (incl. hreflang alternates) for the prerender step to serialize. */
 export const sitemapEntries = (): SitemapEntry[] => buildSitemapEntries();
