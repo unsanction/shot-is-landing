@@ -202,6 +202,111 @@ export const post: BlogPost = {
       text: 'If you would rather not build the pipeline yourself, we run this loop for clients as [AI UGC ads at SHOT.IS](/ai-ugc-ads): validated body, fresh hooks weekly, machine-graded keyframes, beat-synced assembly. Bring one concept and leave with a hook library that refreshes itself.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'why-hooks-decide-everything',
+      label: 'The thumb-stop',
+      visual: {
+        kind: 'feed',
+        stopAt: 3,
+        meterLabel: 'WATCH-THROUGH EARNED',
+        cards: [
+          { label: 'Scrolled past' },
+          { label: 'Scrolled past' },
+          { label: 'Scrolled past' },
+          { label: 'Your first 2 seconds', hook: true },
+          { label: 'Never reached' },
+          { label: 'Never reached' },
+        ],
+      },
+      caption:
+        'If the opening shot does not stop the scroll, nothing downstream is ever seen: not the demo, not the offer, not the edit.',
+    },
+    {
+      anchor: 'problem-call-out-hooks',
+      label: 'The five families',
+      visual: {
+        kind: 'matrix',
+        cols: ['Hook rate', 'Qualifies the viewer', 'Resists fatigue'],
+        rows: [
+          { label: 'Problem call-out', cells: [2, 3, 2] },
+          { label: 'Pattern interrupt', cells: [3, 1, 1] },
+          { label: 'Social proof', cells: [2, 2, 2] },
+          { label: 'Curiosity gap', cells: [3, 1, 1] },
+          { label: 'Direct claim / demo', cells: [1, 3, 3] },
+        ],
+        legend: 'READS AS THE ARTICLE ARGUES IT — NOT AS AN ACCOUNT-LEVEL BENCHMARK',
+      },
+      caption:
+        'A map of the five families you are about to read through. High hook rate and high qualification rarely come from the same pattern, which is why a first batch takes one from each.',
+    },
+    {
+      anchor: 'one-body-many-hooks',
+      label: 'Re-hooking one body',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'reject',
+        steps: [
+          { label: 'Pick the validated body', note: '25–35 seconds that already hold' },
+          { label: 'Choose 3–5 patterns', note: 'Cross-family beats same-family early' },
+          { label: 'Write each as a micro-brief', note: 'Line, text, first visual, framing' },
+          { label: 'Generate keyframes', note: 'Same Scene Bible as the body' },
+          { label: 'Grade the stills', note: '2–4 candidates per hook', gate: true },
+          { label: 'Animate the keepers', note: 'One 4–6 second i2v clip each' },
+          { label: 'Re-render on the same beat grid', note: 'The first cut still lands on an onset' },
+        ],
+      },
+      caption: 'The body stays untouched. A hook variant is one keyframe, one short clip, and a re-render — not a reshoot.',
+    },
+    {
+      anchor: 'hook-fatigue',
+      label: 'Days, not weeks',
+      visual: {
+        kind: 'curve',
+        points: [1, 0.93, 0.74, 0.5, 0.33, 0.22, 0.16],
+        baseline: [0.87, 0.86, 0.86, 0.85, 0.83, 0.82, 0.8],
+        xLabels: ['LAUNCH', 'DAYS LATER'],
+        yLabel: 'RELATIVE PERFORMANCE',
+        seriesLabel: 'HOOK',
+        baselineLabel: 'AD BODY',
+        markers: [{ at: 3, label: 'next hook needed' }],
+      },
+      caption:
+        'Schematic, not measured data. The scroll-stop depends on surprise, so it decays first; the proof and the offer age much more slowly.',
+    },
+    {
+      anchor: 'hook-variant-brief-template',
+      label: 'Seven things per variant',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'ONE HOOK VARIANT',
+        lockedLabel: 'BRIEFED',
+        layers: [
+          { label: 'The cut point' },
+          { label: 'Continuity constants' },
+          { label: 'Emotional register' },
+          { label: 'First visual' },
+          { label: 'On-screen text' },
+          { label: 'Spoken line' },
+          { label: 'Pattern and family' },
+        ],
+      },
+      caption: '“Make it punchier” produces interchangeable variants. Specify all seven and the results separate enough to act on.',
+    },
+    {
+      anchor: 'getting-started',
+      label: 'One batch, five hooks',
+      visual: {
+        kind: 'cull',
+        total: 5,
+        keep: 2,
+        tile: 'face',
+        rejectNote: 'ALL FIVE SHIP INTO ONE AD SET',
+        keepNote: 'SPEND DECIDES',
+      },
+      caption: 'One hook from each family, run for a few days. Which family wins tells you more about your audience than a quarter of single-ad testing.',
+    },
+  ],
   faq: [
     {
       question: 'What is a hook in a UGC ad?',

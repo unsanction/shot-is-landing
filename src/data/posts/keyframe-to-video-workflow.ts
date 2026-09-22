@@ -181,6 +181,107 @@ export const post: BlogPost = {
       text: 'One discipline carries most of the value here: never animate an unapproved still. The rest is volume and routing, meaning more candidates per shot, the right model per shot type, and a QA pass on every output. That part stops scaling gracefully by hand, and our studio automates it end to end, from references to a beat-cut vertical ad. If you would rather skip building the pipeline and get the output, [AI video ads at SHOT.IS](/ai-video-ads) run the keyframe-to-video workflow for you with the QA gates already in place.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'why-t2v-is-a-lottery',
+      label: 'The t2v lottery',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [6, 17],
+        note: 'ONE PROMPT · TWENTY-FOUR RENDERS',
+      },
+      caption:
+        'Text-to-video from one prompt: every attempt costs a full render before you can judge it, and the label, the face or the framing is wrong in most of them.',
+    },
+    {
+      anchor: 'what-keyframe-first-buys-you',
+      label: 'What the still locks',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'PRODUCT + CREATOR REFERENCES',
+        lockedLabel: 'APPROVED',
+        layers: [
+          { label: 'Cheap rejection', note: 'Kill it while killing it is cheap' },
+          { label: 'Identity anchoring', note: 'References attached, not described' },
+          { label: 'Deliberate composition', note: 'Room reserved for the overlay' },
+          { label: 'A reviewable artifact', note: 'A grid a human can grade in one pass' },
+        ],
+      },
+      caption: 'Four things an approved still holds in place before a single second of video renders.',
+    },
+    {
+      anchor: 'step-by-step',
+      label: 'The workflow',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'reject',
+        steps: [
+          { label: 'Lock the references', note: 'Clean product shots, creator identity' },
+          { label: 'Lock the look constants', note: 'One location, one outfit, one palette' },
+          { label: 'Generate keyframe candidates', note: '2–4 stills per shot' },
+          { label: 'Grade the stills', note: 'Brand, identity, continuity, artifacts', gate: true },
+          { label: 'Animate with i2v', note: '4–8 second clips' },
+          { label: 'Grade the clips', note: 'Full duration, not the first frame' },
+          { label: 'Anchor the next shot', note: 'Fresh keyframe, or last frame' },
+        ],
+      },
+      caption: 'Nothing animates without passing stage 04. Failures loop back to a new still, never forward into a render.',
+    },
+    {
+      anchor: 'qa-gate',
+      label: 'The QA gate',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 5,
+        tile: 'product',
+        rejectNote: 'WRONG LABEL · WRONG FACE · WRONG FRAMING',
+        keepNote: 'EARNS AN I2V RENDER',
+      },
+      caption: 'The gate is binary. A still that “mostly” passes does not get animated on the theory that motion will hide the flaw.',
+    },
+    {
+      anchor: 'failure-modes',
+      label: 'Identity drift',
+      visual: {
+        kind: 'drift',
+        frames: 8,
+        glyph: 'label',
+        driftNote: 'FRAME 01 — MATCHES THE KEYFRAME',
+        anchorNote: 'FRAME 08 — A COUSIN OF IT',
+      },
+      caption: 'The model is conditioned on your keyframe at frame zero only. Every frame after that is generated from its own priors.',
+    },
+    {
+      anchor: 'multi-shot-chaining',
+      label: 'Fresh-keyframe anchoring',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [3, 6],
+        glyph: 'face',
+        driftNote: 'DRIFT ACCUMULATES WITHIN A SHOT',
+        anchorNote: 'CUT RESETS IT TO ZERO',
+      },
+      caption: 'The same strip, cut into shots. Each cut re-anchors on a fresh keyframe built from the original references, so drift never compounds past one shot.',
+    },
+    {
+      anchor: 'getting-started',
+      label: 'The 2–4× budget',
+      visual: {
+        kind: 'bars',
+        unit: 'ONE SESSION · SIX-SHOT LIST',
+        note: 'THE RATIO IS THE BUDGET',
+        series: [
+          { label: 'Stills generated', value: 18, display: '18', tone: 'muted', note: '2–4 candidates per shot' },
+          { label: 'Stills approved', value: 6, display: '6', tone: 'accent', note: 'One per shot, graded hard' },
+          { label: 'Clips animated', value: 6, display: '6', tone: 'ink', note: 'Mostly first-take' },
+        ],
+      },
+      caption: 'Pricing in 2–4 attempts per shot up front is what keeps the expensive video stage nearly first-take.',
+    },
+  ],
   faq: [
     {
       question: 'What is the keyframe-to-video workflow?',

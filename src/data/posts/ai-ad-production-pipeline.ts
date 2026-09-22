@@ -169,6 +169,142 @@ export const post: BlogPost = {
       text: 'If you would rather plug into a pipeline that already runs daily, with scene bible discipline, vision QA, multi-model rendering, and beat-grid assembly included, that is what we operate as a service. Start with [AI UGC ads](/ai-ugc-ads) for creator-style testimonial formats, or [AI video ads](/ai-video-ads) for the broader short-form production line. Either way, your ad travels through the pipeline on this page.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'pipeline-overview',
+      label: 'Nine stages',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Brief intake', note: 'Show, claim, ask — on one page' },
+          { label: 'Scene bible', note: 'One location, one outfit, look constants' },
+          { label: 'Shot plan', note: '6–12 shots of 4–8 seconds' },
+          { label: 'Keyframe generation', note: 'Reference-aware, product + creator' },
+          { label: 'Grading and vision QA', note: 'Fail here, never downstream', gate: true },
+          { label: 'Image-to-video', note: 'Approved keyframes only' },
+          { label: 'Beat-grid edit', note: 'Cuts on music onsets, overlays burned in' },
+          { label: 'Export', note: '9:16 first, other ratios after' },
+          { label: 'Creative testing', note: 'Winners feed the next brief' },
+        ],
+      },
+      caption: 'The order is the point: each stage makes the next cheaper, and a shot rejected at stage 05 never burns render minutes at stage 06.',
+    },
+    {
+      anchor: 'why-keyframes-first',
+      label: 'Reject where it is cheap',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 3,
+        tile: 'frame',
+        rejectNote: 'SECONDS AND CENTS TO DISCARD',
+        keepNote: 'GRADUATES TO ANIMATION',
+      },
+      caption: 'Rejection is the core activity. A still is instant to judge; a clip takes minutes to render and minutes to review.',
+    },
+    {
+      anchor: 'scene-bible',
+      label: 'The scene bible',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'EVERY KEYFRAME PROMPT INHERITS THESE',
+        lockedLabel: 'ONE WORLD',
+        layers: [
+          { label: 'Lighting direction', note: 'Same key, same time of day' },
+          { label: 'Lens feel', note: 'One focal length family' },
+          { label: 'Palette', note: 'A short, written list' },
+          { label: 'Outfit', note: 'One, for the whole campaign' },
+          { label: 'Location', note: 'One, not “a cafe”' },
+        ],
+      },
+      caption: 'Models have no memory between shots. Without these locked, six prompts return six cafes — “4 drinks on 4 different tables”.',
+    },
+    {
+      anchor: 'identity-drift',
+      label: 'The label test',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [5],
+        glyph: 'label',
+        driftNote: 'DRIFT COMPOUNDS WITH DURATION',
+        anchorNote: 'CUT BEFORE IT IS VISIBLE',
+      },
+      caption: 'We zoom the final frame of every clip and read the label. If the brand name is still legible, faces and palette have almost always held too.',
+    },
+    {
+      anchor: 'vision-qa',
+      label: 'Machine rejects, humans select',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [2, 7, 9, 14, 18, 21, 22, 5],
+        note: '8 SHOTS × 3 CANDIDATES',
+      },
+      caption: 'Nobody eyeballs every frame at this volume. The checklist catches the objective failures; a human still signs off on the final cut.',
+    },
+    {
+      anchor: 'which-models',
+      label: 'Routing a shot',
+      visual: {
+        kind: 'matrix',
+        cols: ['Physics & motion', 'Iteration speed', 'Character performance', 'Native audio'],
+        rows: [
+          { label: 'Veo 3', cells: [3, 1, 2, 3] },
+          { label: 'Grok Imagine', cells: [2, 3, 2, 0] },
+          { label: 'Kling', cells: [2, 2, 3, 0] },
+        ],
+        legend: 'THE RING MARKS WHERE WE ROUTE THAT SHOT TYPE',
+      },
+      caption: 'No single model wins every shot type, which is why we run several and route per shot rather than picking a favourite.',
+    },
+    {
+      anchor: 'assembly',
+      label: 'Assembly',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: 'Analyse the track for onsets', note: 'The grid comes from the music' },
+          { label: 'Land every cut on a beat', note: '200 ms off reads as sloppy' },
+          { label: 'Burn in hooks and captions', note: 'Feed viewers watch sound-off' },
+          { label: 'Render 9:16 first', note: 'Landscape is the afterthought now' },
+        ],
+      },
+      caption: 'A cut on the beat reads as intentional. Viewers feel the difference even when they cannot name it.',
+    },
+    {
+      anchor: 'testing',
+      label: 'Hook fatigue',
+      visual: {
+        kind: 'curve',
+        points: [1, 0.94, 0.78, 0.55, 0.36, 0.24, 0.18],
+        baseline: [0.88, 0.87, 0.86, 0.85, 0.84, 0.82, 0.81],
+        xLabels: ['LAUNCH', 'DAYS LATER'],
+        yLabel: 'RELATIVE PERFORMANCE',
+        seriesLabel: 'HOOK',
+        baselineLabel: 'AD BODY',
+        markers: [{ at: 3, label: 'swap the hook shot' }],
+      },
+      caption:
+        'Schematic, not measured data — the shape of the problem. The opening decays in days; the proof and the offer do not stop being true.',
+    },
+    {
+      anchor: 'getting-started',
+      label: 'What one ad costs you',
+      visual: {
+        kind: 'bars',
+        unit: 'TYPICAL 30–40 SECOND AD',
+        note: 'BUDGET THE REJECTS UP FRONT',
+        series: [
+          { label: 'Keyframes generated', value: 27, display: '27', tone: 'muted', note: '2–4 candidates per shot' },
+          { label: 'Shots in the cut', value: 9, display: '9', tone: 'accent', note: '6–12 shots of 4–8 seconds' },
+          { label: 'Hook variants shipped', value: 5, display: '5', tone: 'ink', note: 'One ad set, spend decides' },
+        ],
+      },
+      caption: 'Write the brief and the scene bible before you touch a model. Those two documents are most of the difference between a campaign and a pile of clips.',
+    },
+  ],
   faq: [
     {
       question: 'What is an AI ad production pipeline?',

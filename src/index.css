@@ -22,7 +22,11 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  overflow-x: hidden;
+  /* No overflow-x here on purpose. Any non-visible overflow on <body> makes it a
+     scroll container, which silently breaks every `position: sticky` descendant —
+     the scrollytelling article stage among them. `clip` does not help: on <body>
+     it still computes to `hidden`. The `overflow-x: clip` on <html> above already
+     suppresses horizontal overflow at the viewport, so body needs nothing. */
   background-color: var(--bg);
   color: #ffffff;
 }
@@ -1743,4 +1747,403 @@ summary {
   .hero-stage__video {
     transform: none;
   }
+}
+
+/* ─── Scrollytelling article stage (bx-) ──────────────────────────────────────
+   Every diagram animates off one inherited custom property, `--p`, written to the
+   stage element by the scroll driver on a rAF. No diagram re-renders while you
+   scroll: React only runs when the scene on stage changes.
+
+   `--p` is declared with @property so it resolves to a real number with an
+   initial value of 1. That is what the server prerenders, so a crawler or a
+   reader whose JS has not landed yet sees every figure finished rather than
+   blank. */
+
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+/* Item i's own slice of the section's progress, so a set of N things staggers in
+   CSS instead of costing N pieces of React state. The +0.6 lets the last item
+   land slightly before the section ends, where the reader can still see it. */
+.bx-step {
+  --lp: clamp(0, calc(var(--p, 1) * (var(--n) + 0.6) - var(--i)), 1);
+}
+
+.bx-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 80;
+  height: 2px;
+  pointer-events: none;
+}
+
+.bx-progress__fill {
+  width: 100%;
+  height: 100%;
+  /* The literal brand red, not a scoped custom property: this bar renders as a
+     sibling of the article, outside any `.bx-` scope, so a var defined there
+     resolves to nothing and the bar paints transparent. */
+  background: #ff1100;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.bx-scrolly__section {
+  padding-bottom: 3rem;
+}
+
+.bx-stage {
+  position: sticky;
+  top: 6.5rem;
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.bx-stage__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
+}
+
+.bx-stage__tick {
+  display: block;
+  width: 3px;
+  height: 24px;
+  border-radius: 2px;
+  background: rgba(23, 19, 14, 0.14);
+  transition: background 220ms ease, transform 220ms cubic-bezier(0.19, 1, 0.22, 1);
+  transform-origin: left center;
+}
+
+.bx-stage__tick:hover {
+  background: rgba(23, 19, 14, 0.45);
+  transform: scaleX(2);
+}
+
+.bx-stage__tick.is-past {
+  background: rgba(255, 17, 0, 0.32);
+}
+
+.bx-stage__tick.is-current {
+  background: #ff1100;
+  transform: scaleX(2.6);
+}
+
+.bx-stage__card,
+.bx-figure {
+  border: 1px solid rgba(23, 19, 14, 0.14);
+  border-radius: 4px;
+  background-color: #fff;
+  /* Faint plotting grid — reads as a technical sheet rather than a white box. */
+  background-image: radial-gradient(rgba(23, 19, 14, 0.075) 1px, transparent 1px);
+  background-size: 16px 16px;
+  box-shadow: 5px 5px 0 0 rgba(23, 19, 14, 0.06);
+}
+
+.bx-stage__card {
+  padding: 1.15rem 1.15rem 1rem;
+  animation: bx-card-in 440ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.bx-figure {
+  margin: 1.6rem 0 1.9rem;
+  padding: 1rem 1rem 0.9rem;
+}
+
+@keyframes bx-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bx-stage__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.bx-stage__index {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #ff1100;
+}
+
+.bx-stage__index-total {
+  color: rgba(23, 19, 14, 0.4);
+}
+
+.bx-stage__label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(23, 19, 14, 0.5);
+}
+
+.bx-stage__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bx-stage__art > svg {
+  width: 100%;
+  height: auto;
+  max-height: min(58vh, 540px);
+}
+
+.bx-stage__caption {
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(23, 19, 14, 0.1);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: rgba(23, 19, 14, 0.62);
+}
+
+.bx-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Clip to the viewBox. Labels and drift ghosts that run long get cut at the
+     figure's edge instead of escaping the card's padding. */
+  overflow: hidden;
+}
+
+.bx-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bx-body {
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+
+/* Paths carry pathLength="1", so one dash covers the whole stroke and the offset
+   is the progress value directly. */
+.bx-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--p, 1));
+}
+
+.bx-draw--late {
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--p, 1) - 0.55) * 2.6), 1));
+}
+
+/* ── flow ─────────────────────────────────────────────────────────────────── */
+
+.bx-step__lit {
+  opacity: var(--lp);
+}
+
+.bx-step__bar {
+  transform-box: fill-box;
+  transform-origin: top center;
+  transform: scaleY(var(--lp));
+}
+
+.bx-step__ring {
+  opacity: var(--lp);
+}
+
+.bx-flow__token {
+  transform: translateY(calc(var(--rail) * 1px * var(--p, 1)));
+  will-change: transform;
+}
+
+.bx-flow__arrow,
+.bx-flow__loop text {
+  opacity: clamp(0, calc((var(--p, 1) - 0.62) * 4), 1);
+}
+
+/* ── cull ─────────────────────────────────────────────────────────────────── */
+
+.bx-cull__body {
+  opacity: calc(1 - 0.78 * var(--lp));
+}
+
+.bx-cull__kill line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--lp));
+  opacity: var(--lp);
+}
+
+.bx-cull__tile--keep {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(1 + 0.07 * var(--lp)));
+}
+
+.bx-cull__tile--keep .bx-cull__body {
+  opacity: 1;
+}
+
+.bx-cull__ring {
+  opacity: var(--lp);
+}
+
+.bx-cull__play {
+  --pp: clamp(0, calc((var(--p, 1) - 0.8) * 6), 1);
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(0.6 + 0.4 * var(--pp)));
+  opacity: var(--pp);
+}
+
+.bx-cull__scrub {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(clamp(0, calc((var(--p, 1) - 0.84) * 6.2), 1));
+}
+
+/* ── drift ────────────────────────────────────────────────────────────────── */
+
+.bx-drift__frame {
+  /* A faint ghost of what is coming, not a second legible strip. */
+  opacity: calc(0.04 + 0.96 * var(--lp));
+}
+
+.bx-drift__anchor {
+  opacity: clamp(0, calc(var(--lp) * 2 - 1), 1);
+}
+
+/* ── bars ─────────────────────────────────────────────────────────────────── */
+
+.bx-bars__fill {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(var(--lp));
+}
+
+/* ── matrix ───────────────────────────────────────────────────────────────── */
+
+.bx-matrix__row {
+  opacity: calc(0.12 + 0.88 * var(--lp));
+}
+
+.bx-matrix__fill,
+.bx-matrix__pips {
+  opacity: var(--lp);
+}
+
+.bx-matrix__best {
+  stroke-dasharray: 3 3;
+  opacity: clamp(0, calc(var(--lp) * 2 - 1), 1);
+}
+
+/* ── feed ─────────────────────────────────────────────────────────────────── */
+
+.bx-feed__strip {
+  transform: translateY(calc(var(--travel) * 1px * min(var(--p, 1), var(--stop)) / var(--stop)));
+  will-change: transform;
+}
+
+.bx-feed__hook {
+  opacity: clamp(0, calc((var(--p, 1) - var(--stop)) * 6), 1);
+}
+
+.bx-feed__flag {
+  opacity: var(--lp);
+}
+
+.bx-feed__meter-fill {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(clamp(0, calc((var(--p, 1) - var(--stop)) * 2.2), 1));
+}
+
+.bx-feed__thumb {
+  transform: translateY(calc(16px - 34px * min(var(--p, 1), var(--stop)) / var(--stop)));
+  opacity: calc(1 - 0.5 * clamp(0, calc((var(--p, 1) - var(--stop)) * 3), 1));
+}
+
+/* ── stack ────────────────────────────────────────────────────────────────── */
+
+.bx-stack__layer {
+  /* Rises into place rather than flying in from the side: a horizontal entrance
+     carried each layer's label out past the viewBox, where clipping cut it in half. */
+  transform: translateY(calc(38px * (1 - var(--lp))));
+  opacity: clamp(0, calc(var(--lp) * 1.5), 1);
+}
+
+.bx-stack__lock {
+  --kp: clamp(0, calc((var(--p, 1) - 0.86) * 8), 1);
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(0.86 + 0.14 * var(--kp)));
+  opacity: var(--kp);
+}
+
+/* ── curve ────────────────────────────────────────────────────────────────── */
+
+.bx-curve__marker {
+  opacity: clamp(0, calc((var(--p, 1) - var(--at)) * 7), 1);
+}
+
+/* ── scatter ──────────────────────────────────────────────────────────────── */
+
+.bx-scatter__dot {
+  --wp: 0;
+  opacity: var(--lp);
+}
+
+.bx-scatter__dot--win {
+  --wp: clamp(0, calc((var(--p, 1) - 0.6) * 2.6), 1);
+}
+
+.bx-scatter__move {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(calc(var(--dx) * 1px * var(--wp)), calc(var(--dy) * 1px * var(--wp)))
+    scale(calc(0.5 + 0.5 * var(--lp)));
+}
+
+.bx-scatter__halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(0.55 + 0.45 * var(--wp)));
+  opacity: var(--wp);
+}
+
+@media (min-width: 1024px) {
+  .bx-scrolly__section {
+    display: flex;
+    min-height: 76vh;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bx-stage__card {
+    animation: none;
+  }
+
+  .bx-stage__tick {
+    transition: none;
+  }
+
+  /* The driver pins --p at 1 under reduced motion, so every figure renders in its
+     finished state and nothing below moves on scroll. */
 }
