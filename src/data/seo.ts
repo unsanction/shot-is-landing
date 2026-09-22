@@ -102,7 +102,7 @@ export const servicePages: ServicePageContent[] = [
   {
     path: '/ai-ugc-ads',
     slug: 'ai-ugc-ads',
-    dateModified: '2026-08-25',
+    dateModified: '2026-09-22',
     navLabel: 'AI UGC Ads',
     title: 'AI UGC Ads Studio for Brands | SHOT.IS',
     description:
@@ -171,11 +171,17 @@ export const servicePages: ServicePageContent[] = [
           'Startups, mobile apps, ecommerce brands, SaaS tools, creator-led products, and agencies. The fit is strongest when you need frequent ad variants and do not want every test to require casting, filming, and reshoots.',
       },
     ],
+    reading: [
+      { label: 'What AI UGC ads are, and how they actually work', href: '/blog/ai-ugc-ads-guide' },
+      { label: 'Do AI UGC ads perform? What creative testing shows', href: '/blog/do-ai-ugc-ads-work' },
+      { label: 'What AI UGC ads cost: real pipeline numbers', href: '/blog/ai-ugc-ads-cost' },
+      { label: '20 UGC hook patterns we actually test', href: '/blog/ugc-hook-patterns' },
+    ],
   },
   {
     path: '/ai-video-ads',
     slug: 'ai-video-ads',
-    dateModified: '2026-08-25',
+    dateModified: '2026-09-22',
     navLabel: 'AI Video Ads',
     title: 'AI Video Ads for Paid Social Campaigns | SHOT.IS',
     description:
@@ -243,6 +249,15 @@ export const servicePages: ServicePageContent[] = [
         answer:
           'Yes. One strong concept turns into hook variants, creator variants, language variants, cutdowns, static frames, caption tests, and retargeting versions.',
       },
+    ],
+    reading: [
+      { label: 'Inside a real AI ad production pipeline, brief to published', href: '/blog/ai-ad-production-pipeline' },
+      { label: 'The keyframe-to-video workflow for consistent shots', href: '/blog/keyframe-to-video-workflow' },
+      { label: 'Kling vs Veo 3 vs Grok Imagine: which model per shot', href: '/blog/best-ai-video-generator-for-ads' },
+      { label: 'Brand identity in AI ads: scene bibles and product fidelity', href: '/blog/brand-consistency-ai-ads' },
+      { label: 'Beat-synced AI video ads: cutting footage to music', href: '/blog/beat-synced-video-ads' },
+      { label: 'AI video ads vs. traditional production', href: '/blog/ai-video-ads-vs-traditional' },
+      { label: 'Google Veo 3 for ad creative: production lessons', href: '/blog/veo-3-for-ad-creative' },
     ],
   },
   {

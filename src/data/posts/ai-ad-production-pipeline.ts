@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Nine stages sit between a brand brief and a published ad. Here is the full map of how our studio runs them, failure modes included.',
   datePublished: '2026-06-10',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-22',
   author: founderAuthor,
   ogImageKey: 'blog-ai-ad-production-pipeline',
   tags: ['AI ad production', 'pipeline', 'AI video ads', 'workflow'],

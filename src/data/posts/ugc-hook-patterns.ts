@@ -10,7 +10,7 @@ export const post: BlogPost = {
   excerpt:
     'The first two seconds decide whether the rest of your ad exists. Here are the 20 hook patterns we keep coming back to, and how we mass-produce variants with AI.',
   datePublished: '2026-06-10',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-22',
   author: founderAuthor,
   ogImageKey: 'blog-ugc-hook-patterns',
   tags: ['UGC hooks', 'ad scripts', 'AI UGC', 'creative testing'],
