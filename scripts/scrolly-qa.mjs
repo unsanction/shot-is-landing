@@ -4,6 +4,7 @@
  *   npm run build && node scripts/scrolly-qa.mjs                 # every post
  *   node scripts/scrolly-qa.mjs /blog/some-post /es/blog/otra    # just these
  *   node scripts/scrolly-qa.mjs --sheet /blog/some-post          # + contact sheet
+ *   node scripts/scrolly-qa.mjs --mobile                         # phone checks
  *
  * Per post it checks: no console/hydration errors, the sticky stage actually
  * advances across sections, no English fixed labels leak onto a Spanish page, and
@@ -20,6 +21,10 @@ import { extname, join } from 'node:path';
 
 const args = process.argv.slice(2);
 const wantSheet = args.includes('--sheet');
+const mobile = args.includes('--mobile');
+/** Smallest rendered SVG text we accept on a phone, in CSS px. 520-unit layouts
+ *  scaled onto a phone once put labels at 5.5px; this keeps that from returning. */
+const MIN_TEXT_PX = 9;
 let paths = args.filter((a) => a.startsWith('/'));
 
 const types = {
@@ -57,6 +62,53 @@ const park = (page, id, settled) =>
 const browser = await chromium.launch();
 let failures = 0;
 await mkdir('artifacts/scrolly', { recursive: true });
+
+if (mobile) {
+  for (const path of paths) {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const errors = [];
+    page.on('pageerror', (e) => errors.push(`PAGEERROR ${String(e).slice(0, 140)}`));
+    await page.goto(base + path, { waitUntil: 'networkidle' });
+    const r = await page.evaluate((min) => {
+      const small = [];
+      for (const fig of document.querySelectorAll('[data-scene-figure]')) {
+        const svg = fig.querySelector('svg');
+        const vb = svg?.viewBox.baseVal;
+        if (!svg || !vb) continue;
+        const scale = svg.getBoundingClientRect().width / vb.width;
+        for (const t of svg.querySelectorAll('text')) {
+          const px = parseFloat(getComputedStyle(t).fontSize) * scale;
+          if (px < min) small.push(`${t.textContent.slice(0, 24)} @${px.toFixed(1)}px`);
+        }
+      }
+      return {
+        figures: document.querySelectorAll('[data-scene-figure]').length,
+        overflowX: document.documentElement.scrollWidth > window.innerWidth + 1,
+        small,
+      };
+    }, MIN_TEXT_PX);
+    // The navigator must appear once the reader is inside the body.
+    await page.evaluate(() => {
+      const s = document.querySelectorAll('[data-scene-section]')[2];
+      if (s) window.scrollTo({ top: window.scrollY + s.getBoundingClientRect().top, behavior: 'instant' });
+    });
+    await page.waitForTimeout(500);
+    const nav = r.figures ? await page.evaluate(() => !!document.querySelector('.bx-nav.is-visible')) : true;
+    const ok = !errors.length && !r.overflowX && !r.small.length && nav;
+    if (!ok) failures += 1;
+    console.log(
+      `${ok ? 'PASS' : 'FAIL'} ${path.padEnd(52)} ${r.figures} phone figures`,
+      r.overflowX ? '\n     horizontal overflow' : '',
+      r.small.length ? `\n     text under ${MIN_TEXT_PX}px: ${r.small.slice(0, 6).join(' | ')}${r.small.length > 6 ? ` (+${r.small.length - 6})` : ''}` : '',
+      nav ? '' : '\n     section navigator never appeared',
+      errors.length ? `\n     ${errors.join(' | ')}` : '',
+    );
+    await page.close();
+  }
+  await browser.close();
+  server.close();
+  process.exit(failures ? 1 : 0);
+}
 
 for (const path of paths) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

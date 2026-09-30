@@ -1,9 +1,7 @@
-import { INK, Label, formatLike, step, toneColor, type VisualProps } from './shared';
+import { INK, Label, formatLike, step, toneColor, type VisualProps, useCanvas } from './shared';
 import { useId } from 'react';
 import { useCountUp } from '../../../hooks/useSceneDriver';
 
-const PAD = 20;
-const TRACK_X = 150;
 /** Mono value labels at 13px run about 8 units per character. */
 const VALUE_CHAR_W = 8;
 const BAR_H = 20;
@@ -19,11 +17,18 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
   const values = spec.series.map((s) => s.value);
   const { ref, shown } = useCountUp<SVGSVGElement>(values, reduced);
   const max = Math.max(...values, 1);
-  const pitch = spec.series.some((s) => s.note) ? 62 : 48;
+  const { W, narrow } = useCanvas();
+  const PAD = narrow ? 8 : 20;
+  // Phones: label and value share a line above a full-width track. Beside the
+  // track there is no room for a 130-unit label column on a 340 canvas.
+  const TRACK_X = narrow ? PAD : 150;
+  const TOP = narrow ? 20 : 0;
+  const hasNotes = spec.series.some((s) => s.note);
+  const pitch = narrow ? TOP + BAR_H + (hasNotes ? 38 : 20) : hasNotes ? 62 : 48;
   // The track yields to the widest value label. A fixed track let "~3 weeks" and
   // "3–6 s" print on top of the longest bar.
   const labelW = Math.max(...spec.series.map((s) => s.display.length)) * VALUE_CHAR_W + 14;
-  const TRACK_W = 520 - PAD - TRACK_X - labelW;
+  const TRACK_W = narrow ? W - PAD * 2 : W - PAD - TRACK_X - labelW;
   // Unit and note get a line each: side by side they ran into one another.
   const footer = (spec.unit ? 18 : 0) + (spec.note ? 18 : 0);
   const height = PAD * 2 + spec.series.length * pitch + (footer ? footer + 22 : 0);
@@ -31,19 +36,20 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
   return (
     <svg
       ref={ref}
-      viewBox={`0 0 520 ${height}`}
+      viewBox={`0 0 ${W} ${height}`}
       className="bx-svg"
       role="img"
       aria-label={spec.series.map((s) => `${s.label}: ${s.display}`).join('; ')}
     >
       {spec.series.map((s, i) => {
-        const y = PAD + i * pitch;
+        const top = PAD + i * pitch;
+        const y = top + TOP;
         const w = Math.max(3, (s.value / max) * TRACK_W);
         const color = toneColor(s.tone);
 
         return (
           <g key={i} className="bx-step" style={step(i, spec.series.length)}>
-            <text x={PAD} y={y + BAR_H - 5} className="bx-body" style={{ fontSize: 13, fill: INK, fontWeight: 700 }}>
+            <text x={PAD} y={narrow ? top + 13 : y + BAR_H - 5} className="bx-body" style={{ fontSize: 13, fill: INK, fontWeight: 700 }}>
               {s.label}
             </text>
 
@@ -64,8 +70,8 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
             ) : null}
 
             <text
-              x={520 - PAD}
-              y={y + BAR_H - 5}
+              x={W - PAD}
+              y={narrow ? top + 13 : y + BAR_H - 5}
               textAnchor="end"
               className="bx-label"
               style={{ fontSize: 13, fill: color, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}
@@ -90,7 +96,7 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
 
       {footer ? (
         <>
-          <line x1={PAD} y1={height - footer - 14} x2={520 - PAD} y2={height - footer - 14} stroke={INK} strokeOpacity={0.12} />
+          <line x1={PAD} y1={height - footer - 14} x2={W - PAD} y2={height - footer - 14} stroke={INK} strokeOpacity={0.12} />
           {spec.unit ? (
             <Label x={PAD} y={height - footer + 4} size={10} tone="muted">
               {spec.unit}

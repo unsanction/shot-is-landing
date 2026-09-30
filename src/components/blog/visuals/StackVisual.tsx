@@ -1,8 +1,5 @@
-import { ACCENT, INK, Label, step, type VisualProps, useVisualStrings } from './shared';
+import { ACCENT, INK, Label, step, type VisualProps, useVisualStrings, useCanvas } from './shared';
 
-const CX = 150;
-const TILE_W = 196;
-const TILE_H = 60;
 const TOP_CY = 104;
 /** Tighten the spacing as layers are added so a seven-item stack still fits the frame. */
 const riseFor = (n: number) => Math.min(46, Math.max(24, 252 / Math.max(1, n)));
@@ -21,23 +18,28 @@ const rhombus = (cx: number, cy: number, w: number, h: number) =>
  */
 export function StackVisual({ spec }: VisualProps<'stack'>) {
   const vs = useVisualStrings();
+  const { W, narrow } = useCanvas();
+  // Phones shrink the planes and pull them left so the labels keep ~180 units.
+  const CX = narrow ? 64 : 150;
+  const TILE_W = narrow ? 116 : 196;
+  const TILE_H = narrow ? 40 : 60;
   const n = spec.layers.length;
-  const rise = riseFor(n);
+  const rise = narrow ? Math.min(40, Math.max(24, 230 / Math.max(1, n))) : riseFor(n);
   const showNotes = rise >= 34;
   const baseY = TOP_CY + (n - 1) * rise;
   const height = baseY + TILE_H / 2 + (spec.baseLabel ? 54 : 24);
-  const labelX = CX + TILE_W / 2 + 48;
+  const labelX = CX + TILE_W / 2 + (narrow ? 26 : 48);
 
   return (
     <svg
-      viewBox={`0 0 520 ${height}`}
+      viewBox={`0 0 ${W} ${height}`}
       className="bx-svg"
       role="img"
       aria-label={`Locked layers: ${spec.layers.map((l) => l.label).join(', ')}`}
     >
       <polygon points={rhombus(CX, baseY + 14, TILE_W + 26, TILE_H + 8)} fill={INK} fillOpacity={0.05} />
       {spec.baseLabel ? (
-        <Label x={CX} y={baseY + 50} size={9} anchor="middle" tone="muted">
+        <Label x={narrow ? 6 : CX} y={baseY + 50} size={9} anchor={narrow ? 'start' : 'middle'} tone="muted">
           {spec.baseLabel}
         </Label>
       ) : null}

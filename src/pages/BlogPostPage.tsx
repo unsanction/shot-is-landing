@@ -50,7 +50,7 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="grain" aria-hidden="true" />
-      <HomeNav />
+      <HomeNav solid />
       <ReadingProgress />
 
       <main>
@@ -87,10 +87,12 @@ export function BlogPostPage({ post }: BlogPostPageProps) {
                 <a href={blogIndexPath(post.lang)} className="transition-colors hover:text-accent">
                   {t.blogTitle}
                 </a>
-                <span aria-hidden="true" className="mx-2">
+                {/* The last crumb repeats the h1 directly below it — on a phone that is
+                    four lines of mono noise, so it only shows where there is room. */}
+                <span aria-hidden="true" className="mx-2 hidden md:inline">
                   /
                 </span>
-                <span className="text-white/60">{post.title}</span>
+                <span className="hidden text-white/60 md:inline">{post.title}</span>
               </nav>
 
               <h1 className="text-[clamp(1.85rem,5vw,3.25rem)] font-extrabold uppercase leading-[0.98] tracking-tight">

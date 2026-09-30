@@ -1,8 +1,6 @@
 import { useId } from 'react';
-import { ACCENT, INK, Label, pad, step, type VisualProps, useVisualStrings } from './shared';
+import { ACCENT, INK, Label, pad, step, useCanvas, type VisualProps, useVisualStrings } from './shared';
 
-const PAD = 20;
-const GAP = 6;
 const STRIP_Y = 34;
 const FRAME_H = 96;
 
@@ -65,8 +63,16 @@ export function DriftVisual({ spec }: VisualProps<'drift'>) {
   // time, so a hardcoded clip id would have every strip on the page clipping to
   // whichever one mounted first.
   const clipId = `bx-drift-${useId().replace(/:/g, '')}`;
+  const { W, narrow } = useCanvas();
+  const PAD = narrow ? 6 : 20;
+  const GAP = narrow ? 5 : 6;
   const n = spec.frames;
-  const frameW = (520 - PAD * 2 - GAP * (n - 1)) / n;
+  // A phone fits five legible frames across; longer strips wrap into a second
+  // row of film rather than shrinking every face to a smudge.
+  const perRow = narrow && n > 5 ? Math.ceil(n / 2) : n;
+  const rows = Math.ceil(n / perRow);
+  const ROW_PITCH = FRAME_H + 58;
+  const frameW = (W - PAD * 2 - GAP * (perRow - 1)) / perRow;
   const anchors = new Set([0, ...(spec.anchors ?? [])]);
 
   // Drift is distance from the last anchor, normalised by the worst run in the
@@ -79,11 +85,13 @@ export function DriftVisual({ spec }: VisualProps<'drift'>) {
   }
   const worst = Math.max(1, ...runs);
 
-  const height = 236;
+  const stackedNotes = narrow && Boolean(spec.driftNote && spec.anchorNote);
+  const footer = stackedNotes ? 86 : 68;
+  const height = STRIP_Y + FRAME_H + 38 + (rows - 1) * ROW_PITCH + footer;
   const stripBottom = STRIP_Y + FRAME_H;
 
   return (
-    <svg viewBox={`0 0 520 ${height}`} className="bx-svg" role="img" aria-label="Subject drifting across a clip, reset at each anchor">
+    <svg viewBox={`0 0 ${W} ${height}`} className="bx-svg" role="img" aria-label="Subject drifting across a clip, reset at each anchor">
       <defs>
         {/* Drift is drawn as an offset ghost, which by definition leaves the frame.
             Clipping keeps it inside its own frame instead of smearing into the next. */}
@@ -94,17 +102,18 @@ export function DriftVisual({ spec }: VisualProps<'drift'>) {
       <Label x={PAD} y={20} size={9} tone="muted">
         {vs.reference}
       </Label>
-      <Label x={520 - PAD} y={20} size={9} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
+      <Label x={W - PAD} y={20} size={9} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
         {vs.drift}
       </Label>
 
       {runs.map((run, i) => {
-        const x = PAD + i * (frameW + GAP);
+        const x = PAD + (i % perRow) * (frameW + GAP);
+        const rowY = Math.floor(i / perRow) * ROW_PITCH;
         const d = run / worst;
         const anchored = anchors.has(i);
 
         return (
-          <g key={i} className="bx-step bx-drift__frame" style={step(i, n)} transform={`translate(${x} 0)`}>
+          <g key={i} className="bx-step bx-drift__frame" style={step(i, n)} transform={`translate(${x} ${rowY})`}>
             {/* Sprockets — cheap, and they make the row unmistakably a strip of film. */}
             {[0, 1].map((r) => (
               <rect
@@ -148,14 +157,21 @@ export function DriftVisual({ spec }: VisualProps<'drift'>) {
         );
       })}
 
-      <line x1={PAD} y1={height - 42} x2={520 - PAD} y2={height - 42} stroke={INK} strokeOpacity={0.12} />
+      <line x1={PAD} y1={height - footer + 26} x2={W - PAD} y2={height - footer + 26} stroke={INK} strokeOpacity={0.12} />
       {spec.driftNote ? (
-        <Label x={PAD} y={height - 24} size={10} tone="muted">
+        <Label x={PAD} y={height - footer + 44} size={10} tone="muted">
           {spec.driftNote}
         </Label>
       ) : null}
       {spec.anchorNote ? (
-        <Label x={520 - PAD} y={height - 24} size={10} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
+        <Label
+          x={stackedNotes ? PAD : W - PAD}
+          y={height - footer + (stackedNotes ? 62 : 44)}
+          size={10}
+          anchor={stackedNotes ? 'start' : 'end'}
+          tone="accent"
+          style={{ opacity: 1, fontWeight: 700 }}
+        >
           {spec.anchorNote}
         </Label>
       ) : null}
