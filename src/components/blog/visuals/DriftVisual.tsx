@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { ACCENT, INK, Label, pad, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, pad, step, type VisualProps, useVisualStrings } from './shared';
 
 const PAD = 20;
 const GAP = 6;
@@ -60,6 +60,7 @@ function Glyph({ kind, d, w }: { kind: 'face' | 'label' | 'logo'; d: number; w: 
  * rather than extend, and why our clips are short.
  */
 export function DriftVisual({ spec }: VisualProps<'drift'>) {
+  const vs = useVisualStrings();
   // The sticky stage and the mobile figures render different scenes at the same
   // time, so a hardcoded clip id would have every strip on the page clipping to
   // whichever one mounted first.
@@ -91,10 +92,10 @@ export function DriftVisual({ spec }: VisualProps<'drift'>) {
         </clipPath>
       </defs>
       <Label x={PAD} y={20} size={9} tone="muted">
-        REFERENCE
+        {vs.reference}
       </Label>
       <Label x={520 - PAD} y={20} size={9} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
-        DRIFT →
+        {vs.drift}
       </Label>
 
       {runs.map((run, i) => {

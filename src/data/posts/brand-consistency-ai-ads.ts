@@ -195,6 +195,82 @@ export const post: BlogPost = {
       text: 'Or hand it to a pipeline that already works this way. Scene Bibles, reference-fed product fidelity, and machine-graded continuity QA are built into how we produce [AI UGC ads](/ai-ugc-ads), so every campaign gets one world instead of eight shots from eight different ones.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'why-ai-ads-fall-apart',
+      label: 'Four drinks, four tables',
+      visual: {
+        kind: 'cull',
+        total: 6,
+        keep: -1,
+        tile: 'product',
+        rejectNote: 'SIX FINE SHOTS, SIX DIFFERENT WORLDS',
+        keepNote: 'NOT ONE AD',
+      },
+      caption: 'Models have no memory between shots. A six-shot ad gives the model six independent chances to reinvent your world.',
+    },
+    {
+      anchor: 'what-is-a-scene-bible',
+      label: 'The Scene Bible',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'UNDER A PAGE · FIXES WHAT MAY NOT VARY',
+        lockedLabel: 'ONE WORLD',
+        layers: [
+          { label: 'Energy', note: 'Slow push-ins, no whip pans' },
+          { label: 'Light', note: 'Time of day, locked once' },
+          { label: 'Lens feel', note: 'One phrase, every prompt' },
+          { label: 'Palette', note: '2–3 named colors' },
+          { label: 'Outfit', note: 'Garment, color, one detail' },
+          { label: 'Location', note: 'One place, three details' },
+        ],
+      },
+      caption: 'One location, one outfit, four look constants. Every shot prompt inherits the block verbatim.',
+    },
+    {
+      anchor: 'how-to-build-one',
+      label: 'Building it',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'rewrite',
+        steps: [
+          { label: 'Collect product references', note: '2–3 angles, labels readable' },
+          { label: 'Write the location', note: 'One sentence, three details' },
+          { label: 'Lock the outfit', note: 'Garment, color, fit, detail' },
+          { label: 'Pick the look constants', note: 'Four lines, no more' },
+          { label: 'Generate 3–4 test keyframes', note: 'Same shoot, or not?', gate: true },
+          { label: 'Freeze it', note: 'Paste unedited into every prompt' },
+        ],
+      },
+      caption: 'If the test keyframes do not look like frames from one shoot, the bible is not done yet.',
+    },
+    {
+      anchor: 'product-fidelity',
+      label: 'Close enough is a defect',
+      visual: {
+        kind: 'drift',
+        frames: 8,
+        anchors: [4],
+        glyph: 'label',
+        driftNote: 'MODELS LOVE TO REDRAW TYPE',
+        anchorNote: 'REFERENCES IN, EVERY TIME',
+      },
+      caption: 'Generate from real product references, never let the model imagine the product, and read the actual letters in QA.',
+    },
+    {
+      anchor: 'continuity-checklist',
+      label: 'Ten checks per shot',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 3,
+        tile: 'product',
+        rejectNote: 'LABEL · SKU · LIGHT · LENS · OUTFIT',
+        keepNote: 'ENTERS THE EDIT',
+      },
+      caption: 'Machine-graded first, human spot-checked after. Roughly 2–4 candidates per shot to keep one.',
+    },
+  ],
   faq: [
     {
       question: 'What is a Scene Bible in AI ad production?',

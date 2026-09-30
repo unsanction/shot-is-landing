@@ -185,6 +185,61 @@ export const post: BlogPost = {
       text: 'To try the shape of it, start smaller than a full ad: one import node with your best product photo, one prompt, one image generation, one video generation. Get a clip you would approve. Then branch a second motion prompt off the same keyframe and notice that the comparison cost you one node instead of one project. That is the habit canvas mode builds: iterate at the node level and pay only for what changed. If you would rather have the whole graph of references, models, QA, and the final cut built and run for you, that is what [AI video ads at SHOT.IS](/ai-video-ads) are.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'what-is-canvas-mode',
+      label: 'A graph of typed steps',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: 'Import', note: 'Product photos, creator refs' },
+          { label: 'Prompt', note: 'Shot description, look constants' },
+          { label: 'Generate image', note: 'The keyframe' },
+          { label: 'Generate video', note: 'Animates the keyframe' },
+          { label: 'Composer', note: 'Ordered clips + music → the ad' },
+        ],
+      },
+      caption: 'Each node is one production step; each edge carries a typed artifact. The canvas is the plan, the run and the result.',
+    },
+    {
+      anchor: 'why-node-graph',
+      label: 'Wizard vs. canvas',
+      visual: {
+        kind: 'matrix',
+        cols: ['Fix one wrong shot', 'A/B two hooks', 'Mix models per shot', 'See it all at once'],
+        rows: [
+          { label: 'Linear wizard', cells: [1, 1, 1, 0] },
+          { label: 'Canvas mode', cells: [3, 3, 3, 3] },
+        ],
+        legend: 'READ FROM THE COMPARISON TABLE IN THIS SECTION',
+      },
+      caption: 'AI video production is iterative and branchy. A graph fits that shape; a wizard fights it.',
+    },
+    {
+      anchor: 'stale-propagation',
+      label: 'Only the stale part re-runs',
+      visual: {
+        kind: 'cull',
+        total: 6,
+        keep: 2,
+        tile: 'frame',
+        rejectNote: 'FIVE SHOTS CACHED — NOT REGENERATED',
+        keepNote: 'THE ONE YOU CHANGED',
+      },
+      caption: 'Every node fingerprints its inputs. Change one shot’s prompt and only that branch goes stale.',
+    },
+    {
+      anchor: 'branching-and-reuse',
+      label: 'One keyframe, many variants',
+      visual: {
+        kind: 'scatter',
+        total: 12,
+        winners: [4, 9],
+        note: 'VARIANTS ARE BRANCHES, NOT PROJECT COPIES',
+      },
+      caption: 'One approved keyframe feeds several video nodes. The composer picks the winners into the finished ad.',
+    },
+  ],
   faq: [
     {
       question: 'What is canvas mode in SHOT.IS?',

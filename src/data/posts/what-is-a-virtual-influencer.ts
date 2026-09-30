@@ -207,6 +207,95 @@ export const post: BlogPost = {
       text: 'Many brands use both: a human creator for reach and trust, a virtual creator for always-on, controllable content. Read how SHOT.IS builds these as reusable assets on the [virtual influencers](/virtual-influencers) page, and see how a persona moves through production in the [AI ad pipeline walkthrough](/blog/ai-ad-production-pipeline).',
     },
   ],
+  scenes: [
+    {
+      anchor: 'history',
+      label: 'Four decades of virtual faces',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: '1982 — Lynn Minmay', note: 'Virtual idol from Macross' },
+          { label: '2009 — Lu of Magalu', note: 'An early brand-owned persona' },
+          { label: '2016 — Lil Miquela', note: 'The format goes mainstream' },
+          { label: '2017 — Shudu', note: 'The first virtual supermodel' },
+          { label: 'Now — AI-native creators', note: 'Studio-CGI cost collapses to a growth budget' },
+        ],
+      },
+      caption: 'The lineage runs from anime idols to brand characters; generative AI changed who can afford to run one.',
+    },
+    {
+      anchor: 'types',
+      label: 'Three kinds of virtual creator',
+      visual: {
+        kind: 'matrix',
+        cols: ['Brand owns it', 'Always-on volume', 'Real-time live'],
+        rows: [
+          { label: 'CGI avatar', cells: [3, 1, 0] },
+          { label: 'AI-native creator', cells: [3, 3, 0] },
+          { label: 'VTuber', cells: [1, 1, 3] },
+        ],
+        legend: 'READ FROM THE COMPARISON TABLE IN THIS SECTION',
+      },
+      caption: 'Production method decides who controls the character and what it is good for. This guide covers the first two rows.',
+    },
+    {
+      anchor: 'why-brands',
+      label: 'Reported engagement',
+      visual: {
+        kind: 'bars',
+        unit: 'REPORTED AVERAGE INSTAGRAM ENGAGEMENT RATE',
+        note: 'SOURCE CITED IN THE TEXT',
+        series: [
+          { label: 'Virtual', value: 5.9, display: '5.9%', tone: 'accent' },
+          { label: 'Human', value: 1.9, display: '1.9%', tone: 'ink' },
+        ],
+      },
+      caption: 'The number gets the headline, but the reasons brands stay are control: timing, continuity, localization and brand safety.',
+    },
+    {
+      anchor: 'how-built',
+      label: 'A system, not a portrait',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Position the creator', note: 'Audience, genre, campaign purpose' },
+          { label: 'Lock the identity', note: 'Canonical references, wardrobe, tone' },
+          { label: 'Create campaign assets', note: 'Built from the same identity' },
+          { label: 'QA every output', note: 'Checked against the canonical set', gate: true },
+          { label: 'Scale the world', note: 'Launches, collabs, new markets' },
+        ],
+      },
+      caption: 'Every step exists to protect the one thing that makes the character worth building: that it stays recognizable.',
+    },
+    {
+      anchor: 'consistency',
+      label: 'Drift breaks the illusion',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [3, 6],
+        glyph: 'face',
+        driftNote: 'A CHARACTER THAT DRIFTS IS A NEW CHARACTER',
+        anchorNote: 'RE-ANCHOR ON THE CANONICAL SET',
+      },
+      caption: 'Left alone, each generation wanders a little further. Anchoring every output on the same reference set is what holds the face.',
+    },
+    {
+      anchor: 'human-vs-virtual',
+      label: 'Virtual vs. human',
+      visual: {
+        kind: 'matrix',
+        cols: ['On-demand schedule', 'Off-script risk control', 'Any-language localization', 'Immediate trust'],
+        rows: [
+          { label: 'Virtual', cells: [3, 3, 3, 1] },
+          { label: 'Human', cells: [1, 1, 1, 3] },
+        ],
+        legend: 'MANY BRANDS RUN BOTH — ONE FOR REACH, ONE FOR ALWAYS-ON',
+      },
+      caption: 'A human creator brings a real audience relationship; a virtual one brings control. The table above says where each wins.',
+    },
+  ],
   faq: [
     {
       question: 'What is a virtual influencer?',

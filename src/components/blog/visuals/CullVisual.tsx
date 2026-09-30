@@ -61,7 +61,7 @@ export function CullVisual({ spec }: VisualProps<'cull'>) {
   const order = tiles.map((i) => (i === spec.keep ? spec.total - 1 : rejectSeen++));
 
   return (
-    <svg viewBox={`0 0 520 ${height}`} className="bx-svg" role="img" aria-label={`${spec.total} candidates, one kept`}>
+    <svg viewBox={`0 0 520 ${height}`} className="bx-svg" role="img" aria-label={spec.keep < 0 ? `${spec.total} candidates, none kept` : `${spec.total} candidates, one kept`}>
       {tiles.map((i) => {
         const col = i % COLS;
         const row = Math.floor(i / COLS);

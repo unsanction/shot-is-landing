@@ -184,6 +184,85 @@ export const post: BlogPost = {
       text: 'This is the system we run daily for [virtual influencer production at SHOT.IS](/virtual-influencers): canonical identity sets, reference-anchored generation, machine-graded identity QA, and shot design that keeps one face one face across hundreds of shots. If you would rather inherit the system than rebuild it, that is what we are for.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'why-ai-faces-drift',
+      label: 'Ten siblings',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 5,
+        tile: 'face',
+        rejectNote: 'SAME PROMPT · SAME VIBE · DIFFERENT PERSON',
+        keepNote: 'THE ONE YOU MEANT',
+      },
+      caption: 'A prompt describes, it does not identify. Every generation is an independent draw.',
+    },
+    {
+      anchor: 'canonical-identity-set',
+      label: 'The canonical set',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'SINGLE SOURCE OF TRUTH FOR THE FACE',
+        lockedLabel: 'CANON',
+        layers: [
+          { label: 'Signature details', note: 'Same hair, makeup, marks' },
+          { label: 'Neutral lighting', note: 'References agree with each other' },
+          { label: 'Expressions', note: 'Neutral, smiling, mid-speech' },
+          { label: 'Angles', note: 'Front, three-quarter, profile' },
+        ],
+      },
+      caption: 'Several portraits, not one — a single reference overfits one angle and falls apart the moment the head turns.',
+    },
+    {
+      anchor: 'identity-safe-shot-process',
+      label: 'The identity-safe loop',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'reject',
+        steps: [
+          { label: 'Pick matching references', note: 'Angle of the shot' },
+          { label: 'Reference-aware keyframe', note: 'Identity refs attached' },
+          { label: '2–4 candidates', note: 'Cheap at the still stage' },
+          { label: 'Identity check', note: 'Does this read as her?', gate: true },
+          { label: 'Animate 4–8 s', note: 'Less runway for drift' },
+          { label: 'Grade start, middle, end', note: 'Not just frame one' },
+          { label: 'Re-anchor the next shot', note: 'Never extend a drifted clip' },
+        ],
+      },
+      caption: 'The same keyframe-first logic as the whole pipeline, with identity scored before anything moves.',
+    },
+    {
+      anchor: 'shot-design-protects-identity',
+      label: 'Cut before it drifts',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [3, 6],
+        glyph: 'face',
+        driftNote: 'DRIFT COMPOUNDS WITH TIME',
+        anchorNote: 'SHORTER CLIPS, MORE CUTS',
+      },
+      caption: 'Mid-frame subject, no whips across the face, 4–8 second clips. Stop fighting drift where it runs strongest.',
+    },
+    {
+      anchor: 'outfit-locks',
+      label: 'Recognition is redundant',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'PEOPLE READ THE WHOLE GESTALT',
+        lockedLabel: 'RECOGNIZED',
+        layers: [
+          { label: 'Palette' },
+          { label: 'Wardrobe' },
+          { label: 'Silhouette' },
+          { label: 'Hair' },
+          { label: 'Face' },
+        ],
+      },
+      caption: 'The face is one cue among several. Lock the others and a small facial drift stops breaking recognition.',
+    },
+  ],
   faq: [
     {
       question: 'Why do AI-generated faces look different in every image?',

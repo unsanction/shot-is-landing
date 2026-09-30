@@ -4,7 +4,8 @@ import { useCountUp } from '../../../hooks/useSceneDriver';
 
 const PAD = 20;
 const TRACK_X = 150;
-const TRACK_W = 330;
+/** Mono value labels at 13px run about 8 units per character. */
+const VALUE_CHAR_W = 8;
 const BAR_H = 20;
 
 /**
@@ -19,7 +20,13 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
   const { ref, shown } = useCountUp<SVGSVGElement>(values, reduced);
   const max = Math.max(...values, 1);
   const pitch = spec.series.some((s) => s.note) ? 62 : 48;
-  const height = PAD * 2 + spec.series.length * pitch + (spec.unit || spec.note ? 40 : 0);
+  // The track yields to the widest value label. A fixed track let "~3 weeks" and
+  // "3–6 s" print on top of the longest bar.
+  const labelW = Math.max(...spec.series.map((s) => s.display.length)) * VALUE_CHAR_W + 14;
+  const TRACK_W = 520 - PAD - TRACK_X - labelW;
+  // Unit and note get a line each: side by side they ran into one another.
+  const footer = (spec.unit ? 18 : 0) + (spec.note ? 18 : 0);
+  const height = PAD * 2 + spec.series.length * pitch + (footer ? footer + 22 : 0);
 
   return (
     <svg
@@ -63,7 +70,7 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
               className="bx-label"
               style={{ fontSize: 13, fill: color, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}
             >
-              {formatLike(shown[i] ?? s.value, s.display)}
+              {formatLike(shown[i] ?? s.value, s.display, s.value)}
             </text>
 
             {s.note ? (
@@ -81,16 +88,16 @@ export function BarsVisual({ spec, reduced }: VisualProps<'bars'>) {
         </pattern>
       </defs>
 
-      {spec.unit || spec.note ? (
+      {footer ? (
         <>
-          <line x1={PAD} y1={height - 32} x2={520 - PAD} y2={height - 32} stroke={INK} strokeOpacity={0.12} />
+          <line x1={PAD} y1={height - footer - 14} x2={520 - PAD} y2={height - footer - 14} stroke={INK} strokeOpacity={0.12} />
           {spec.unit ? (
-            <Label x={PAD} y={height - 14} size={10} tone="muted">
+            <Label x={PAD} y={height - footer + 4} size={10} tone="muted">
               {spec.unit}
             </Label>
           ) : null}
           {spec.note ? (
-            <Label x={520 - PAD} y={height - 14} size={10} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
+            <Label x={PAD} y={height - 10} size={10} tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
               {spec.note}
             </Label>
           ) : null}

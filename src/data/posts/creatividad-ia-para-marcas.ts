@@ -76,6 +76,65 @@ export const post: BlogPost = {
       text: 'La creatividad con IA funciona mejor como herramienta para los equipos creativos, no como sustituto. Da volumen y velocidad para explorar más ideas, mientras la estrategia, el criterio y la marca siguen siendo humanos. Así enfocamos los [anuncios de video con IA en SHOT.IS](/ai-video-ads): la IA como motor de testing, el equipo como dirección.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'volumen',
+      label: 'Coste por variante',
+      visual: {
+        kind: 'curve',
+        points: [0.12, 0.2, 0.27, 0.33, 0.38, 0.42, 0.46],
+        baseline: [0.14, 0.32, 0.5, 0.66, 0.8, 0.92, 1],
+        xLabels: ['1 VARIANTE', 'MUCHAS VARIANTES'],
+        yLabel: 'GASTO ACUMULADO',
+        seriesLabel: 'IA',
+        baselineLabel: 'RODAJE',
+        markers: [{ at: 3, label: 'donde vive el testing' }],
+      },
+      caption: 'La forma, no una cotización: la IA reduce el coste marginal de cada variante, así que caben más conceptos en el mismo presupuesto.',
+    },
+    {
+      anchor: 'velocidad-testing',
+      label: 'Fallar barato',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [5, 14, 20],
+        note: 'MÁS CICLOS, MÁS APRENDIZAJE',
+      },
+      caption: 'La ventaja no es un video perfecto, sino fallar barato muchas veces hasta encontrar el ángulo que funciona.',
+    },
+    {
+      anchor: 'localizacion',
+      label: 'Un concepto, muchos mercados',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'UN CONCEPTO GANADOR',
+        lockedLabel: 'SIN REGRABAR',
+        layers: [
+          { label: 'Contra la fatiga', note: 'Creatividad fresca constante' },
+          { label: 'Retargeting', note: 'Cortes nuevos' },
+          { label: 'Idiomas y mercados', note: 'Adaptación rápida' },
+          { label: 'Más conceptos', note: 'Mismo presupuesto' },
+        ],
+      },
+      caption: 'Adaptar un concepto probado a otro mercado solía exigir una nueva grabación. Ahora es una variante más.',
+    },
+    {
+      anchor: 'equipos',
+      label: 'Volumen al servicio del criterio',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'descartar',
+        steps: [
+          { label: 'El equipo define la estrategia', note: 'Oferta, marca, ángulo' },
+          { label: 'La IA explora muchas ideas', note: 'Volumen y velocidad' },
+          { label: 'El equipo elige', note: 'Criterio creativo', gate: true },
+          { label: 'Se escala lo que funciona', note: 'Idiomas, cortes, variantes' },
+        ],
+      },
+      caption: 'Una herramienta para los equipos creativos, no un sustituto: la IA da volumen, la estrategia sigue siendo humana.',
+    },
+  ],
   faq: [
     {
       question: '¿La creatividad con IA reemplaza a los equipos creativos?',

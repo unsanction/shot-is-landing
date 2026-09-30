@@ -132,6 +132,64 @@ export const post: BlogPost = {
       text: 'If you would rather inherit this system than rebuild it, that is what we do: the [virtual influencers](/virtual-influencers) page covers how SHOT.IS builds characters as reusable brand assets, and [what is a virtual influencer](/blog/what-is-a-virtual-influencer) is the primer if you are earlier in the decision.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'positioning',
+      label: 'Four decisions first',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: 'Audience', note: 'Who follows this character, and why' },
+          { label: 'Genre and lane', note: 'Pick one lane and hold it' },
+          { label: 'Brand fit', note: 'What it can credibly present' },
+          { label: 'Campaign job', note: 'Awareness face, ad talent, launch anchor' },
+        ],
+      },
+      caption: '“Beautiful AI woman” has no reason to exist. A character with a lane and a job does.',
+    },
+    {
+      anchor: 'identity-lock',
+      label: 'The canonical set',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'EVERY FUTURE ASSET GENERATES AGAINST THIS',
+        lockedLabel: 'IDENTITY',
+        layers: [
+          { label: 'Voice and behavior', note: 'What it says, what it never does' },
+          { label: 'World', note: 'Locations, palette, lens feel' },
+          { label: 'Wardrobe logic', note: 'One or two details that persist' },
+          { label: 'Face set', note: 'Angles, expressions, lighting' },
+        ],
+      },
+      caption: 'The single most important step, and the one most teams skip. References plus written rules, before any content.',
+    },
+    {
+      anchor: 'production',
+      label: 'References hold, text drifts',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [3, 6],
+        glyph: 'face',
+        driftNote: 'PROMPT-ONLY: DRIFTS WITHIN DAYS',
+        anchorNote: 'EVERY SHOT STARTS FROM THE SET',
+      },
+      caption: 'Every image and video starts from the canonical identity set rather than a text description of the character.',
+    },
+    {
+      anchor: 'qa',
+      label: 'Identity QA',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 2,
+        tile: 'face',
+        rejectNote: '“CLOSE ENOUGH” IS HOW DRIFT SHIPS',
+        keepNote: 'MATCHES THE SET',
+      },
+      caption: 'Machine-graded, because human reviewers stop noticing gradual drift where each output looks close enough to the last.',
+    },
+  ],
   faq: [
     {
       question: 'How long does it take to create a virtual influencer?',

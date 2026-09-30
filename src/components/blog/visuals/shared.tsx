@@ -1,10 +1,27 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { createContext, useContext, type CSSProperties, type ReactNode } from 'react';
 import type { BlogVisual, VisualTone } from '../../../data/blogVisuals';
 
 export type VisualProps<K extends BlogVisual['kind']> = {
   spec: Extract<BlogVisual, { kind: K }>;
   reduced: boolean;
 };
+
+/**
+ * The few words drawn inside the figures themselves. Everything else comes from
+ * the scene spec, which the post author writes in the post's language; these are
+ * the fixed axis and state labels a Spanish post would otherwise show in English.
+ */
+const visualStrings = {
+  en: { reference: 'REFERENCE', drift: 'DRIFT →', kept: 'KEPT', generated: 'GENERATED', locked: 'LOCKED', attention: 'ATTENTION HELD' },
+  es: { reference: 'REFERENCIA', drift: 'DERIVA →', kept: 'SE QUEDAN', generated: 'GENERADOS', locked: 'FIJADO', attention: 'ATENCIÓN RETENIDA' },
+} as const;
+
+export type VisualLang = keyof typeof visualStrings;
+
+/** Provided once by the article so no visual needs a `lang` prop threaded through. */
+export const VisualLangContext = createContext<VisualLang>('en');
+
+export const useVisualStrings = () => visualStrings[useContext(VisualLangContext)];
 
 export const INK = '#17130e';
 export const ACCENT = '#ff1100';
@@ -68,14 +85,20 @@ export const pad = (n: number) => String(n).padStart(2, '0');
  * Formats a counting value in the shape of its final display string, so
  * "$31,000" counts as "$4,120" and "3.4×" counts as "1.7×" without every spec
  * having to carry a format descriptor.
+ *
+ * Only counts when the display's number *is* the value. A display like
+ * "~3 weeks" charted at value 21 (days) is a label, not a number to animate —
+ * reshaping 21 into it printed "~21weeks". Those render the display verbatim.
  */
-export const formatLike = (value: number, display: string) => {
-  const core = display.match(/[\d.,\s]+/)?.[0] ?? '';
-  const prefix = display.slice(0, display.indexOf(core));
-  const suffix = display.slice(display.indexOf(core) + core.length);
-  const decimals = (core.split('.')[1] ?? '').replace(/\D/g, '').length;
-  const grouped = /[,\s]/.test(core.trim());
+export const formatLike = (value: number, display: string, target: number) => {
+  const match = display.match(/\d[\d.,]*/);
+  if (!match || Number(match[0].replace(/,/g, '')) !== target) return display;
+  if (value === target) return display;
+  const core = match[0];
+  const prefix = display.slice(0, match.index);
+  const suffix = display.slice((match.index ?? 0) + core.length);
+  const decimals = (core.split('.')[1] ?? '').length;
   const fixed = value.toFixed(decimals);
-  const body = grouped ? Number(fixed).toLocaleString('en-US', { minimumFractionDigits: decimals }) : fixed;
+  const body = core.includes(',') ? Number(fixed).toLocaleString('en-US', { minimumFractionDigits: decimals }) : fixed;
   return `${prefix}${body}${suffix}`;
 };

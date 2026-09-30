@@ -66,7 +66,9 @@ export function CurveVisual({ spec }: VisualProps<'curve'>) {
       {spec.seriesLabel ? (
         <Label
           x={X1}
-          y={py(spec.points[n - 1]) + (spec.points[n - 1] > 0.5 ? 22 : -12)}
+          // Falling into the end → label below the line; rising → above. Deciding by the
+          // end value alone put the label on top of any curve that descends to finish.
+          y={py(spec.points[n - 1]) + ((spec.points[n - 2] ?? 0) > spec.points[n - 1] ? 22 : -12)}
           size={10}
           anchor="end"
           tone="accent"
@@ -80,13 +82,17 @@ export function CurveVisual({ spec }: VisualProps<'curve'>) {
         const x = px(m.at, n);
         const y = py(spec.points[m.at] ?? 0);
         const flip = x > X1 - 120;
+        // The label sits beside the marker, toward the right. If the line climbs away
+        // to the right, text above the point gets struck through — so go below.
+        const rising = (spec.points[m.at + 1] ?? 0) > (spec.points[m.at] ?? 0);
+        const labelY = !flip && rising ? y + 22 : y - 10;
         return (
           <g key={m.label} className="bx-curve__marker" style={{ '--at': m.at / Math.max(1, n - 1) } as CSSProperties}>
             <line x1={x} y1={y} x2={x} y2={Y0} stroke={ACCENT} strokeOpacity={0.3} strokeDasharray="3 3" />
             <circle cx={x} cy={y} r={5} fill="#ffffff" stroke={ACCENT} strokeWidth={2.4} />
             <text
               x={flip ? x - 12 : x + 12}
-              y={y - 10}
+              y={labelY}
               textAnchor={flip ? 'end' : 'start'}
               className="bx-body"
               style={{ fontSize: 12, fill: INK, fontWeight: 700 }}
