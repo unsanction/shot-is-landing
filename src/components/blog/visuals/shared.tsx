@@ -23,6 +23,19 @@ export const VisualLangContext = createContext<VisualLang>('en');
 
 export const useVisualStrings = () => visualStrings[useContext(VisualLangContext)];
 
+/**
+ * Canvas width of the figure, in SVG user units. The sticky stage draws at 520;
+ * the inline figure on phones draws at 340, so it renders close to 1:1 and the
+ * text keeps its real size. Before this, phones scaled a 520 layout to ~61% and
+ * 9px labels landed at 5.5px. Visuals lay themselves out from this, never from a
+ * literal width.
+ */
+export const VisualWidthContext = createContext(520);
+export const useCanvas = () => {
+  const W = useContext(VisualWidthContext);
+  return { W, narrow: W < 420 };
+};
+
 export const INK = '#17130e';
 export const ACCENT = '#ff1100';
 
@@ -65,6 +78,10 @@ export function Label({
   size?: number;
   style?: CSSProperties;
 }) {
+  // Phone floor: ornamental indices were drawn at 8 units, which is still under
+  // 9px on a phone even at 1:1. The QA script enforces the same floor.
+  const { narrow } = useCanvas();
+  if (narrow && size < 9.5) size = 9.5;
   return (
     <text
       x={x}

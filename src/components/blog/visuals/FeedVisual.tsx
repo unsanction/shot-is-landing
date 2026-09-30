@@ -1,5 +1,5 @@
 import { useId, type CSSProperties } from 'react';
-import { ACCENT, INK, Label, pad, step, type VisualProps, useVisualStrings } from './shared';
+import { ACCENT, INK, Label, pad, step, type VisualProps, useVisualStrings, useCanvas } from './shared';
 
 const PHONE_X = 322;
 const PHONE_Y = 14;
@@ -25,10 +25,17 @@ export function FeedVisual({ spec }: VisualProps<'feed'>) {
   // document, and a shared clip id would have one phone clipping to the other's screen.
   const clipId = `bx-feed-${useId().replace(/:/g, '')}`;
   const travel = (SCREEN_H - CARD_H) / 2 - spec.stopAt * PITCH;
+  const { W, narrow } = useCanvas();
+  // Phones scale the phone down and tuck it right; the list keeps what is left.
+  const PHONE_SCALE = narrow ? 0.8 : 1;
+  const phoneShift = narrow ? W - 4 - (PHONE_X + PHONE_W) * PHONE_SCALE : 0;
+  const LIST_R = narrow ? Math.round((PHONE_X * PHONE_SCALE + phoneShift) - 10) : 286;
+  const NUM_X = narrow ? 10 : 26;
+  const TEXT_X = narrow ? 32 : 52;
 
   return (
     <svg
-      viewBox="0 0 520 420"
+      viewBox={`0 0 ${W} 420`}
       className="bx-svg"
       role="img"
       aria-label={`A feed stopping on: ${spec.cards[spec.stopAt]?.label}`}
@@ -52,35 +59,36 @@ export function FeedVisual({ spec }: VisualProps<'feed'>) {
                 number hid the digit behind its accent edge. */}
             {isHook ? (
               <g className="bx-feed__flag">
-                <rect x={16} y={y - 6} width={270} height={30} rx={3} fill={ACCENT} fillOpacity={0.08} />
-                <rect x={16} y={y - 6} width={3} height={30} fill={ACCENT} />
+                <rect x={narrow ? 4 : 16} y={y - 6} width={LIST_R - (narrow ? 4 : 16)} height={30} rx={3} fill={ACCENT} fillOpacity={0.08} />
+                <rect x={narrow ? 4 : 16} y={y - 6} width={3} height={30} fill={ACCENT} />
               </g>
             ) : null}
-            <Label x={26} y={y + 14} size={9} tone="muted">
+            <Label x={NUM_X} y={y + 14} size={9} tone="muted">
               {pad(i + 1)}
             </Label>
             <text
-              x={52}
+              x={TEXT_X}
               y={y + 15}
               className="bx-body"
-              style={{ fontSize: 13, fill: isHook ? ACCENT : INK, fontWeight: isHook ? 800 : 600, opacity: isHook ? 1 : 0.55 }}
+              style={{ fontSize: narrow ? 11.5 : 13, fill: isHook ? ACCENT : INK, fontWeight: isHook ? 800 : 600, opacity: isHook ? 1 : 0.55 }}
             >
               {card.label}
             </text>
-            <line x1={20} y1={y + 28} x2={286} y2={y + 28} stroke={INK} strokeOpacity={0.1} />
+            <line x1={narrow ? 4 : 20} y1={y + 28} x2={LIST_R} y2={y + 28} stroke={INK} strokeOpacity={0.1} />
           </g>
         );
       })}
 
       {/* Attention meter — only starts once the thumb has stopped. */}
       <g className="bx-feed__meter">
-        <Label x={20} y={402} size={9} tone="muted">
+        <Label x={narrow ? 4 : 20} y={402} size={9} tone="muted">
           {spec.meterLabel ?? vs.attention}
         </Label>
-        <rect x={20} y={408} width={266} height={6} rx={3} fill={INK} fillOpacity={0.08} />
-        <rect x={20} y={408} width={266} height={6} rx={3} fill={ACCENT} className="bx-feed__meter-fill" />
+        <rect x={narrow ? 4 : 20} y={408} width={LIST_R - (narrow ? 4 : 20)} height={6} rx={3} fill={INK} fillOpacity={0.08} />
+        <rect x={narrow ? 4 : 20} y={408} width={LIST_R - (narrow ? 4 : 20)} height={6} rx={3} fill={ACCENT} className="bx-feed__meter-fill" />
       </g>
 
+      <g transform={narrow ? `translate(${phoneShift} 30) scale(${PHONE_SCALE})` : undefined}>
       <rect x={PHONE_X} y={PHONE_Y} width={PHONE_W} height={PHONE_H} rx={26} fill="#ffffff" stroke={INK} strokeOpacity={0.3} strokeWidth={2} />
       <rect x={PHONE_X + 62} y={PHONE_Y + 3} width={54} height={5} rx={2.5} fill={INK} fillOpacity={0.25} />
 
@@ -130,6 +138,7 @@ export function FeedVisual({ spec }: VisualProps<'feed'>) {
       <g className="bx-feed__thumb">
         <rect x={PHONE_X + PHONE_W - 58} y={PHONE_H - 34} width={30} height={54} rx={15} fill={ACCENT} fillOpacity={0.9} />
         <rect x={PHONE_X + PHONE_W - 58} y={PHONE_H - 34} width={30} height={54} rx={15} fill="none" stroke={INK} strokeOpacity={0.25} />
+      </g>
       </g>
     </svg>
   );

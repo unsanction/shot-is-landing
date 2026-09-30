@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import type { BlogBlock, BlogPost, BlogScene } from '../../data/blog';
 import { renderBlock } from './BlogProse';
 import { BlogVisualFigure } from './visuals';
-import { VisualLangContext } from './visuals/shared';
+import { SectionNavigator } from './SectionNavigator';
+import { VisualLangContext, VisualWidthContext } from './visuals/shared';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useSceneDriver } from '../../hooks/useSceneDriver';
 
@@ -77,6 +78,10 @@ export function ScrollyArticle({ post, sceneLabel }: { post: BlogPost; sceneLabe
     .map((seg, i) => ({ seg, i }))
     .filter(({ seg }) => seg.anchor && sceneByAnchor.has(seg.anchor));
 
+  const outline = segments.flatMap((seg) =>
+    seg.anchor && seg.heading && seg.heading.type === 'h2' ? [{ id: seg.anchor, text: seg.heading.text }] : [],
+  );
+
   if (!activeScene) return null;
 
   return (
@@ -98,7 +103,11 @@ export function ScrollyArticle({ post, sceneLabel }: { post: BlogPost; sceneLabe
                       <span className="bx-stage__label">{scene.label}</span>
                     </div>
                     <div className="bx-stage__art">
-                      <BlogVisualFigure visual={scene.visual} reduced={reduced} />
+                      {/* Phones draw on a 340-unit canvas so figures render near 1:1 —
+                          a 520 layout scaled to a phone put labels at 5.5px. */}
+                      <VisualWidthContext.Provider value={340}>
+                        <BlogVisualFigure visual={scene.visual} reduced={reduced} />
+                      </VisualWidthContext.Provider>
                     </div>
                     {scene.caption ? <figcaption className="bx-stage__caption">{scene.caption}</figcaption> : null}
                   </figure>
@@ -140,6 +149,12 @@ export function ScrollyArticle({ post, sceneLabel }: { post: BlogPost; sceneLabe
         </div>
       </div>
     </div>
+    <SectionNavigator
+      sections={outline}
+      activeId={segments[active]?.anchor ?? outline[0]?.id}
+      rootRef={rootRef}
+      label={sceneLabel}
+    />
     </VisualLangContext.Provider>
   );
 }

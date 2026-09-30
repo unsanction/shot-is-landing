@@ -6,8 +6,39 @@ import { isStudioUrl, trackCta, trackStudioClick, withUtm } from '../../lib/trac
 const menuLinks = navLinks.slice(0, -1);
 const studioLink = navLinks[navLinks.length - 1];
 
-export function HomeNav() {
+type HomeNavProps = {
+  /**
+   * For pages whose body is light (the article "paper"). The default nav is
+   * transparent with mix-blend-difference, which reads on dark pages and lies on
+   * top of body text on light ones. Solid gives it an opaque bar, a tighter
+   * height, and tucks it away while the reader scrolls down.
+   */
+  solid?: boolean;
+};
+
+export function HomeNav({ solid = false }: HomeNavProps = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [tucked, setTucked] = useState(false);
+
+  useEffect(() => {
+    if (!solid || typeof window === 'undefined') return;
+    let last = window.scrollY;
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        const y = window.scrollY;
+        // Hide on a deliberate scroll down past the header, show on any scroll up.
+        if (y > 240 && y - last > 6) setTucked(true);
+        else if (last - y > 6 || y < 240) setTucked(false);
+        last = y;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [solid]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -28,7 +59,15 @@ export function HomeNav() {
 
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8">
+      <nav
+        className={
+          solid
+            ? `fixed inset-x-0 top-0 z-[100] flex items-center justify-between border-b border-white/10 bg-black/90 px-5 py-3 backdrop-blur-md transition-transform duration-300 md:px-6 md:py-4 lg:px-8 ${
+                tucked && !menuOpen ? '-translate-y-full' : 'translate-y-0'
+              }`
+            : 'fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-5 py-6 mix-blend-difference md:px-6 md:py-7 lg:px-8 lg:py-8'
+        }
+      >
         <BrandLink href="/" />
 
         {/* Five links plus the wordmark only clear the logo from xl up; below

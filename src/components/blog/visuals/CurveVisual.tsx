@@ -1,11 +1,11 @@
 import type { CSSProperties } from 'react';
-import { ACCENT, INK, Label, type VisualProps } from './shared';
+import { ACCENT, INK, Label, type VisualProps, useCanvas } from './shared';
 
-const X0 = 62;
-const X1 = 492;
 const Y0 = 300;
 const Y1 = 48;
 
+let X0 = 62;
+let X1 = 492;
 const px = (i: number, n: number) => X0 + (i / Math.max(1, n - 1)) * (X1 - X0);
 const py = (v: number) => Y0 - v * (Y0 - Y1);
 
@@ -33,10 +33,15 @@ const smooth = (points: number[]) => {
  * once.
  */
 export function CurveVisual({ spec }: VisualProps<'curve'>) {
+  const { W, narrow } = useCanvas();
+  // Plot bounds follow the canvas. Rendering is synchronous and px() reads these
+  // before the next figure sets them, so module scope is safe here.
+  X0 = narrow ? 30 : 62;
+  X1 = W - (narrow ? 8 : 28);
   const n = spec.points.length;
 
   return (
-    <svg viewBox="0 0 520 360" className="bx-svg" role="img" aria-label={spec.seriesLabel ?? 'Trend over time'}>
+    <svg viewBox={`0 0 ${W} 360`} className="bx-svg" role="img" aria-label={spec.seriesLabel ?? 'Trend over time'}>
       {[0, 0.25, 0.5, 0.75, 1].map((g) => (
         <line key={g} x1={X0} y1={py(g)} x2={X1} y2={py(g)} stroke={INK} strokeOpacity={g === 0 ? 0.25 : 0.07} />
       ))}
@@ -81,7 +86,7 @@ export function CurveVisual({ spec }: VisualProps<'curve'>) {
       {spec.markers?.map((m) => {
         const x = px(m.at, n);
         const y = py(spec.points[m.at] ?? 0);
-        const flip = x > X1 - 120;
+        const flip = x > X1 - (narrow ? 140 : 120);
         // The label sits beside the marker, toward the right. If the line climbs away
         // to the right, text above the point gets struck through — so go below.
         const rising = (spec.points[m.at + 1] ?? 0) > (spec.points[m.at] ?? 0);
@@ -115,7 +120,7 @@ export function CurveVisual({ spec }: VisualProps<'curve'>) {
       ) : null}
       {spec.yLabel ? (
         <text
-          transform={`translate(24 ${(Y0 + Y1) / 2}) rotate(-90)`}
+          transform={`translate(${narrow ? 12 : 24} ${(Y0 + Y1) / 2}) rotate(-90)`}
           textAnchor="middle"
           className="bx-label"
           style={{ fontSize: 10, fill: INK, opacity: 0.45 }}

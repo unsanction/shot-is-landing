@@ -1,7 +1,5 @@
-import { ACCENT, INK, Label, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, step, type VisualProps, useCanvas } from './shared';
 
-const PAD = 20;
-const LABEL_W = 132;
 /** Mono 9px headers run about 6.4 units per character. */
 const HEAD_CHAR_W = 6.4;
 
@@ -25,14 +23,20 @@ const ROW_GAP = 8;
  */
 export function MatrixVisual({ spec }: VisualProps<'matrix'>) {
   const cols = spec.cols.length;
-  const cellW = (520 - PAD * 2 - LABEL_W) / cols;
+  const { W, narrow } = useCanvas();
+  const PAD = narrow ? 8 : 20;
+  // Phones give the row label its own line above the cells, so four columns keep
+  // ~80 units each instead of ~48 beside a 132-unit label column.
+  const LABEL_W = narrow ? 0 : 132;
+  const LABEL_H = narrow ? 20 : 0;
+  const cellW = (W - PAD * 2 - LABEL_W) / cols;
   const headers = spec.cols.map((col) => wrap(col, Math.max(6, Math.floor((cellW - 8) / HEAD_CHAR_W))));
   const HEAD_H = 18 + Math.max(...headers.map((h) => h.length)) * 12;
-  const height = HEAD_H + spec.rows.length * (ROW_H + ROW_GAP) + (spec.legend ? 44 : 16);
+  const height = HEAD_H + spec.rows.length * (LABEL_H + ROW_H + ROW_GAP) + (spec.legend ? 44 : 16);
 
   return (
     <svg
-      viewBox={`0 0 520 ${height}`}
+      viewBox={`0 0 ${W} ${height}`}
       className="bx-svg"
       role="img"
       aria-label={`Comparison of ${spec.rows.map((r) => r.label).join(', ')} across ${spec.cols.join(', ')}`}
@@ -50,10 +54,11 @@ export function MatrixVisual({ spec }: VisualProps<'matrix'>) {
           </g>
         );
       })}
-      <line x1={PAD} y1={HEAD_H - 4} x2={520 - PAD} y2={HEAD_H - 4} stroke={INK} strokeOpacity={0.2} />
+      <line x1={PAD} y1={HEAD_H - 4} x2={W - PAD} y2={HEAD_H - 4} stroke={INK} strokeOpacity={0.2} />
 
       {spec.rows.map((row, r) => {
-        const y = HEAD_H + r * (ROW_H + ROW_GAP);
+        const rowTop = HEAD_H + r * (LABEL_H + ROW_H + ROW_GAP) + (narrow ? 4 : 0);
+        const y = rowTop + LABEL_H;
         const top = Math.max(...row.cells);
         // A tie has no winner: ringing the first of three equal cells would assert
         // a ranking the numbers do not contain.
@@ -61,7 +66,7 @@ export function MatrixVisual({ spec }: VisualProps<'matrix'>) {
 
         return (
           <g key={r} className="bx-step bx-matrix__row" style={step(r, spec.rows.length)}>
-            <text x={PAD} y={y + ROW_H / 2 + 5} className="bx-body" style={{ fontSize: 13, fill: INK, fontWeight: 700 }}>
+            <text x={PAD} y={narrow ? rowTop + 13 : y + ROW_H / 2 + 5} className="bx-body" style={{ fontSize: 13, fill: INK, fontWeight: 700 }}>
               {row.label}
             </text>
 

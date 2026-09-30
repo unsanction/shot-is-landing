@@ -1,8 +1,6 @@
 import type { CSSProperties } from 'react';
-import { ACCENT, INK, Label, jitter, step, type VisualProps, useVisualStrings } from './shared';
+import { ACCENT, INK, Label, jitter, step, useCanvas, type VisualProps, useVisualStrings } from './shared';
 
-const FIELD_X = 34;
-const FIELD_W = 452;
 const FIELD_Y = 118;
 const FIELD_H = 216;
 const SHELF_Y = 66;
@@ -14,6 +12,9 @@ const SHELF_Y = 66;
  */
 export function ScatterVisual({ spec }: VisualProps<'scatter'>) {
   const vs = useVisualStrings();
+  const { W, narrow } = useCanvas();
+  const FIELD_X = narrow ? 8 : 34;
+  const FIELD_W = W - FIELD_X * 2;
   const winners = new Set(spec.winners);
   const shelfSlots = spec.winners.length;
   const shelfX = (k: number) => FIELD_X + 40 + ((FIELD_W - 80) / Math.max(1, shelfSlots - 1 || 1)) * (shelfSlots === 1 ? 0.5 : k);
@@ -33,7 +34,7 @@ export function ScatterVisual({ spec }: VisualProps<'scatter'>) {
   let slot = 0;
 
   return (
-    <svg viewBox="0 0 520 400" className="bx-svg" role="img" aria-label={`${spec.winners.length} winners out of ${spec.total} attempts`}>
+    <svg viewBox={`0 0 ${W} 400`} className="bx-svg" role="img" aria-label={`${spec.winners.length} winners out of ${spec.total} attempts`}>
       <line x1={FIELD_X} y1={SHELF_Y + 20} x2={FIELD_X + FIELD_W} y2={SHELF_Y + 20} stroke={INK} strokeOpacity={0.22} />
       <Label x={FIELD_X} y={SHELF_Y - 16} size={9} tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
         {vs.kept}
@@ -89,7 +90,14 @@ export function ScatterVisual({ spec }: VisualProps<'scatter'>) {
           {spec.note}
         </Label>
       ) : null}
-      <Label x={FIELD_X + FIELD_W} y={FIELD_Y + FIELD_H + 38} size={10} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
+      <Label
+        x={FIELD_X + FIELD_W}
+        y={narrow ? SHELF_Y - 16 : FIELD_Y + FIELD_H + 38}
+        size={10}
+        anchor="end"
+        tone="accent"
+        style={{ opacity: 1, fontWeight: 700 }}
+      >
         {spec.winners.length}/{spec.total}
       </Label>
     </svg>

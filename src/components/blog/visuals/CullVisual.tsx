@@ -1,13 +1,10 @@
-import { ACCENT, INK, Label, jitter, pad, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, jitter, pad, step, useCanvas, type VisualProps } from './shared';
 
 const COLS = 4;
-const GAP = 14;
-const PAD = 20;
-const TILE_W = (520 - PAD * 2 - GAP * (COLS - 1)) / COLS;
 const TILE_H = 84;
 
 /** Mini compositions so a contact sheet reads as footage rather than empty boxes. */
-function TileArt({ kind, seed }: { kind: 'frame' | 'face' | 'product'; seed: number }) {
+function TileArt({ kind, seed, w: TILE_W }: { kind: 'frame' | 'face' | 'product'; seed: number; w: number }) {
   const a = jitter(seed);
   const b = jitter(seed + 7);
 
@@ -52,8 +49,14 @@ function TileArt({ kind, seed }: { kind: 'frame' | 'face' | 'product'; seed: num
  * keeper last no matter where it sits in the grid.
  */
 export function CullVisual({ spec }: VisualProps<'cull'>) {
+  const { W, narrow } = useCanvas();
+  const PAD = narrow ? 8 : 20;
+  const GAP = narrow ? 8 : 14;
+  const TILE_W = (W - PAD * 2 - GAP * (COLS - 1)) / COLS;
+  // Two notes side by side need ~70 characters; a phone canvas stacks them.
+  const footer = narrow && spec.rejectNote && spec.keepNote ? 70 : 54;
   const rows = Math.ceil(spec.total / COLS);
-  const height = PAD * 2 + rows * TILE_H + (rows - 1) * GAP + 54;
+  const height = PAD * 2 + rows * TILE_H + (rows - 1) * GAP + footer;
   const tiles = Array.from({ length: spec.total }, (_, i) => i);
   // Rejections run in grid order; the keeper is always the last beat so the
   // survivor is revealed against an already-empty sheet.
@@ -61,7 +64,7 @@ export function CullVisual({ spec }: VisualProps<'cull'>) {
   const order = tiles.map((i) => (i === spec.keep ? spec.total - 1 : rejectSeen++));
 
   return (
-    <svg viewBox={`0 0 520 ${height}`} className="bx-svg" role="img" aria-label={spec.keep < 0 ? `${spec.total} candidates, none kept` : `${spec.total} candidates, one kept`}>
+    <svg viewBox={`0 0 ${W} ${height}`} className="bx-svg" role="img" aria-label={spec.keep < 0 ? `${spec.total} candidates, none kept` : `${spec.total} candidates, one kept`}>
       {tiles.map((i) => {
         const col = i % COLS;
         const row = Math.floor(i / COLS);
@@ -80,7 +83,7 @@ export function CullVisual({ spec }: VisualProps<'cull'>) {
             >
             <g className="bx-cull__body">
               <rect width={TILE_W} height={TILE_H} rx={3} fill="#ffffff" stroke={INK} strokeOpacity={0.16} />
-              <TileArt kind={spec.tile ?? 'frame'} seed={i + 1} />
+              <TileArt kind={spec.tile ?? 'frame'} seed={i + 1} w={TILE_W} />
               <Label x={6} y={12} size={8} tone="muted">
                 {pad(i + 1)}
               </Label>
@@ -126,14 +129,21 @@ export function CullVisual({ spec }: VisualProps<'cull'>) {
         );
       })}
 
-      <line x1={PAD} y1={height - 38} x2={520 - PAD} y2={height - 38} stroke={INK} strokeOpacity={0.12} />
+      <line x1={PAD} y1={height - footer + 16} x2={W - PAD} y2={height - footer + 16} stroke={INK} strokeOpacity={0.12} />
       {spec.rejectNote ? (
-        <Label x={PAD} y={height - 20} size={10} tone="muted">
+        <Label x={PAD} y={height - footer + 34} size={10} tone="muted">
           {spec.rejectNote}
         </Label>
       ) : null}
       {spec.keepNote ? (
-        <Label x={520 - PAD} y={height - 20} size={10} anchor="end" tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
+        <Label
+          x={narrow ? PAD : W - PAD}
+          y={narrow && spec.rejectNote ? height - footer + 52 : height - footer + 34}
+          size={10}
+          anchor={narrow ? 'start' : 'end'}
+          tone="accent"
+          style={{ opacity: 1, fontWeight: 700 }}
+        >
           {spec.keepNote}
         </Label>
       ) : null}

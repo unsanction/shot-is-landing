@@ -1777,7 +1777,8 @@ summary {
   top: 0;
   right: 0;
   left: 0;
-  z-index: 80;
+  /* Above the article's solid nav bar, which would otherwise cover it. */
+  z-index: 110;
   height: 2px;
   pointer-events: none;
 }
@@ -1796,6 +1797,13 @@ summary {
 
 .bx-scrolly__section {
   padding-bottom: 3rem;
+}
+
+/* Room for the phone section navigator, so it never sits over the last lines. */
+@media (max-width: 1023px) {
+  .bx-scrolly {
+    padding-bottom: 4.5rem;
+  }
 }
 
 .bx-stage {
@@ -1855,8 +1863,28 @@ summary {
 }
 
 .bx-figure {
-  margin: 1.6rem 0 1.9rem;
-  padding: 1rem 1rem 0.9rem;
+  /* Full-bleed on phones: the column's own 1.25rem gutter was costing the figure
+     a tenth of the screen on top of the card padding. */
+  margin: 1.6rem -1.25rem 1.9rem;
+  padding: 0.85rem 0.6rem 0.8rem;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  .bx-figure {
+    margin: 1.6rem 0 1.9rem;
+    padding: 1rem 1rem 0.9rem;
+    border: 1px solid rgba(23, 19, 14, 0.14);
+    border-radius: 4px;
+  }
+}
+
+.bx-figure .bx-stage__head,
+.bx-figure .bx-stage__caption {
+  padding-inline: 0.65rem;
 }
 
 @keyframes bx-card-in {
@@ -2123,6 +2151,144 @@ summary {
   transform-origin: center;
   transform: scale(calc(0.55 + 0.45 * var(--wp)));
   opacity: var(--wp);
+}
+
+/* ── phone section navigator ──────────────────────────────────────────────── */
+
+.bx-nav {
+  position: fixed;
+  right: 0.75rem;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  left: 0.75rem;
+  z-index: 90;
+  transform: translateY(calc(100% + 1.5rem));
+  transition: transform 280ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bx-nav.is-visible {
+  transform: none;
+}
+
+.bx-nav__bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.7rem;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(17, 14, 11, 0.94);
+  padding: 0.85rem 0.95rem 0.95rem;
+  color: #faf7f1;
+  text-align: left;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.bx-nav__num {
+  flex: none;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #ff1100;
+}
+
+.bx-nav__total {
+  color: rgba(250, 247, 241, 0.4);
+}
+
+.bx-nav__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bx-nav__chevron {
+  flex: none;
+  font-size: 1rem;
+  color: rgba(250, 247, 241, 0.6);
+}
+
+.bx-nav__track {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: rgba(250, 247, 241, 0.12);
+}
+
+.bx-nav__track > span {
+  display: block;
+  height: 100%;
+  background: #ff1100;
+  transform-origin: left center;
+  transition: transform 300ms ease;
+}
+
+.bx-nav__sheet {
+  max-height: min(62vh, 30rem);
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  background: #faf7f1;
+  padding: 1rem 0.5rem 0.5rem;
+  color: #17130e;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  animation: bx-card-in 260ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.bx-nav__sheet-label {
+  padding: 0 0.6rem 0.6rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(23, 19, 14, 0.45);
+}
+
+.bx-nav__sheet a {
+  display: flex;
+  gap: 0.75rem;
+  border-radius: 4px;
+  padding: 0.7rem 0.6rem;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(23, 19, 14, 0.75);
+}
+
+.bx-nav__sheet a.is-past {
+  color: rgba(23, 19, 14, 0.45);
+}
+
+.bx-nav__sheet a.is-current {
+  background: rgba(255, 17, 0, 0.08);
+  font-weight: 800;
+  color: #17130e;
+}
+
+.bx-nav__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  background: rgba(10, 8, 6, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bx-nav,
+  .bx-nav__track > span {
+    transition: none;
+  }
 }
 
 @media (min-width: 1024px) {
