@@ -155,6 +155,63 @@ export const post: BlogPost = {
       text: 'Skip the question of whether one AI video can beat your best ad. Stand up the smallest testing loop you can run weekly: two concepts, a handful of hooks each, a hard QA gate, and reporting at the concept-family level. After two or three cycles you will know which concepts deserve scale and which advantages matter most for your account, whether that is velocity, cost, fatigue response, or localization. If you would rather plug into a pipeline that already runs this loop daily, with keyframe-first generation, machine-graded QA, and beat-synced assembly, our [AI UGC ads service](/ai-ugc-ads) does that. If you are building the muscle in-house first, our [complete AI UGC ads guide](/blog/ai-ugc-ads-guide) walks through the full workflow.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'why-single-video-is-wrong-question',
+      label: 'System vs. system',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [4, 13, 19],
+        note: 'COMPARE THE LOOP, NOT ONE VIDEO',
+      },
+      caption: 'One AI clip against your best human ad is the wrong fight. The question is what a cheap, fast testing loop finds.',
+    },
+    {
+      anchor: 'where-ai-ugc-helps',
+      label: 'Hooks fatigue in days',
+      visual: {
+        kind: 'curve',
+        points: [1, 0.92, 0.72, 0.5, 0.34, 0.24, 0.18],
+        baseline: [0.86, 0.85, 0.85, 0.84, 0.82, 0.81, 0.8],
+        xLabels: ['LAUNCH', 'DAYS LATER'],
+        yLabel: 'RELATIVE PERFORMANCE',
+        seriesLabel: 'HOOK',
+        baselineLabel: 'AD BODY',
+        markers: [{ at: 3, label: 'refresh the opening' }],
+      },
+      caption: 'Schematic, not measured data. The gain is in how many hooks you test per week, and how cheaply you replace the tired one.',
+    },
+    {
+      anchor: 'where-results-disappoint',
+      label: 'The QA gate',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 6,
+        tile: 'product',
+        rejectNote: 'WARPED HANDS · MELTED LABELS',
+        keepNote: 'SAFE TO SPEND ON',
+      },
+      caption: 'Expect 2–4 candidates per shot to keep one. Teams that ship the first generation ship the artifacts with it.',
+    },
+    {
+      anchor: 'what-to-measure',
+      label: 'The weekly loop',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'kill bottom half',
+        steps: [
+          { label: 'Pick 2–3 concepts', note: 'Different angle, not wallpaper' },
+          { label: 'Generate 5–10 hooks each', note: 'Shared body, keyframes first' },
+          { label: 'QA every clip', note: 'Faces, hands, labels, continuity' },
+          { label: 'Read hook rate', note: 'Equal budget per variant', gate: true },
+          { label: 'Scale the winning family', note: 'Refresh hooks, then localize' },
+        ],
+      },
+      caption: 'Judge concept families, not single videos: small spend per variant makes per-video CPA mostly noise.',
+    },
+  ],
   faq: [
     {
       question: 'Do AI UGC ads actually work?',

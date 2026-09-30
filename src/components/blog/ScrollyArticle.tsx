@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import type { BlogBlock, BlogPost, BlogScene } from '../../data/blog';
 import { renderBlock } from './BlogProse';
 import { BlogVisualFigure } from './visuals';
+import { VisualLangContext } from './visuals/shared';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useSceneDriver } from '../../hooks/useSceneDriver';
 
@@ -79,6 +80,7 @@ export function ScrollyArticle({ post, sceneLabel }: { post: BlogPost; sceneLabe
   if (!activeScene) return null;
 
   return (
+    <VisualLangContext.Provider value={post.lang}>
     <div ref={rootRef} className="bx-scrolly">
       <div className="mx-auto grid max-w-[78rem] grid-cols-1 gap-x-14 px-5 md:px-8 lg:grid-cols-[minmax(0,33rem)_minmax(0,1fr)]">
         <div>
@@ -138,5 +140,6 @@ export function ScrollyArticle({ post, sceneLabel }: { post: BlogPost; sceneLabe
         </div>
       </div>
     </div>
+    </VisualLangContext.Provider>
   );
 }

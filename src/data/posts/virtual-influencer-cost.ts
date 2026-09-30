@@ -125,6 +125,66 @@ export const post: BlogPost = {
       text: 'Identity lock, reference-anchored generation, and machine-graded QA avoid these costs by construction, and [how to create a virtual influencer](/blog/how-to-create-a-virtual-influencer) covers that step by step. If you want a scoped number for your brand rather than tiers, [brief us](/virtual-influencers) and we will price the identity build and the content system separately, the way it should be priced.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'tiers',
+      label: 'Three economics',
+      visual: {
+        kind: 'matrix',
+        cols: ['Identity holds at volume', 'Video and ads system', 'Low entry cost'],
+        rows: [
+          { label: 'DIY generator', cells: [1, 0, 3] },
+          { label: 'Studio-built creator', cells: [3, 3, 2] },
+          { label: 'CGI with a team', cells: [3, 3, 0] },
+        ],
+        legend: 'READ FROM THE TIER TABLE IN THIS SECTION',
+      },
+      caption: 'The label covers a tool subscription and a small media company. Which tier you are in decides the answer.',
+    },
+    {
+      anchor: 'what-drives-cost',
+      label: 'What moves the quote',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'NOT “HOW PRETTY THE CHARACTER IS”',
+        lockedLabel: 'YOUR QUOTE',
+        layers: [
+          { label: 'Consistency requirements', note: 'QA depth across hundreds of shots' },
+          { label: 'Markets', note: 'Multiplies production, not identity' },
+          { label: 'Volume', note: 'Weekly post vs always-on ads' },
+          { label: 'Formats', note: 'Stills, UGC video, campaign packs' },
+        ],
+      },
+      caption: 'Within the studio tier, four inputs set the cost. The last one is the line item most quotes leave out.',
+    },
+    {
+      anchor: 'vs-human',
+      label: 'Build vs. rent',
+      visual: {
+        kind: 'curve',
+        points: [0.3, 0.36, 0.41, 0.45, 0.49, 0.53, 0.56],
+        baseline: [0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1],
+        xLabels: ['FIRST CAMPAIGN', 'MANY CAMPAIGNS'],
+        yLabel: 'CUMULATIVE SPEND',
+        seriesLabel: 'VIRTUAL',
+        baselineLabel: 'HUMAN SOURCING',
+        markers: [{ at: 2, label: 'break-even' }],
+      },
+      caption: 'Schematic, not a quote. A virtual creator front-loads the identity build; human sourcing pays per post, every time.',
+    },
+    {
+      anchor: 'hidden-costs',
+      label: 'The cost of drift',
+      visual: {
+        kind: 'drift',
+        frames: 8,
+        glyph: 'face',
+        driftNote: 'COSTS NOTHING UNTIL IT DOES',
+        anchorNote: 'THEN THE CHARACTER IS SOMEONE ELSE',
+      },
+      caption: 'Regenerating from prompts instead of a canonical set is free on day one and expensive by month three.',
+    },
+  ],
   faq: [
     {
       question: 'How much does a virtual influencer cost?',

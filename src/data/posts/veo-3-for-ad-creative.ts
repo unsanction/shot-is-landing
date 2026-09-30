@@ -161,6 +161,68 @@ export const post: BlogPost = {
       text: 'If you would rather skip the months of accumulated workarounds, meaning the QA loops, the re-anchoring discipline, and the retry queues, we already run that pipeline daily for [AI video ads at SHOT.IS](/ai-video-ads): keyframe-first, multi-model, machine-graded, and assembled to the beat.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'what-is-veo-3-good-at',
+      label: 'Where Veo earns its slot',
+      visual: {
+        kind: 'matrix',
+        cols: ['Physics & motion', 'Iteration speed', 'Character performance', 'Native audio'],
+        rows: [
+          { label: 'Veo 3', cells: [3, 1, 2, 3] },
+          { label: 'Grok Imagine', cells: [2, 3, 2, 0] },
+          { label: 'Kling', cells: [2, 2, 3, 0] },
+        ],
+        legend: 'VEO GETS THE PHYSICS-CRITICAL AND AUDIO-RELEVANT SHOTS',
+      },
+      caption: 'Pours, fabric, hands on product, and clips that arrive with usable sound. The trade is iteration cost.',
+    },
+    {
+      anchor: 'where-veo-3-bites',
+      label: 'The batch that died',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [2, 9, 15],
+        note: '6–12 SHOTS × 2–4 CANDIDATES = A BATCH, NOT A CLIP',
+      },
+      caption: 'Aspect ratios, watermarks, quotas and prompt sensitivity. None are dealbreakers; all surprise you mid-campaign.',
+    },
+    {
+      anchor: 'consistent-results-workflow',
+      label: 'One job per generation',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Lock a Scene Bible', note: 'Location, outfit, look constants' },
+          { label: 'Reference-aware keyframes', note: 'Product and creator refs' },
+          { label: 'Grade the keyframes', note: 'Fidelity, identity, artifacts', gate: true },
+          { label: 'Animate with Veo 3', note: '4–8 second clips' },
+          { label: 'Re-anchor every shot', note: 'Fresh graded keyframe' },
+          { label: 'QA clips, assemble on beats', note: 'Same checklist as stills' },
+        ],
+      },
+      caption: 'Stop asking one generation to nail composition, identity and motion at once. Keyframes carry the first two.',
+    },
+    {
+      anchor: 'prompting-veo-3-for-ads',
+      label: 'Five slots, not prose',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'EVERY SHOT PROMPT NAMES ALL FIVE',
+        lockedLabel: 'PROMPT',
+        layers: [
+          { label: 'Audio cue', note: 'Direct the sound, or get a guess' },
+          { label: 'Lighting', note: 'Matched to the Scene Bible' },
+          { label: 'Camera', note: 'Move and framing, named' },
+          { label: 'Action', note: 'One verb phrase, one beat' },
+          { label: 'Subject', note: 'Details that must survive' },
+        ],
+      },
+      caption: 'Prompt sensitivity stops being a problem once you fill in a structure instead of writing a paragraph.',
+    },
+  ],
   faq: [
     {
       question: 'Is Veo 3 good for making ads?',

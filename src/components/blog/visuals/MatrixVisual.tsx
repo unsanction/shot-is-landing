@@ -2,7 +2,19 @@ import { ACCENT, INK, Label, step, type VisualProps } from './shared';
 
 const PAD = 20;
 const LABEL_W = 132;
-const HEAD_H = 42;
+/** Mono 9px headers run about 6.4 units per character. */
+const HEAD_CHAR_W = 6.4;
+
+/** Greedy word wrap to the cell width; four columns left no room for the old two-line split. */
+const wrap = (text: string, maxChars: number) => {
+  const lines: string[] = [];
+  for (const word of text.split(' ')) {
+    const last = lines[lines.length - 1];
+    if (last && `${last} ${word}`.length <= maxChars) lines[lines.length - 1] = `${last} ${word}`;
+    else lines.push(word);
+  }
+  return lines;
+};
 const ROW_H = 40;
 const ROW_GAP = 8;
 
@@ -14,6 +26,8 @@ const ROW_GAP = 8;
 export function MatrixVisual({ spec }: VisualProps<'matrix'>) {
   const cols = spec.cols.length;
   const cellW = (520 - PAD * 2 - LABEL_W) / cols;
+  const headers = spec.cols.map((col) => wrap(col, Math.max(6, Math.floor((cellW - 8) / HEAD_CHAR_W))));
+  const HEAD_H = 18 + Math.max(...headers.map((h) => h.length)) * 12;
   const height = HEAD_H + spec.rows.length * (ROW_H + ROW_GAP) + (spec.legend ? 44 : 16);
 
   return (
@@ -25,23 +39,14 @@ export function MatrixVisual({ spec }: VisualProps<'matrix'>) {
     >
       {spec.cols.map((col, c) => {
         const x = PAD + LABEL_W + c * cellW + cellW / 2;
-        const words = col.split(' ');
+        const lines = headers[c];
         return (
           <g key={col}>
-            {words.length > 1 ? (
-              <>
-                <Label x={x} y={HEAD_H - 24} size={9} anchor="middle" tone="muted">
-                  {words.slice(0, -1).join(' ')}
-                </Label>
-                <Label x={x} y={HEAD_H - 12} size={9} anchor="middle" tone="muted">
-                  {words[words.length - 1]}
-                </Label>
-              </>
-            ) : (
-              <Label x={x} y={HEAD_H - 14} size={9} anchor="middle" tone="muted">
-                {col}
+            {lines.map((line, l) => (
+              <Label key={l} x={x} y={HEAD_H - 12 - (lines.length - 1 - l) * 12} size={9} anchor="middle" tone="muted">
+                {line}
               </Label>
-            )}
+            ))}
           </g>
         );
       })}

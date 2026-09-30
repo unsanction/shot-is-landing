@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { ACCENT, INK, Label, jitter, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, jitter, step, type VisualProps, useVisualStrings } from './shared';
 
 const FIELD_X = 34;
 const FIELD_W = 452;
@@ -13,6 +13,7 @@ const SHELF_Y = 66;
  * story, because the losers stay on screen instead of being quietly cropped out.
  */
 export function ScatterVisual({ spec }: VisualProps<'scatter'>) {
+  const vs = useVisualStrings();
   const winners = new Set(spec.winners);
   const shelfSlots = spec.winners.length;
   const shelfX = (k: number) => FIELD_X + 40 + ((FIELD_W - 80) / Math.max(1, shelfSlots - 1 || 1)) * (shelfSlots === 1 ? 0.5 : k);
@@ -35,10 +36,10 @@ export function ScatterVisual({ spec }: VisualProps<'scatter'>) {
     <svg viewBox="0 0 520 400" className="bx-svg" role="img" aria-label={`${spec.winners.length} winners out of ${spec.total} attempts`}>
       <line x1={FIELD_X} y1={SHELF_Y + 20} x2={FIELD_X + FIELD_W} y2={SHELF_Y + 20} stroke={INK} strokeOpacity={0.22} />
       <Label x={FIELD_X} y={SHELF_Y - 16} size={9} tone="accent" style={{ opacity: 1, fontWeight: 700 }}>
-        KEPT
+        {vs.kept}
       </Label>
       <Label x={FIELD_X} y={FIELD_Y + 2} size={9} tone="muted">
-        GENERATED
+        {vs.generated}
       </Label>
       <rect
         x={FIELD_X}

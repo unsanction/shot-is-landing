@@ -175,6 +175,78 @@ export const post: BlogPost = {
       text: 'Start from the track rather than the footage. Pick a cleared 30–40 second piece of music with a clear build and drop, run onset detection, and let the grid tell you the shot count, which usually lands at 8–12 slots. Reserve the strongest onset for your product hero shot, map calm material to the verse and intense material to the drop, and generate every clip 1–2 seconds over its slot length so trimming has room to work. Trim toward each clip’s strongest stretch, land your text on beats that do not already carry cuts, and burn the overlays in. This is the assembly stage of how we build [AI video ads](/ai-video-ads), running keyframes first, machine-graded clips second, and beat-grid edit last. It decides whether the result reads as a generated slideshow or as an ad someone meant to make.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'how-a-beat-grid-works',
+      label: 'Three filters',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: 'Onset detection', note: 'Where audio energy jumps' },
+          { label: 'Cut-point selection', note: 'Minimum slot rarely under 1.5 s' },
+          { label: 'Clip slotting', note: 'Each window becomes a fixed slot' },
+          { label: 'Deterministic assembly', note: '“0.00–2.31 s: shot 1, …”' },
+        ],
+      },
+      caption: 'The grid turns editing into a planning problem you solve before generating anything.',
+    },
+    {
+      anchor: 'why-generate-longer',
+      label: 'Degradation is back-loaded',
+      visual: {
+        kind: 'drift',
+        frames: 8,
+        glyph: 'face',
+        driftNote: 'CLOSEST TO THE KEYFRAME EARLY',
+        anchorNote: 'SO THE TAIL IS WHAT YOU TRIM',
+      },
+      caption: 'Every clip runs 1–2 seconds longer than its slot, because the end of an i2v clip is where it wanders.',
+    },
+    {
+      anchor: 'energy-mapping',
+      label: 'Shot energy follows the track',
+      visual: {
+        kind: 'curve',
+        points: [0.18, 0.24, 0.42, 0.66, 1, 0.62, 0.3],
+        xLabels: ['INTRO', 'OUTRO'],
+        yLabel: 'TRACK ENERGY',
+        seriesLabel: 'TRACK',
+        markers: [
+          { at: 2, label: 'build: tighter crops' },
+          { at: 4, label: 'drop: the product' },
+        ],
+      },
+      caption: 'Schematic track shape. Cutting on the beat answers when; energy mapping answers what goes in each slot.',
+    },
+    {
+      anchor: 'planning-shot-count',
+      label: 'Slots are not equal',
+      visual: {
+        kind: 'bars',
+        unit: '35–40 S TRACK · GRID YIELDS 8–12 SLOTS',
+        note: 'SHOT COUNT FALLS OUT OF THE TRACK',
+        series: [
+          { label: 'Verse slot', value: 4.5, display: '3–6 s', tone: 'ink' },
+          { label: 'Drop slot', value: 2, display: '1.5–2.5 s', tone: 'accent' },
+        ],
+      },
+      caption: 'Plan the shot list against the grid: long verse slots and short drop slots want different shots.',
+    },
+    {
+      anchor: 'when-a-clip-fails-its-slot',
+      label: 'Three moves',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Trim from the tail', note: 'Default: drift lives at the end' },
+          { label: 'Trim from the head', note: 'When it opens with a wobble' },
+          { label: 'Re-slot or regenerate', note: 'Neither end holds the slot', gate: true },
+        ],
+      },
+      caption: 'Trim toward where the clip is strongest, and let the slot type break ties.',
+    },
+  ],
   faq: [
     {
       question: 'What are beat-synced video ads?',

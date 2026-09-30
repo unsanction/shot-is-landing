@@ -1,5 +1,5 @@
 import { useId, type CSSProperties } from 'react';
-import { ACCENT, INK, Label, pad, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, pad, step, type VisualProps, useVisualStrings } from './shared';
 
 const PHONE_X = 322;
 const PHONE_Y = 14;
@@ -20,6 +20,7 @@ const STOP_AT = 0.55;
  * meter keeps filling — the two-second argument, staged rather than stated.
  */
 export function FeedVisual({ spec }: VisualProps<'feed'>) {
+  const vs = useVisualStrings();
   // Unique per instance: the sticky stage and the mobile figures can both be in the
   // document, and a shared clip id would have one phone clipping to the other's screen.
   const clipId = `bx-feed-${useId().replace(/:/g, '')}`;
@@ -74,7 +75,7 @@ export function FeedVisual({ spec }: VisualProps<'feed'>) {
       {/* Attention meter — only starts once the thumb has stopped. */}
       <g className="bx-feed__meter">
         <Label x={20} y={402} size={9} tone="muted">
-          {spec.meterLabel ?? 'ATTENTION HELD'}
+          {spec.meterLabel ?? vs.attention}
         </Label>
         <rect x={20} y={408} width={266} height={6} rx={3} fill={INK} fillOpacity={0.08} />
         <rect x={20} y={408} width={266} height={6} rx={3} fill={ACCENT} className="bx-feed__meter-fill" />

@@ -109,6 +109,68 @@ export const post: BlogPost = {
       text: 'Start with one proven offer and write three to five distinct hooks for it. Generate a couple of variants per hook, run them as a small test, and let signal decide what to expand. This is exactly the workflow behind [AI UGC ads at SHOT.IS](/ai-ugc-ads), where one creator persona can produce a steady stream of testable angles. If you want to go deeper, we’ve mapped the [full production pipeline from brief to published ad](/blog/ai-ad-production-pipeline) and published the [20 hook patterns we actually test](/blog/ugc-hook-patterns).',
     },
   ],
+  scenes: [
+    {
+      anchor: 'how-they-work',
+      label: 'Brief to variants',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'discard',
+        steps: [
+          { label: 'Brief the offer', note: 'Product, pain, objection, proof' },
+          { label: 'Write the hook and script', note: 'The first two seconds carry it' },
+          { label: 'Choose creator and scene', note: 'Native to the feed' },
+          { label: 'Generate and grade', note: 'Keep what reads as believable', gate: true },
+          { label: 'Expand the winners', note: 'Hooks, languages, cutdowns' },
+        ],
+      },
+      caption: 'A normal creative brief with generation in the middle. What looks synthetic never reaches the account.',
+    },
+    {
+      anchor: 'when-to-use',
+      label: 'Where it wins',
+      visual: {
+        kind: 'matrix',
+        cols: ['Volume testing', 'Localization', 'Real testimonials', 'Influencer trust'],
+        rows: [
+          { label: 'AI UGC', cells: [3, 3, 0, 0] },
+          { label: 'Human creator', cells: [1, 1, 3, 3] },
+        ],
+        legend: 'A VOLUME AND SPEED LEVER, NOT A WHOLESALE REPLACEMENT',
+      },
+      caption: 'Strongest when you need many angles fast; weakest where the claim needs a real person behind it.',
+    },
+    {
+      anchor: 'what-makes-good',
+      label: 'The thumb-stop',
+      visual: {
+        kind: 'feed',
+        stopAt: 2,
+        meterLabel: 'ONE ARGUMENT, ONE PERSON',
+        cards: [
+          { label: 'Realistic, says nothing' },
+          { label: 'Realistic, says nothing' },
+          { label: 'Hook + buyer problem', hook: true },
+          { label: 'Never reached' },
+          { label: 'Never reached' },
+        ],
+      },
+      caption: 'A believable clip is the floor. The one that stops the thumb names a specific problem in the first two seconds.',
+    },
+    {
+      anchor: 'getting-started',
+      label: 'First test',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 5,
+        tile: 'face',
+        rejectNote: '3–5 HOOKS × A COUPLE OF VARIANTS',
+        keepNote: 'SIGNAL DECIDES WHAT TO EXPAND',
+      },
+      caption: 'One proven offer, a handful of distinct hooks, a small test. Expand only what the numbers pick.',
+    },
+  ],
   faq: [
     {
       question: 'Can AI UGC ads replace human creator ads?',

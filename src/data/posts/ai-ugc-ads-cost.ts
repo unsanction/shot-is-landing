@@ -155,6 +155,87 @@ export const post: BlogPost = {
       text: 'Budget for the reject pile at 2–4 candidates per kept shot, insist on licensed music, and put your iteration money into hooks rather than polish, because a mediocre body with a strong hook outtests the reverse. If you want the full production walkthrough first, start with our [complete guide to AI UGC ads](/blog/ai-ugc-ads-guide). If you would rather skip building the pipeline and receive tested variants, see what is included in [AI UGC ads at SHOT.IS](/ai-ugc-ads).',
     },
   ],
+  scenes: [
+    {
+      anchor: 'cost-drivers',
+      label: 'The whole invoice',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'THE SUBSCRIPTION IS ONLY THE BOTTOM LAYER',
+        lockedLabel: 'REAL COST',
+        layers: [
+          { label: 'Hook variants', note: 'What testing actually consumes' },
+          { label: 'Editing and assembly', note: 'Beat grid, overlays, exports' },
+          { label: 'Music licensing', note: 'Legal to run in paid placements' },
+          { label: 'Iteration and QA time', note: 'Grading, catching drift' },
+          { label: 'Generation compute', note: 'Times the reject rate' },
+        ],
+      },
+      caption: 'Skip any layer and the cost moves rather than disappears — into burned ad spend, takedowns or rework.',
+    },
+    {
+      anchor: 'generation-cost',
+      label: 'The reject multiplier',
+      visual: {
+        kind: 'bars',
+        unit: 'ONE 30–40 SECOND AD, TYPICAL',
+        note: '2–4 CANDIDATES PER KEPT SHOT',
+        series: [
+          { label: 'Clips generated', value: 27, display: '27', tone: 'muted', note: 'Including the reject pile' },
+          { label: 'Shots in the cut', value: 9, display: '9', tone: 'accent', note: '6–12 shots of 4–8 seconds' },
+        ],
+      },
+      caption: 'The multiplier nobody puts on the pricing page. Identity-critical shots take several attempts; some pass first try.',
+    },
+    {
+      anchor: 'pipeline-steps',
+      label: 'Where the money goes',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Brief and Scene Bible', note: 'Cheap compute, expensive to skip' },
+          { label: 'Keyframe generation', note: 'Several candidates per shot' },
+          { label: 'Keyframe QA', note: 'Reject before you animate', gate: true },
+          { label: 'Image-to-video', note: 'Dominant compute line' },
+          { label: 'Clip QA', note: 'Drift, hands, logos' },
+          { label: 'Assembly', note: 'Beat grid, overlays, 9:16' },
+          { label: 'Hook variants', note: 'A few regenerated shots each' },
+        ],
+      },
+      caption: 'The reject pile explains almost the entire gap between the naive estimate and the real cost.',
+    },
+    {
+      anchor: 'diy-vs-studio-vs-creators',
+      label: 'Three cost structures',
+      visual: {
+        kind: 'matrix',
+        cols: ['Low per-video price', 'QA and assembly included', 'Cheap extra variants'],
+        rows: [
+          { label: 'DIY on raw APIs', cells: [3, 0, 2] },
+          { label: 'Studio or platform', cells: [2, 3, 3] },
+          { label: 'Human UGC creator', cells: [1, 2, 0] },
+        ],
+        legend: 'HUMAN UGC: $150–$500+ PER VIDEO BEFORE USAGE RIGHTS',
+      },
+      caption: 'DIY looks cheapest until you price your own time; human creators look reasonable until you price the variants.',
+    },
+    {
+      anchor: 'marginal-cost-per-variant',
+      label: 'Variant five',
+      visual: {
+        kind: 'curve',
+        points: [0.3, 0.34, 0.37, 0.4, 0.43, 0.46, 0.49],
+        baseline: [0.08, 0.23, 0.38, 0.54, 0.69, 0.85, 1],
+        xLabels: ['1 VARIANT', '12 VARIANTS'],
+        yLabel: 'CUMULATIVE COST',
+        seriesLabel: 'AI PIPELINE',
+        baselineLabel: 'HUMAN CREATOR',
+        markers: [{ at: 2, label: 'where testing starts' }],
+      },
+      caption: 'Schematic. For a human creator, variant five is most of a re-shoot; for a pipeline it is a few regenerated shots.',
+    },
+  ],
   faq: [
     {
       question: 'How much do AI UGC ads cost compared to human UGC creators?',

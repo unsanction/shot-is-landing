@@ -214,6 +214,82 @@ export const post: BlogPost = {
       text: 'Or skip the infrastructure phase. This routing logic of three models, vision-graded shots, and beat-synced assembly runs behind [AI video ads at SHOT.IS](/ai-video-ads). You bring the product and the brief, and the pipeline decides which model animates which shot.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'what-matters',
+      label: 'Repeatability over spectacle',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'SHOT 7 OF 12 HAS TO MATCH SHOTS 1–6',
+        lockedLabel: 'AD-READY',
+        layers: [
+          { label: 'Batch reliability', note: 'Rate limits at 40 generations' },
+          { label: 'Aspect ratios', note: 'Clean 9:16 at your tier' },
+          { label: 'Audio', note: 'Usable native sound or not' },
+          { label: 'Speed and iteration cost', note: 'Candidates you can afford' },
+          { label: 'Identity fidelity', note: 'Drift from the keyframe' },
+          { label: 'Motion and physics', note: 'Does weight read as weight' },
+        ],
+      },
+      caption: 'Demo reels reward spectacle. Ad production rewards the model that gives you the same world twelve times.',
+    },
+    {
+      anchor: 'veo-3',
+      label: 'Split decision',
+      visual: {
+        kind: 'matrix',
+        cols: ['Physics & motion', 'Iteration speed', 'Character performance', 'Native audio'],
+        rows: [
+          { label: 'Veo 3', cells: [3, 1, 2, 3] },
+          { label: 'Grok Imagine', cells: [2, 3, 2, 0] },
+          { label: 'Kling', cells: [2, 2, 3, 0] },
+        ],
+        legend: 'THE RING MARKS WHERE WE ROUTE THAT SHOT TYPE',
+      },
+      caption: 'No single winner. Each model earns a different slot, which is why all three run in production at once.',
+    },
+    {
+      anchor: 'identity-drift',
+      label: 'Shared failure mode',
+      visual: {
+        kind: 'drift',
+        frames: 8,
+        anchors: [4],
+        glyph: 'label',
+        driftNote: 'NO MODEL IS IMMUNE',
+        anchorNote: 'SHORT CLIPS, FRESH ANCHORS',
+      },
+      caption: 'We stopped treating drift as a model-selection problem and started treating it as a workflow problem.',
+    },
+    {
+      anchor: 'speed-cost',
+      label: 'Explore wide, spend deep',
+      visual: {
+        kind: 'scatter',
+        total: 24,
+        winners: [3, 11, 20],
+        note: 'CHEAP ITERATOR EXPLORES · STRONG MODEL RESHOOTS',
+      },
+      caption: '“Cheapest per clip” and “best-looking clip” both fail as a single metric. Explore on the fast model, finish on the right one.',
+    },
+    {
+      anchor: 'how-we-route',
+      label: 'Routing a shot',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'regenerate',
+        steps: [
+          { label: 'Shot list under a Scene Bible', note: '6–12 shots' },
+          { label: 'Tag the dominant demand', note: 'Physics, performance, identity, volume' },
+          { label: 'Reference-aware keyframes', note: 'Product and creator refs attached' },
+          { label: 'Route the animation', note: 'Veo · Kling · Grok by tag' },
+          { label: 'Animate 2–4 candidates', note: '4–8 second clips' },
+          { label: 'Machine-grade every clip', note: 'Fidelity, identity, artifacts', gate: true },
+        ],
+      },
+      caption: 'The model is chosen per shot from what the shot needs, not per project from which model is favourite.',
+    },
+  ],
   faq: [
     {
       question: 'Which AI video generator is best for ads in 2026?',

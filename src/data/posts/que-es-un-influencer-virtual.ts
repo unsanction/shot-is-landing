@@ -85,6 +85,65 @@ export const post: BlogPost = {
       text: 'Los influencers humanos aún aportan algo que un creador virtual no puede: una relación real con la audiencia y credibilidad vivida. Los influencers virtuales ganan cuando la consistencia, la velocidad de producción y la localización importan más que esa confianza personal. Muchas marcas usan ambos. Puedes ver cómo SHOT.IS los construye como activos reutilizables en la página de [influencers virtuales](/virtual-influencers).',
     },
   ],
+  scenes: [
+    {
+      anchor: 'como-se-construye',
+      label: 'Un sistema, no un retrato',
+      visual: {
+        kind: 'flow',
+        steps: [
+          { label: 'Posiciona al creador', note: 'Audiencia, género, propósito' },
+          { label: 'Fija la identidad', note: 'Rostro, vestuario, mundo, tono' },
+          { label: 'Crea activos de campaña', note: 'Desde la misma identidad' },
+          { label: 'Escala el mundo', note: 'Lanzamientos, colabs, mercados' },
+        ],
+      },
+      caption: 'Una identidad, reglas sobre cómo se ve y habla, y un plan de contenido que le da algo que hacer.',
+    },
+    {
+      anchor: 'por-que-marcas',
+      label: 'Control y continuidad',
+      visual: {
+        kind: 'stack',
+        baseLabel: 'SIN AGENDA, TARIFA NI PATROCINIOS AJENOS',
+        lockedLabel: 'ACTIVO PROPIO',
+        layers: [
+          { label: 'Seguridad de marca', note: 'Lo que dice queda bajo control' },
+          { label: 'Localización', note: 'Varios idiomas, mismo rostro' },
+          { label: 'Continuidad', note: 'Meses y mercados' },
+          { label: 'Tiempos', note: 'Cuando la campaña lo necesita' },
+        ],
+      },
+      caption: 'Lo que retiene a las marcas no es el diseño del personaje, sino poder producir contenido de marca según su propia agenda.',
+    },
+    {
+      anchor: 'consistencia',
+      label: 'La deriva rompe la ilusión',
+      visual: {
+        kind: 'drift',
+        frames: 9,
+        anchors: [3, 6],
+        glyph: 'face',
+        driftNote: 'UN PERSONAJE QUE DERIVA ES OTRO',
+        anchorNote: 'REANCLAR EN LAS REFERENCIAS',
+      },
+      caption: 'Solo funciona como activo si se mantiene reconocible: mismo rostro, misma voz, mismo comportamiento.',
+    },
+    {
+      anchor: 'humano-vs-virtual',
+      label: 'Virtual vs. humano',
+      visual: {
+        kind: 'matrix',
+        cols: ['Agenda bajo demanda', 'Control de marca', 'Localización', 'Relación real'],
+        rows: [
+          { label: 'Virtual', cells: [3, 3, 3, 1] },
+          { label: 'Humano', cells: [1, 1, 1, 3] },
+        ],
+        legend: 'MUCHAS MARCAS USAN AMBOS',
+      },
+      caption: 'El humano aporta una relación real con la audiencia; el virtual, control y continuidad.',
+    },
+  ],
   faq: [
     {
       question: '¿Qué es un influencer virtual?',

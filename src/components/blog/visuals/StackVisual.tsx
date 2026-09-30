@@ -1,4 +1,4 @@
-import { ACCENT, INK, Label, step, type VisualProps } from './shared';
+import { ACCENT, INK, Label, step, type VisualProps, useVisualStrings } from './shared';
 
 const CX = 150;
 const TILE_W = 196;
@@ -20,6 +20,7 @@ const rhombus = (cx: number, cy: number, w: number, h: number) =>
  * leaving a block of dead space above the short one.
  */
 export function StackVisual({ spec }: VisualProps<'stack'>) {
+  const vs = useVisualStrings();
   const n = spec.layers.length;
   const rise = riseFor(n);
   const showNotes = rise >= 34;
@@ -96,7 +97,7 @@ export function StackVisual({ spec }: VisualProps<'stack'>) {
           className="bx-label"
           style={{ fontSize: 10, fill: '#ffffff', fontWeight: 800, letterSpacing: '0.18em' }}
         >
-          {spec.lockedLabel ?? 'LOCKED'}
+          {spec.lockedLabel ?? vs.locked}
         </text>
       </g>
     </svg>

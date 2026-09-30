@@ -108,6 +108,68 @@ export const post: BlogPost = {
       text: 'Empieza con una oferta probada y escribe de tres a cinco hooks distintos. Genera un par de variantes por hook, lánzalas como un test pequeño y deja que la señal decida qué escalar. Este es exactamente el flujo detrás de los [anuncios UGC con IA en SHOT.IS](/ai-ugc-ads), donde un solo personaje puede producir un flujo constante de ángulos para testear.',
     },
   ],
+  scenes: [
+    {
+      anchor: 'como-funcionan',
+      label: 'Del brief a las variantes',
+      visual: {
+        kind: 'flow',
+        loopLabel: 'descartar',
+        steps: [
+          { label: 'Define la oferta', note: 'Producto, dolor, objeción, prueba' },
+          { label: 'Escribe el hook y el guion', note: 'Los dos primeros segundos' },
+          { label: 'Elige creador y escena', note: 'Nativo del feed' },
+          { label: 'Genera y evalúa', note: 'Solo lo que se ve creíble', gate: true },
+          { label: 'Escala las ganadoras', note: 'Hooks, idiomas, cortes' },
+        ],
+      },
+      caption: 'Un brief creativo normal con la generación en el medio. Lo que parece sintético nunca llega a la cuenta.',
+    },
+    {
+      anchor: 'cuando-usar',
+      label: 'Dónde gana',
+      visual: {
+        kind: 'matrix',
+        cols: ['Testing de volumen', 'Localización', 'Testimonios reales', 'Confianza del influencer'],
+        rows: [
+          { label: 'UGC con IA', cells: [3, 3, 0, 0] },
+          { label: 'Creador humano', cells: [1, 1, 3, 3] },
+        ],
+        legend: 'UNA PALANCA DE VOLUMEN Y VELOCIDAD, NO UN REEMPLAZO',
+      },
+      caption: 'Gana cuando necesitas muchos ángulos rápido; pierde donde la afirmación necesita a una persona real detrás.',
+    },
+    {
+      anchor: 'que-hace-bueno',
+      label: 'El freno del scroll',
+      visual: {
+        kind: 'feed',
+        stopAt: 2,
+        meterLabel: 'UN ARGUMENTO, UNA PERSONA',
+        cards: [
+          { label: 'Realista, no dice nada' },
+          { label: 'Realista, no dice nada' },
+          { label: 'Hook + problema concreto', hook: true },
+          { label: 'Nunca se ve' },
+          { label: 'Nunca se ve' },
+        ],
+      },
+      caption: 'Un clip creíble es lo mínimo. El que frena el pulgar nombra un problema concreto en los dos primeros segundos.',
+    },
+    {
+      anchor: 'como-empezar',
+      label: 'El primer test',
+      visual: {
+        kind: 'cull',
+        total: 8,
+        keep: 5,
+        tile: 'face',
+        rejectNote: '3–5 HOOKS × UN PAR DE VARIANTES',
+        keepNote: 'LA SEÑAL DECIDE',
+      },
+      caption: 'Una oferta probada, varios hooks distintos, un test pequeño. Escala solo lo que eligen los números.',
+    },
+  ],
   faq: [
     {
       question: '¿Los anuncios UGC con IA pueden reemplazar a los anuncios con creadores reales?',

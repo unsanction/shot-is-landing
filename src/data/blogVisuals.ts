@@ -28,7 +28,7 @@ export type BlogVisual =
   | {
       kind: 'cull';
       total: number;
-      /** 0-based index of the tile that survives. */
+      /** 0-based index of the tile that survives, or -1 when none does (the point is that all fail). */
       keep: number;
       tile?: 'frame' | 'face' | 'product';
       rejectNote?: string;
