@@ -10,7 +10,7 @@ export const post: BlogPost = {
   excerpt:
     'Video estilo creador sin casting, rodaje ni regrabaciones. Así funcionan realmente los anuncios UGC con IA, dónde ganan y cómo escribir el brief.',
   datePublished: '2026-05-20',
-  dateModified: '2026-06-02',
+  dateModified: '2026-09-30',
   author: defaultAuthor,
   ogImageKey: 'blog-guia-anuncios-ugc-ia',
   tags: ['anuncios UGC con IA', 'UGC', 'paid social', 'testing creativo'],

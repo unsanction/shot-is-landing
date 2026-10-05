@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Every generation resamples the face, and image-to-video drifts further with every second. Here is the system that holds one face together across hundreds of shots.',
   datePublished: '2026-06-17',
-  dateModified: '2026-06-17',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-ai-character-consistency',
   tags: ['AI character consistency', 'virtual influencers', 'face drift', 'identity QA', 'AI video'],

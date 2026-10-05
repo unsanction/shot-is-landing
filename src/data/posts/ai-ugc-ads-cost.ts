@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'The raw model bill is the smallest line item. Here is what an AI UGC ad actually costs once you count rejects, QA, music, and assembly.',
   datePublished: '2026-06-10',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-ai-ugc-ads-cost',
   tags: ['AI UGC ads', 'cost', 'pricing', 'paid social'],

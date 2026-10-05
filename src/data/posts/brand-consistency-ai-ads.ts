@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Eight shots that are individually fine and collectively incoherent is the default failure mode of AI ads. The fix is boring discipline: a Scene Bible.',
   datePublished: '2026-06-17',
-  dateModified: '2026-06-17',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-brand-consistency-ai-ads',
   tags: ['brand consistency', 'AI video ads', 'Scene Bible', 'product fidelity', 'QA'],

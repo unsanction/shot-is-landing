@@ -1,6 +1,7 @@
 import { HomeFooter } from '../components/home/HomeFooter';
 import { HomeNav } from '../components/home/HomeNav';
 import type { ComparisonPageContent } from '../data/comparisonTypes';
+import { comparisonPages } from '../data/comparisons';
 import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 import { trackStudioClick, withUtm } from '../lib/track';
 
@@ -202,6 +203,32 @@ export function ComparisonPage({ page }: ComparisonPageProps) {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Sibling comparisons. Readers comparing one tool usually weigh two or three,
+            and the cluster linking itself is how each page gets found and passes
+            relevance to the others — these pages were orphans until this existed. */}
+        <section className="bg-white px-5 pb-20 text-black md:px-8 md:pb-24">
+          <div className="mx-auto max-w-5xl border-t border-black/10 pt-12">
+            <h2 className="mb-8 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-black/45">More comparisons</h2>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {comparisonPages
+                .filter((other) => other.path !== page.path)
+                .map((other) => (
+                  <li key={other.path}>
+                    <a
+                      href={other.path}
+                      className="group flex h-full flex-col rounded-[4px] border border-black/10 p-5 transition-colors hover:border-accent/60"
+                    >
+                      <span className="text-lg font-black uppercase leading-tight tracking-tight transition-colors group-hover:text-accent">
+                        {other.navLabel}
+                      </span>
+                      <span className="mt-2 text-sm font-medium leading-relaxed text-black/55">{other.description}</span>
+                    </a>
+                  </li>
+                ))}
+            </ul>
           </div>
         </section>
 

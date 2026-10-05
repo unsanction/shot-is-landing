@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'A reusable creator asset with a face, a voice, and a campaign job. The complete guide: types, examples, economics, production, and the rules.',
   datePublished: '2026-05-27',
-  dateModified: '2026-07-07',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-what-is-a-virtual-influencer',
   tags: ['virtual influencers', 'AI creators', 'brand', 'social'],

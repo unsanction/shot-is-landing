@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'We run Veo 3, Grok Imagine, and Kling in production every day. None of them wins outright; each one wins at something. Here is the split.',
   datePublished: '2026-06-10',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-best-ai-video-generator-for-ads',
   tags: ['AI video generators', 'Veo 3', 'Kling', 'Grok Imagine', 'ad production'],

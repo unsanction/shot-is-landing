@@ -11,6 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'The label covers everything from a $30/month tool to a CGI character with a full studio behind it. An honest cost breakdown by tier.',
   datePublished: '2026-07-07',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-virtual-influencer-cost',
   tags: ['virtual influencers', 'cost', 'AI creators', 'budgeting'],

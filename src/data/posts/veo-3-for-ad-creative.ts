@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Veo 3 is the strongest motion-and-physics model we run, and the one with the most production gotchas. What a daily pipeline taught us.',
   datePublished: '2026-06-15',
-  dateModified: '2026-06-15',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-veo-3-for-ad-creative',
   tags: ['Veo 3', 'AI video ads', 'production', 'prompting'],

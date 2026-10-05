@@ -10,7 +10,7 @@ export const post: BlogPost = {
   excerpt:
     'No es una sola imagen: es un activo de creador reutilizable con rostro, voz y un propósito de campaña. Así funcionan los influencers virtuales.',
   datePublished: '2026-05-27',
-  dateModified: '2026-05-27',
+  dateModified: '2026-09-30',
   author: defaultAuthor,
   ogImageKey: 'blog-que-es-un-influencer-virtual',
   tags: ['influencers virtuales', 'creadores con IA', 'marca', 'social'],

@@ -10,7 +10,7 @@ export const post: BlogPost = {
   excerpt:
     'Más conceptos, más formatos y más velocidad de testing. Así escalan las marcas su creatividad de video con IA sin disparar el presupuesto.',
   datePublished: '2026-06-05',
-  dateModified: '2026-06-05',
+  dateModified: '2026-09-30',
   author: defaultAuthor,
   ogImageKey: 'blog-creatividad-ia-para-marcas',
   tags: ['creatividad con IA', 'anuncios de video', 'marcas', 'paid social'],
