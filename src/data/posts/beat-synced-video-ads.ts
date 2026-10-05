@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'A cut that lands on a beat reads as a decision. A cut that lands nowhere reads as a render. How we build the beat grid that makes AI footage feel edited on purpose.',
   datePublished: '2026-06-15',
-  dateModified: '2026-06-15',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-beat-synced-video-ads',
   tags: ['beat sync', 'video editing', 'AI video ads', 'music', 'short-form'],

@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Linear wizards force you to restart when one shot is wrong. Canvas mode lays the whole production out as a node graph, so you re-run one node instead of the whole ad.',
   datePublished: '2026-07-08',
-  dateModified: '2026-07-08',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-canvas-mode',
   tags: ['canvas mode', 'node-based workflow', 'AI video pipeline', 'node graph', 'AI ad production'],

@@ -243,9 +243,11 @@ const main = async () => {
 
   const routes = routesToPrerender();
   const cleanTemplate = stripStaleHead(template);
+  const renderedApp = new Map();
 
   for (const route of routes) {
     const { appHtml, seo } = render(route);
+    renderedApp.set(route, appHtml);
     const head = renderHead(seo);
 
     const html = cleanTemplate
@@ -257,6 +259,20 @@ const main = async () => {
     await fs.writeFile(join(outDir, 'index.html'), html, 'utf8');
     console.log(`prerendered ${route} -> ${join(outDir, 'index.html').replace(projectRoot + '/', '')}`);
   }
+
+  // Orphan guard: every indexable page must be linked from at least one other
+  // page. A page reachable only through the sitemap is one Google may never find —
+  // in October 2026 six comparison pages were in exactly that state and URL
+  // Inspection reported them "unknown to Google". Fail the build instead.
+  const hrefsOf = (html) => new Set([...html.matchAll(/href="([^"#?]+)/g)].map((m) => m[1].replace(/^https:\/\/shot\.is/, '').replace(/(.)\/$/, '$1')));
+  const linkSets = new Map([...renderedApp].map(([route, html]) => [route, hrefsOf(html)]));
+  const orphans = routes.filter(
+    (route) => route !== '/' && ![...linkSets].some(([from, hrefs]) => from !== route && hrefs.has(route)),
+  );
+  if (orphans.length) {
+    throw new Error(`Orphaned pages — indexable but linked from no other page:\n  - ${orphans.join('\n  - ')}`);
+  }
+  console.log(`orphan check: all ${routes.length - 1} non-home pages have an inbound link`);
 
   // Firebase serves dist/404.html with a real HTTP 404 when no static route matches.
   const { appHtml: notFoundHtml, seo: notFoundSeo } = render('/404');

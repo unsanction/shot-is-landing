@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'Creator-style video without the casting, filming, or reshoots. Here is how AI UGC ads actually work, where they win, and how to brief them.',
   datePublished: '2026-05-20',
-  dateModified: '2026-06-10',
+  dateModified: '2026-09-30',
   author: defaultAuthor,
   ogImageKey: 'blog-ai-ugc-ads-guide',
   tags: ['AI UGC ads', 'UGC', 'paid social', 'creative testing'],

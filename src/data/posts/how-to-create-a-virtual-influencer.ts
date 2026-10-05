@@ -11,6 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'The step-by-step process behind our own AI creator roster, from positioning to identity lock to the QA loop that keeps one face one face.',
   datePublished: '2026-07-07',
+  dateModified: '2026-09-30',
   author: founderAuthor,
   ogImageKey: 'blog-how-to-create-a-virtual-influencer',
   tags: ['virtual influencers', 'AI creators', 'how-to', 'production'],

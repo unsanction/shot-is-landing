@@ -11,7 +11,7 @@ export const post: BlogPost = {
   excerpt:
     'AI UGC ads don’t perform; testing systems do. Where the gains are real, where they aren’t, and which metrics tell you.',
   datePublished: '2026-06-17',
-  dateModified: '2026-06-17',
+  dateModified: '2026-09-30',
   author: defaultAuthor,
   ogImageKey: 'blog-do-ai-ugc-ads-work',
   tags: ['AI UGC ads', 'creative testing', 'ad performance', 'paid social'],
