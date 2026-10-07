@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { formatTimestamp, type Lesson, type LessonLang } from '../../data/lessons';
+import { useEffect, useRef, useState } from 'react';
+import { formatTimestamp, lessonMomentPath, type Lesson, type LessonLang } from '../../data/lessons';
 import { learnStrings } from '../../data/lessons';
 
 type LessonPlayerProps = {
@@ -19,11 +19,38 @@ export function LessonPlayer({ lesson, lang }: LessonPlayerProps) {
   const [activeChapter, setActiveChapter] = useState(0);
   const t = learnStrings[lang];
 
+  /*
+   * `?t=<seconds>` opens the lesson at that moment. These are the URLs the
+   * VideoObject's key-moment Clips point at, so a reader arriving from a key
+   * moment in search lands on the step it named rather than at 0:00.
+   * Assigning currentTime before metadata loads sets the default playback start
+   * position, so preload="none" stays and nothing is fetched until play.
+   */
+  useEffect(() => {
+    if (lesson.videoPending || typeof window === 'undefined') return;
+    const t = Number(new URLSearchParams(window.location.search).get('t'));
+    if (!Number.isFinite(t) || t <= 0 || t >= lesson.videoSeconds) return;
+    const video = videoRef.current;
+    if (!video) return;
+    const apply = () => {
+      video.currentTime = t;
+    };
+    apply();
+    video.addEventListener('loadedmetadata', apply, { once: true });
+    const index = lesson.steps.reduce((found, step, i) => (step.at <= t ? i : found), 0);
+    setActiveChapter(index);
+    video.scrollIntoView({ block: 'center', behavior: 'instant' });
+    return () => video.removeEventListener('loadedmetadata', apply);
+  }, [lesson]);
+
   const seekTo = (seconds: number, index: number) => {
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = seconds;
     setActiveChapter(index);
+    // Keep the address bar on the moment, so copying it shares this step. The
+    // canonical stays the clean lesson URL, so this creates no new page to index.
+    window.history.replaceState(null, '', lessonMomentPath(lesson, seconds));
     void video.play().catch(() => {
       /* Autoplay can be refused after a seek; the poster stays and the user can press play. */
     });

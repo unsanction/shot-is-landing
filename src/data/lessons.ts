@@ -571,6 +571,21 @@ export const learnLangs = (Object.keys(lessonsByLang) as LessonLang[]).filter(
 
 export const lessonPath = (lesson: Lesson): string => `${learnBasePath[lesson.lang]}/${lesson.slug}`;
 
+/**
+ * A link that opens the lesson at a given second: `/learn/<slug>?t=66`.
+ *
+ * The one place the timestamp-URL shape is defined. The VideoObject's Clip `url`
+ * (Google requires one per key moment, on the video's own page with a time
+ * parameter) and the player's `?t=` handling both go through here, so the URL
+ * the schema promises is exactly the URL the page knows how to honour.
+ */
+export const lessonMomentPath = (lesson: Lesson, seconds: number): string =>
+  `${lessonPath(lesson)}?t=${Math.max(0, Math.round(seconds))}`;
+
+/** Where step `index` ends: the next step's start, or the end of the video for the last one. */
+export const lessonStepEnd = (lesson: Lesson, index: number): number =>
+  lesson.steps[index + 1]?.at ?? lesson.videoSeconds;
+
 export const learnIndexPath = (lang: LessonLang): string => learnBasePath[lang];
 
 export const lessonByPath: Map<string, Lesson> = new Map(lessons.map((l) => [lessonPath(l), l]));
