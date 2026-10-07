@@ -37,7 +37,9 @@ import {
   learningMinutes,
   lessonAlternates,
   lessonByPath,
+  lessonMomentPath,
   lessonPath,
+  lessonStepEnd,
   lessonTranscript,
   lessonsByLang,
   pathMinutes,
@@ -66,6 +68,15 @@ type PageSeo = {
 };
 
 const absoluteUrl = (path: string) => new URL(path, siteBaseUrl).toString();
+
+/**
+ * A full ISO 8601 datetime with an explicit offset, for schema fields Google
+ * reads as a moment rather than a day. Video `uploadDate` given as a bare
+ * yyyy-mm-dd is reported by Search Console as an "Invalid datetime value" and
+ * "missing a timezone". Our content dates are calendar days, so the day is
+ * anchored at 00:00 UTC rather than inventing a time of day.
+ */
+const isoDateTime = (date: string) => (/T/.test(date) ? date : `${date}T00:00:00+00:00`);
 
 /** Strip the inline `[label](href)` / `**bold**` markup used in content strings — schema text must be plain. */
 const plainText = (text: string) =>
@@ -245,7 +256,7 @@ const buildHomeSchema = () => ({
       name: 'SHOT.IS AI content studio reel',
       description: 'A short visual reel for AI UGC ads, AI video ads, and virtual creator campaigns by SHOT.IS.',
       thumbnailUrl: `${siteBaseUrl}/media/reel/visual-overload-poster.jpg`,
-      uploadDate: homeReelUploadDate,
+      uploadDate: isoDateTime(homeReelUploadDate),
       contentUrl: `${siteBaseUrl}/media/reel/visual-overload.mp4`,
       embedUrl: `${siteBaseUrl}/media/reel/visual-overload.mp4`,
       duration: 'PT12S',
@@ -533,17 +544,23 @@ const lessonVideoSchema = (lesson: Lesson) => {
       thumbnailUrl: absoluteUrl(lesson.video.poster),
       contentUrl: absoluteUrl(lesson.video.src),
       embedUrl: url,
-      uploadDate: lesson.datePublished,
+      uploadDate: isoDateTime(lesson.datePublished),
       duration: isoDuration(lesson.videoSeconds),
       inLanguage: lesson.lang,
       isFamilyFriendly: true,
       transcript: lessonTranscript(lesson),
       publisher: { '@id': `${siteBaseUrl}/#organization` },
       learningResourceType: 'Screencast',
-      hasPart: lesson.steps.map((step) => ({
+      // Key moments. Google requires `url` on every Clip — the video's own page
+      // with a time parameter — and recommends `endOffset`. Both were missing and
+      // Search Console flagged them; the player honours `?t=`, so these links
+      // land on the moment they name.
+      hasPart: lesson.steps.map((step, index) => ({
         '@type': 'Clip',
         name: step.title,
         startOffset: step.at,
+        endOffset: lessonStepEnd(lesson, index),
+        url: absoluteUrl(lessonMomentPath(lesson, step.at)),
       })),
     },
   ];

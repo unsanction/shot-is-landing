@@ -244,10 +244,12 @@ const main = async () => {
   const routes = routesToPrerender();
   const cleanTemplate = stripStaleHead(template);
   const renderedApp = new Map();
+  const renderedSchema = new Map();
 
   for (const route of routes) {
     const { appHtml, seo } = render(route);
     renderedApp.set(route, appHtml);
+    renderedSchema.set(route, seo.structuredData);
     const head = renderHead(seo);
 
     const html = cleanTemplate
@@ -273,6 +275,52 @@ const main = async () => {
     throw new Error(`Orphaned pages — indexable but linked from no other page:\n  - ${orphans.join('\n  - ')}`);
   }
   console.log(`orphan check: all ${routes.length - 1} non-home pages have an inbound link`);
+
+  // Video structured-data guard. Search Console flagged lesson key moments for
+  // Clips missing `url` and `endOffset`; this checks every VideoObject on every
+  // page against Google's documented requirements so the next gap fails the
+  // build instead of arriving as an email weeks later.
+  const isoSeconds = (iso) => {
+    const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? '');
+    return m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : NaN;
+  };
+  const videoProblems = [];
+  const walk = (node, visit) => {
+    if (Array.isArray(node)) return node.forEach((n) => walk(n, visit));
+    if (node && typeof node === 'object') {
+      visit(node);
+      Object.values(node).forEach((v) => walk(v, visit));
+    }
+  };
+  for (const [route, schema] of renderedSchema) {
+    walk(schema, (node) => {
+      if (node['@type'] !== 'VideoObject') return;
+      const where = `${route} VideoObject "${node.name}"`;
+      for (const field of ['name', 'thumbnailUrl', 'uploadDate']) if (!node[field]) videoProblems.push(`${where}: missing ${field}`);
+      // A bare date is flagged "Invalid datetime value" / "missing a timezone".
+      if (node.uploadDate && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?(Z|[+-]\d{2}:\d{2})$/.test(node.uploadDate))
+        videoProblems.push(`${where}: uploadDate "${node.uploadDate}" needs a time and a timezone offset`);
+      const duration = isoSeconds(node.duration);
+      const seen = new Set();
+      for (const clip of node.hasPart ?? []) {
+        const at = `${where} Clip "${clip.name}"`;
+        for (const field of ['name', 'startOffset', 'endOffset', 'url']) if (clip[field] === undefined || clip[field] === '') videoProblems.push(`${at}: missing ${field}`);
+        if (!(clip.startOffset < clip.endOffset)) videoProblems.push(`${at}: startOffset ${clip.startOffset} is not before endOffset ${clip.endOffset}`);
+        if (Number.isFinite(duration) && clip.endOffset > duration) videoProblems.push(`${at}: endOffset ${clip.endOffset} is past the ${duration}s video`);
+        if (clip.url) {
+          const u = new URL(clip.url);
+          if (u.pathname !== route) videoProblems.push(`${at}: url ${clip.url} is not on the video's page ${route}`);
+          if (u.searchParams.get('t') !== String(clip.startOffset)) videoProblems.push(`${at}: url t= does not match startOffset ${clip.startOffset}`);
+          if (seen.has(clip.url)) videoProblems.push(`${at}: url ${clip.url} repeats another clip's`);
+          seen.add(clip.url);
+        }
+      }
+    });
+  }
+  if (videoProblems.length) {
+    throw new Error(`Video structured data invalid:\n  - ${videoProblems.join('\n  - ')}`);
+  }
+  console.log('video schema check: every VideoObject and Clip has its required fields');
 
   // Firebase serves dist/404.html with a real HTTP 404 when no static route matches.
   const { appHtml: notFoundHtml, seo: notFoundSeo } = render('/404');
