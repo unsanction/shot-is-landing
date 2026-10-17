@@ -4,6 +4,8 @@ node_modules
 .firebaserc
 firebase-debug.log
 *.tsbuildinfo
+
+# Local browser QA results and capture workspaces
 artifacts
 captures/
 .lesson-capture/
